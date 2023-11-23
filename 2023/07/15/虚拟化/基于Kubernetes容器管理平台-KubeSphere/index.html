@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="KubeSphere 是在 Kubernetes 之上构建的面向云原生应用的分布式操作系统，完全开源，支持多云与多集群管理，提供全栈的 IT 自动化运维能力，简化企业的 DevOps 工作流。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Kubernetes容器管理平台 KubeSphere">
+<meta property="og:url" content="http://example.com/2023/07/15/%E8%99%9A%E6%8B%9F%E5%8C%96/%E5%9F%BA%E4%BA%8EKubernetes%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0-KubeSphere/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="KubeSphere 是在 Kubernetes 之上构建的面向云原生应用的分布式操作系统，完全开源，支持多云与多集群管理，提供全栈的 IT 自动化运维能力，简化企业的 DevOps 工作流。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/07/15/%E8%99%9A%E6%8B%9F%E5%8C%96/%E5%9F%BA%E4%BA%8EKubernetes%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0-KubeSphere/KubeSphere.jpeg">
+<meta property="article:published_time" content="2023-07-15T03:12:09.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.909Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/07/15/%E8%99%9A%E6%8B%9F%E5%8C%96/%E5%9F%BA%E4%BA%8EKubernetes%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0-KubeSphere/KubeSphere.jpeg">
+
+
+<link rel="canonical" href="http://example.com/2023/07/15/%E8%99%9A%E6%8B%9F%E5%8C%96/%E5%9F%BA%E4%BA%8EKubernetes%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0-KubeSphere/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/07/15/%E8%99%9A%E6%8B%9F%E5%8C%96/%E5%9F%BA%E4%BA%8EKubernetes%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0-KubeSphere/","path":"2023/07/15/虚拟化/基于Kubernetes容器管理平台-KubeSphere/","title":"基于Kubernetes容器管理平台 KubeSphere"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于Kubernetes容器管理平台 KubeSphere | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">特点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4%E5%8F%8B%E5%A5%BD"><span class="nav-number">2.1.</span> <span class="nav-text">开发运维友好</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E5%9C%A8%E4%BB%BB%E6%84%8F%E5%B9%B3%E5%8F%B0%E8%BF%90%E8%A1%8C-KubeSphere"><span class="nav-number">2.2.</span> <span class="nav-text">支持在任意平台运行 KubeSphere</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E5%BC%80%E6%BA%90"><span class="nav-number">2.3.</span> <span class="nav-text">完全开源</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/15/%E8%99%9A%E6%8B%9F%E5%8C%96/%E5%9F%BA%E4%BA%8EKubernetes%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0-KubeSphere/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于Kubernetes容器管理平台 KubeSphere | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于Kubernetes容器管理平台 KubeSphere
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-07-15 11:12:09" itemprop="dateCreated datePublished" datetime="2023-07-15T11:12:09+08:00">2023-07-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>KubeSphere 是在 Kubernetes 之上构建的面向云原生应用的分布式操作系统，完全开源，支持多云与多集群管理，提供全栈的 IT 自动化运维能力，简化企业的 DevOps 工作流。</p>
+<span id="more"></span>
+
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p><strong>KubeSphere</strong> 为用户提供构建企业级 Kubernetes 环境所需的多项功能，例如<strong>多云与多集群管理</strong>、<strong>Kubernetes 资源管理</strong>、<strong>DevOps</strong>、<strong>应用生命周期管理</strong>、<strong>微服务治理（服务网格）</strong>、<strong>日志查询与收集</strong>、<strong>服务与网络</strong>、<strong>多租户管理</strong>、<strong>监控告警</strong>、<strong>事件与审计查询</strong>、<strong>存储管理</strong>、<strong>访问权限控制</strong>、<strong>GPU 支持</strong>、<strong>网络策略</strong>、<strong>镜像仓库管理</strong>以及<strong>安全管理</strong>等。</p>
+<p><strong>KubeSphere</strong> 还开源了 <strong>KubeKey</strong> 帮助企业一键在公有云或数据中心快速搭建 Kubernetes 集群，提供单节点、多节点、集群插件安装，以及集群升级与运维。</p>
+<img src="/2023/07/15/%E8%99%9A%E6%8B%9F%E5%8C%96/%E5%9F%BA%E4%BA%8EKubernetes%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0-KubeSphere/KubeSphere.jpeg" class="" title="[]">
+
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><h2 id="开发运维友好"><a href="#开发运维友好" class="headerlink" title="开发运维友好"></a>开发运维友好</h2><p>KubeSphere 为用户屏蔽了基础设施底层复杂的技术细节，帮助企业在各类基础设施之上无缝地部署、更新、迁移和管理现有的容器化应用。通过这种方式，KubeSphere 使开发人员能够专注于应用程序开发，使运维团队能够通过企业级可观测性功能和故障排除机制、统一监控和日志查询、存储和网络管理，以及易用的 CI&#x2F;CD 流水线等来加快 DevOps 自动化工作流程和交付流程等。</p>
+<h2 id="支持在任意平台运行-KubeSphere"><a href="#支持在任意平台运行-KubeSphere" class="headerlink" title="支持在任意平台运行 KubeSphere"></a>支持在任意平台运行 KubeSphere</h2><p>作为一个灵活的轻量级容器 PaaS 平台，KubeSphere 对不同云生态系统的支持非常友好，因为它对原生 Kubernetes 本身没有任何的侵入 (Hack)。换句话说，KubeSphere 可以<strong>部署并运行在任何基础架构以及所有版本兼容的 Kubernetes 集群之上</strong>，包括虚拟机、物理机、数据中心、公有云和混合云等。</p>
+<p>您可以选择在公有云和托管 Kubernetes 集群（例如阿里云、AWS、青云 QingCloud、腾讯云、华为云等）上安装 KubeSphere，还可以<strong>导入和纳管已有的 Kubernetes 集群</strong>。</p>
+<h2 id="完全开源"><a href="#完全开源" class="headerlink" title="完全开源"></a>完全开源</h2><p>借助开源的模式，KubeSphere 社区驱动着开发工作以开放的方式进行。KubeSphere 100% 开源免费，已大规模服务于社区用户，广泛地应用在以 Docker 和 Kubernetes 为中心的开发、测试及生产环境中，大量服务平稳地运行在 KubeSphere 之上。您可在 <a target="_blank" rel="noopener" href="https://github.com/kubesphere/">GitHub</a> 上找到所有源代码、文档和讨论，所有主要的开源项目介绍可以在<a target="_blank" rel="noopener" href="https://www.kubesphere.io/zh/projects/">开源项目列表</a>中找到。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/07/03/%E5%89%8D%E7%AB%AF/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8-vue3-%E6%90%AD%E5%BB%BA%E7%A7%81%E6%9C%89%E7%BB%84%E4%BB%B6%E5%BA%93/" rel="prev" title="从零开始使用 vue3 搭建私有组件库">
+                  <i class="fa fa-chevron-left"></i> 从零开始使用 vue3 搭建私有组件库
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/07/21/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E5%89%8D%E7%AB%AF/qiankun%E5%AE%9E%E8%B7%B5%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" rel="next" title="qiankun实践常见问题汇总">
+                  qiankun实践常见问题汇总 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

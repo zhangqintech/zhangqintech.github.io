@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Stream是JDK8中新增加的一个特性，被Java猿统称为流。ParallelStream其实就是一个并行执行的流，它通过默认的ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用Stream这个新特性，这里搬录一个曾使用ParallelStreams导致同事排查了一整天的BUG。NPE如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDK8 ParallelStreams 的陷阱">
+<meta property="og:url" content="http://example.com/2018/09/20/%E5%90%8E%E7%AB%AF/JAVA/JDK8-ParallelStreams-%E7%9A%84%E9%99%B7%E9%98%B1/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="Stream是JDK8中新增加的一个特性，被Java猿统称为流。ParallelStream其实就是一个并行执行的流，它通过默认的ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用Stream这个新特性，这里搬录一个曾使用ParallelStreams导致同事排查了一整天的BUG。NPE如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-09-20T08:22:33.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.792Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2018/09/20/%E5%90%8E%E7%AB%AF/JAVA/JDK8-ParallelStreams-%E7%9A%84%E9%99%B7%E9%98%B1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2018/09/20/%E5%90%8E%E7%AB%AF/JAVA/JDK8-ParallelStreams-%E7%9A%84%E9%99%B7%E9%98%B1/","path":"2018/09/20/后端/JAVA/JDK8-ParallelStreams-的陷阱/","title":"JDK8 ParallelStreams 的陷阱"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JDK8 ParallelStreams 的陷阱 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E4%B8%8A%E4%BB%A3%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">直接上代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">执行结果</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/20/%E5%90%8E%E7%AB%AF/JAVA/JDK8-ParallelStreams-%E7%9A%84%E9%99%B7%E9%98%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JDK8 ParallelStreams 的陷阱 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JDK8 ParallelStreams 的陷阱
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-20 16:22:33" itemprop="dateCreated datePublished" datetime="2018-09-20T16:22:33+08:00">2018-09-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Stream是JDK8中新增加的一个特性，被Java猿统称为流。ParallelStream其实就是一个并行执行的流，它通过默认的ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用Stream这个新特性，这里搬录一个曾使用ParallelStreams导致同事排查了一整天的BUG。NPE如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。</p>
+<span id="more"></span>
+
+<h1 id="直接上代码"><a href="#直接上代码" class="headerlink" title="直接上代码"></a>直接上代码</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class ParallelStreamTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        List&lt;ClassA&gt; listA = Lists.newArrayList();</span><br><span class="line">        for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">            ClassA a = new ClassA();</span><br><span class="line">            a.setProperty(&quot;ClassA Property &quot; + i);</span><br><span class="line">            listA.add(a);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;ClassB&gt; listB = Lists.newArrayList();</span><br><span class="line">        listA.parallelStream().forEach(a -&gt; &#123;</span><br><span class="line">            ClassB b = new ClassB();</span><br><span class="line">            BeanUtil.copyProperties(a, b);</span><br><span class="line">            listB.add(b);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        listB.forEach(b -&gt; &#123;</span><br><span class="line">            System.out.println(b.getProperty());</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Data</span><br><span class="line">    static class ClassA &#123;</span><br><span class="line">        private String property;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Data</span><br><span class="line">    static class ClassB &#123;</span><br><span class="line">        private String property;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对的，就这么几行代码！希望通过两层<code>ParallelStream</code>并行流，快速初始化<code>listB</code>数据。</p>
+<h1 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h1><p>结果1<br><code>正常</code></p>
+<p>结果2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.NullPointerException</span><br><span class="line">	at com.demo.test.ParallelStreamTest.lambda$main$1(ParallelStreamTest.java:36)</span><br><span class="line">	at java.util.ArrayList.forEach(ArrayList.java:1249)</span><br><span class="line">	at com.demo.test.ParallelStreamTest.main(ParallelStreamTest.java:35)</span><br></pre></td></tr></table></figure>
+
+<p>结果3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.ArrayIndexOutOfBoundsException</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)</span><br><span class="line">	at java.util.concurrent.ForkJoinTask.getThrowableException(ForkJoinTask.java:598)</span><br><span class="line">	at java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:677)</span><br><span class="line">	at java.util.concurrent.ForkJoinTask.invoke(ForkJoinTask.java:735)</span><br><span class="line">	at java.util.stream.ForEachOps$ForEachOp.evaluateParallel(ForEachOps.java:160)</span><br><span class="line">	at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateParallel(ForEachOps.java:174)</span><br><span class="line">	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:233)</span><br><span class="line">	at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:418)</span><br><span class="line">	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:583)</span><br><span class="line">	at com.demo.test.ParallelStreamTest.main(ParallelStreamTest.java:19)</span><br><span class="line">Caused by: java.lang.ArrayIndexOutOfBoundsException: 10</span><br><span class="line">	at java.util.ArrayList.add(ArrayList.java:459)</span><br><span class="line">	at com.demo.test.ParallelStreamTest.lambda$main$0(ParallelStreamTest.java:22)</span><br><span class="line">	at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)</span><br><span class="line">	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1374)</span><br><span class="line">	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)</span><br><span class="line">	at java.util.stream.ForEachOps$ForEachTask.compute(ForEachOps.java:291)</span><br><span class="line">	at java.util.concurrent.CountedCompleter.exec(CountedCompleter.java:731)</span><br><span class="line">	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)</span><br><span class="line">	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)</span><br><span class="line">	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)</span><br><span class="line">	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/09/19/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Dubbo%E6%9C%AC%E5%9C%B0%E7%9B%B4%E8%81%94%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" rel="prev" title="Dubbo本地直联的几种方式">
+                  <i class="fa fa-chevron-left"></i> Dubbo本地直联的几种方式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/" rel="next" title="统一建模语言 UML">
+                  统一建模语言 UML <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

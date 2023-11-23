@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="公司去年做个信隐私合规时，网安检测到我们的App存在被抓包的风险。我们一直认为我们接口配置了SSL证书就安全了，这才知道其实一个认知上的误区，客户端没有做证书校验仍然可以被代理抓包。随后我们向网安和阿里请教，得到了证书锁定这一解决方案。今年10月份我们的证书就到期了，在更新证书的过程中，发现之前的方案处理也不是那么的完美，可以再进一步的提升。 这里先对证书锁定方案做个扫盲，在App接口安全里算是一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="证书锁定在App接口安全中的应用">
+<meta property="og:url" content="http://example.com/2022/09/18/%E5%AE%89%E5%85%A8/%E8%AF%81%E4%B9%A6%E9%94%81%E5%AE%9A%E5%9C%A8App%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="公司去年做个信隐私合规时，网安检测到我们的App存在被抓包的风险。我们一直认为我们接口配置了SSL证书就安全了，这才知道其实一个认知上的误区，客户端没有做证书校验仍然可以被代理抓包。随后我们向网安和阿里请教，得到了证书锁定这一解决方案。今年10月份我们的证书就到期了，在更新证书的过程中，发现之前的方案处理也不是那么的完美，可以再进一步的提升。 这里先对证书锁定方案做个扫盲，在App接口安全里算是一">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-18T15:14:03.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.822Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/09/18/%E5%AE%89%E5%85%A8/%E8%AF%81%E4%B9%A6%E9%94%81%E5%AE%9A%E5%9C%A8App%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/18/%E5%AE%89%E5%85%A8/%E8%AF%81%E4%B9%A6%E9%94%81%E5%AE%9A%E5%9C%A8App%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/","path":"2022/09/18/安全/证书锁定在App接口安全中的应用/","title":"证书锁定在App接口安全中的应用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>证书锁定在App接口安全中的应用 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AF%81%E4%B9%A6%E9%94%81%E5%AE%9A"><span class="nav-number">1.</span> <span class="nav-text">什么是证书锁定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E9%94%81%E5%AE%9A%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">证书锁定原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E9%94%81%E5%AE%9A%EF%BC%88Certificate-Pinning%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">证书锁定（Certificate Pinning）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E9%94%81%E5%AE%9A%EF%BC%88Public-Key-Pinning%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">公钥锁定（Public Key Pinning）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%85%AC%E9%92%A5%E5%80%BC%E4%B8%8D%E5%8F%98%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">如何保证公钥值不变？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/18/%E5%AE%89%E5%85%A8/%E8%AF%81%E4%B9%A6%E9%94%81%E5%AE%9A%E5%9C%A8App%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="证书锁定在App接口安全中的应用 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          证书锁定在App接口安全中的应用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-09-18 23:14:03" itemprop="dateCreated datePublished" datetime="2022-09-18T23:14:03+08:00">2022-09-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>公司去年做个信隐私合规时，网安检测到我们的App存在被抓包的风险。我们一直认为我们接口配置了SSL证书就安全了，这才知道其实一个认知上的误区，客户端没有做证书校验仍然可以被代理抓包。随后我们向网安和阿里请教，得到了<strong>证书锁定</strong>这一解决方案。今年10月份我们的证书就到期了，在更新证书的过程中，发现之前的方案处理也不是那么的完美，可以再进一步的提升。</p>
+<p>这里先对证书锁定方案做个扫盲，在App接口安全里算是一种广泛的应用。</p>
+<span id="more"></span>
+<h1 id="什么是证书锁定"><a href="#什么是证书锁定" class="headerlink" title="什么是证书锁定"></a>什么是证书锁定</h1><p><strong>证书锁定（SSL&#x2F;TLS Pinning）</strong>，将服务器提供的<code>SSL/TLS</code>证书内置到移动端开发的APP客户端中，当客户端发起请求时，通过比对内置的证书和服务器端证书的内容，以确定这个连接的合法性。</p>
+<h1 id="证书锁定原理"><a href="#证书锁定原理" class="headerlink" title="证书锁定原理"></a>证书锁定原理</h1><p>证书锁定（SSL&#x2F;TLS Pinning）提供了两种锁定方式：<strong>证书锁定（Certificate Pinning）</strong> 和 <strong>公钥锁定（Public Key Pinning）</strong>。</p>
+<h2 id="证书锁定（Certificate-Pinning）"><a href="#证书锁定（Certificate-Pinning）" class="headerlink" title="证书锁定（Certificate Pinning）"></a>证书锁定（Certificate Pinning）</h2><p>我们需要将APP代码内置仅接受指定域名的证书，而不接受操作系统或浏览器内置的CA根证书对应的任何证书，通过这种授权方式，保障了APP与服务端通信的唯一性和安全性，因此我们移动端APP与服务端（例如API网关）之间的通信是可以保证绝对安全。但是CA签发证书都存在有效期问题，所以缺点是在证书续期后需要将证书重新内置到APP中。<br>我们目前就是选择的这种方式，方案有利也有弊：</p>
+<ul>
+<li>优点<br>安全，抓包问题立竿见影的解决。</li>
+<li>缺点<br>缺点也是非常明显，每年证书到期前，服务端的接口都要配置两套域名和证书，做好双轨运行。并且做好推送策略，保障尽可能多的人在老证书到期前升级到新的App中。</li>
+</ul>
+<h2 id="公钥锁定（Public-Key-Pinning）"><a href="#公钥锁定（Public-Key-Pinning）" class="headerlink" title="公钥锁定（Public Key Pinning）"></a>公钥锁定（Public Key Pinning）</h2><p>公钥锁定则是提取证书中的公钥并内置到移动端APP中，通过与服务器对比公钥值来验证连接的合法性，我们在制作证书密钥时，公钥在证书的续期前后都可以保持不变（即密钥对不变），所以可以避免证书有效期问题。</p>
+<p>去年这种方案仍然被测试抓到了包，计划安排开发再做一次验证。我们去年已经申请了<strong>公钥值锁定</strong>，如果方案可行（不被抓包），我更偏向于采用公钥锁定的方案。</p>
+<h1 id="如何保证公钥值不变？"><a href="#如何保证公钥值不变？" class="headerlink" title="如何保证公钥值不变？"></a>如何保证公钥值不变？</h1><p>需要像证书机构索要旧证书的CSR文件，默认是不给的。如阿里云，直接工单问阿里云要旧证书的CSR，然后提交新证书的申请时，选择手动提交CSR，提交此CSR去签发新证书，就能保证公钥值不变了。</p>
+<blockquote>
+<p>CSR文件，证书签发请求(Certificate Signing Request)文件。CA机构审核通过我们的证书申请后，将使用其根CA私钥为我们提供的CSR签名，生成SSL证书公钥（即签发的SSL证书），另外SSL证书的私钥即在生成CSR时同时生成的私钥。</p>
+</blockquote>
+<p><strong>需要注意：沿用旧证书的CSR去签发新证书，私钥和公钥值都是旧的。只能保证公钥值不变，整个公钥的内容肯定是新的</strong>。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>证书锁定旨在解决移动端APP与服务端通信的唯一性，实际通信过程中，如果锁定过程失败，那么客户端APP将拒绝针对服务器的所有 SSL&#x2F;TLS 请求，FaceBook&#x2F;Twitter则通过证书锁定以防止Charles&#x2F;Fiddler等抓包工具中间人攻击。使用证书锁定比较简单，我们是在HttpClient中添加公钥文件配置即可。公钥锁定在安全性上还待验证，待验证后在更新次文章。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://www.infinisign.com/faq/what-is-ssl-pinning">证书锁定SSL Pinning简介及用途</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/17/%E6%B5%8B%E8%AF%95/%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E4%BB%A5%E5%8F%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7-Appshark/" rel="prev" title="安全漏洞以及隐私合规检测工具 Appshark">
+                  <i class="fa fa-chevron-left"></i> 安全漏洞以及隐私合规检测工具 Appshark
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/" rel="next" title="全球个人信息可携带权的实践初探">
+                  全球个人信息可携带权的实践初探 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

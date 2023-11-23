@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="2021 年 12 月 20 日，由中国信息通信研究院、中国通信标准化协会指导，中国通信标准化协会大数据技术标准推进委员会主办，中国互联网协会数据治理工作委员会、金融数据智能联盟承办的“2021 数据资产管理大会”以线上会议形式召开，中国信息通信研究院云计算与大数据研究所所长何宝宏发布了 《大数据白皮书（2021 年)》。 本文对其技术章节“大数据技术体系发展创新变革”做解读。所有素材来源：中国信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据技术体系发展创新变革">
+<meta property="og:url" content="http://example.com/2022/09/03/%E6%8E%A2%E7%B4%A2/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E5%8F%91%E5%B1%95%E5%88%9B%E6%96%B0%E5%8F%98%E9%9D%A9/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="2021 年 12 月 20 日，由中国信息通信研究院、中国通信标准化协会指导，中国通信标准化协会大数据技术标准推进委员会主办，中国互联网协会数据治理工作委员会、金融数据智能联盟承办的“2021 数据资产管理大会”以线上会议形式召开，中国信息通信研究院云计算与大数据研究所所长何宝宏发布了 《大数据白皮书（2021 年)》。 本文对其技术章节“大数据技术体系发展创新变革”做解读。所有素材来源：中国信">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB.jpg">
+<meta property="article:published_time" content="2022-09-02T16:53:50.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.826Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/09/03/%E6%8E%A2%E7%B4%A2/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E5%8F%91%E5%B1%95%E5%88%9B%E6%96%B0%E5%8F%98%E9%9D%A9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/03/%E6%8E%A2%E7%B4%A2/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E5%8F%91%E5%B1%95%E5%88%9B%E6%96%B0%E5%8F%98%E9%9D%A9/","path":"2022/09/03/探索/大数据技术体系发展创新变革/","title":"大数据技术体系发展创新变革"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>大数据技术体系发展创新变革 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%87-%E5%88%A9%E7%94%A8%E4%BA%91%E5%8E%9F%E7%94%9F%E6%80%9D%E6%83%B3%E8%BF%9B%E8%A1%8C%E8%83%BD%E5%8A%9B%E5%8D%87%E7%BA%A7"><span class="nav-number">1.</span> <span class="nav-text">效率提升 利用云原生思想进行能力升级</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%8B%E8%83%BD%E4%B8%9A%E5%8A%A1-%E5%88%A9%E7%94%A8%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E9%87%8A%E6%94%BE%E4%B8%9A%E5%8A%A1%E6%BD%9C%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">赋能业务 利用开发平台释放业务潜能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E5%BC%BA%E5%AE%89%E5%85%A8-%E5%88%A9%E7%94%A8%E2%80%9C%E9%9B%B6%E4%BF%A1%E4%BB%BB%E2%80%9D%E4%B8%8D%E8%B6%B3%E5%86%85%E7%94%9F%E5%AE%89%E5%85%A8"><span class="nav-number">3.</span> <span class="nav-text">加强安全 利用“零信任”不足内生安全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%83%E8%BF%9B%E6%B5%81%E9%80%9A-%E5%88%A9%E7%94%A8%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97%E4%BF%9D%E9%9A%9C%E6%95%B0%E6%8D%AE%E6%B5%81%E9%80%9A"><span class="nav-number">4.</span> <span class="nav-text">促进流通 利用隐私计算保障数据流通</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/03/%E6%8E%A2%E7%B4%A2/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E5%8F%91%E5%B1%95%E5%88%9B%E6%96%B0%E5%8F%98%E9%9D%A9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="大数据技术体系发展创新变革 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          大数据技术体系发展创新变革
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-09-03 00:53:50" itemprop="dateCreated datePublished" datetime="2022-09-03T00:53:50+08:00">2022-09-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8E%A2%E7%B4%A2/" itemprop="url" rel="index"><span itemprop="name">探索</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>2021 年 12 月 20 日，由中国信息通信研究院、中国通信标准化协会指导，中国通信标准化协会大数据技术标准推进委员会主办，中国互联网协会数据治理工作委员会、金融数据智能联盟承办的“2021 数据资产管理大会”以线上会议形式召开，中国信息通信研究院云计算与大数据研究所所长何宝宏发布了 <strong>《大数据白皮书（2021 年)》</strong>。</p>
+<p>本文对其技术章节“<strong>大数据技术体系发展创新变革</strong>”做解读。所有素材来源：中国信息通信研究院。</p>
+<span id="more"></span>
+
+<h1 id="效率提升-利用云原生思想进行能力升级"><a href="#效率提升-利用云原生思想进行能力升级" class="headerlink" title="效率提升 利用云原生思想进行能力升级"></a>效率提升 利用云原生思想进行能力升级</h1><p>2006 年，云计算开始发展后，随着各单位上云进程的加速，传统大数据平合和数据库逐渐从私有部署转化为云上部署，但变化主要集中在部署模式的不同，并未充分利用云计算理论为大数据技术本身赋能。而随着云原生概念的兴起，大数据技术产品逐步迭代升级，云原生大数据技术产昂开始成为产业变革的浪潮。</p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>企业</th>
+<th>产品</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2020.12</td>
+<td>阿里</td>
+<td>云原生数据库 PolarDB</td>
+</tr>
+<tr>
+<td>2020.12</td>
+<td>腾讯</td>
+<td>云原生数据库 TDSQL-C</td>
+</tr>
+<tr>
+<td>2020.12</td>
+<td>腾讯</td>
+<td>云原生消息队列 TDMQ</td>
+</tr>
+<tr>
+<td>2020.12</td>
+<td>AWS</td>
+<td>Amazon Aurora Severless V2</td>
+</tr>
+<tr>
+<td>2021.5</td>
+<td>腾讯</td>
+<td>云原生数据湖</td>
+</tr>
+<tr>
+<td>2021.5</td>
+<td>阿里</td>
+<td>云原生数据仓库 AnalyticDB</td>
+</tr>
+<tr>
+<td>2021.5</td>
+<td>华为</td>
+<td>云原生数据湖 FusionInsightMRS</td>
+</tr>
+<tr>
+<td>2021.9</td>
+<td>百度</td>
+<td>云原生湖仓架构</td>
+</tr>
+<tr>
+<td>2021.10</td>
+<td>阿里</td>
+<td>云原生湖仓一体产品 V2</td>
+</tr>
+</tbody></table>
+<h1 id="赋能业务-利用开发平台释放业务潜能"><a href="#赋能业务-利用开发平台释放业务潜能" class="headerlink" title="赋能业务 利用开发平台释放业务潜能"></a>赋能业务 利用开发平台释放业务潜能</h1><p><strong>数据开发平合</strong>是利用<code>低代码</code>思想，通过抽象大数据开发过程中常用的技术和沆程，屏蔽数据开发任务的技术细节以及提供统一的集成开发界面来降低开发门槛。与此同时，开发平合将统一对各数据开发项目进行管理和资源整合，不仅可以提升数据开发流程的透明度和规范性，而且可以增强各组件在项目间的可复用性。比如我们正在使用的阿里云<code>DataWorks</code>。</p>
+<h1 id="加强安全-利用“零信任”不足内生安全"><a href="#加强安全-利用“零信任”不足内生安全" class="headerlink" title="加强安全 利用“零信任”不足内生安全"></a>加强安全 利用“零信任”不足内生安全</h1><p>随着物联网、5G、云计算的发展，数据生命周期涉及的节点数量变多、数据形式变新，信息泄露事件频发，传统安全防护的边界已被颠覆，各行业都需要延长针对数据各环节的防御纵深，并建立以数据为中心的新型安全防护体系。零信任理念旨在打破网络边界进行细颗粒度的访问控制，是目前针对数据安全体系的前沿探索。</p>
+<p><strong>零信任</strong>概念作为对传统网络边界保护方法的改进，背后的基本思想是<strong>在公司网络内、外部均不设置安全区域或可信用户，而是将企业内、外部的所有操作均视为不可信任</strong>。围绕零信任的概念、设计、实施，各界提出了多种解決方案，如轻量级零信任网络访问模型，所有网络访问均遵循最小资源原则等。</p>
+<h1 id="促进流通-利用隐私计算保障数据流通"><a href="#促进流通-利用隐私计算保障数据流通" class="headerlink" title="促进流通 利用隐私计算保障数据流通"></a>促进流通 利用隐私计算保障数据流通</h1><p><strong>隐私计算</strong>融合了<code>密码学</code>、<code>人工智能</code>、<code>计算机工程</code>等众多学科。从 20 世纪 70 年代发展至今，隐私计算已逐渐形成了以<strong>多方安全计算</strong>、<strong>联邦学习</strong>、<strong>可信执行环境</strong>为代表，<strong>混淆电路</strong>、<strong>秘密分享</strong>、<strong>不经意传输</strong>等作为底层密码学技术，<strong>同态加密</strong>、<strong>差分隐私</strong>等作为辅助技术的相对成熟的技术体系。</p>
+<p><img src="/../images/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB.jpg" alt="隐私计算技术体系"></p>
+<p>隐私计算正在迎来市场爆发期，在政府多部门发文鼓励使用隐私计算技术的背景之下，隐私计算的技术产品数量快速增长，在<code>金融风控</code>、<code>互联网精淮营销</code>、<code>智慧医疗</code>、<code>政务数据共享与开放</code>等数据规模大、数据流通需求强烈的场景中瓣化出典型应用，并在<code>智慧能源</code>、<code>智慧城市</code>、<code>工业互联网</code>等领域持续探索，行业火热发展的同时也应注意到，隐私计算技术本身尚未完全发展成熟，<strong>如何在强化安全的前提下不断优化产品性能、破除产品问的壁垒实现跨平合互联互通</strong>，将是进一步推广隐私计算应用的关键。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/28/%E6%8E%A2%E7%B4%A2/BIM-CIM%E6%94%BF%E7%AD%96%E8%A7%A3%E8%AF%BB%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%A6%82%E5%BF%B5/" rel="prev" title="BIM/CIM政策解读与技术概念">
+                  <i class="fa fa-chevron-left"></i> BIM/CIM政策解读与技术概念
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/10/%E6%8E%A2%E7%B4%A2/%E4%B8%AD%E5%9B%BD%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%85%A8%E6%99%AF%E5%9B%BE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/" rel="next" title="中国零信任全景图分析报告">
+                  中国零信任全景图分析报告 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

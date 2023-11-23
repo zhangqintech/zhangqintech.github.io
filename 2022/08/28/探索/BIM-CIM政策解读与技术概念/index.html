@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="年初，覃伟中市长主持召开市智慧城市和数字政府建设领导小组 2022 年第一次会议，会议多次提到BIM&#x2F;CIM工作的推进。 2022 年 2 月，覃伟中市长率队赴深智城集团调研，在深智城集团下属市城市交通规划设计研究中心大数据实验室召开座谈会，听取深智城集团发展情况汇报，研究BIM&#x2F;CIM平台建设应用等工作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BIM&#x2F;CIM政策解读与技术概念">
+<meta property="og:url" content="http://example.com/2022/08/28/%E6%8E%A2%E7%B4%A2/BIM-CIM%E6%94%BF%E7%AD%96%E8%A7%A3%E8%AF%BB%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="年初，覃伟中市长主持召开市智慧城市和数字政府建设领导小组 2022 年第一次会议，会议多次提到BIM&#x2F;CIM工作的推进。 2022 年 2 月，覃伟中市长率队赴深智城集团调研，在深智城集团下属市城市交通规划设计研究中心大数据实验室召开座谈会，听取深智城集团发展情况汇报，研究BIM&#x2F;CIM平台建设应用等工作。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-28T07:30:17.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.824Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/08/28/%E6%8E%A2%E7%B4%A2/BIM-CIM%E6%94%BF%E7%AD%96%E8%A7%A3%E8%AF%BB%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%A6%82%E5%BF%B5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/08/28/%E6%8E%A2%E7%B4%A2/BIM-CIM%E6%94%BF%E7%AD%96%E8%A7%A3%E8%AF%BB%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%A6%82%E5%BF%B5/","path":"2022/08/28/探索/BIM-CIM政策解读与技术概念/","title":"BIM/CIM政策解读与技术概念"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>BIM/CIM政策解读与技术概念 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">背景介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E9%A2%86%E5%AF%BC%E8%B0%83%E7%A0%94%E6%B7%B1%E6%99%BA%E5%9F%8E%E9%9B%86%E5%9B%A2"><span class="nav-number">1.1.</span> <span class="nav-text">市领导调研深智城集团</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E6%99%BA%E6%85%A7%E5%9F%8E%E5%B8%82%E5%92%8C%E6%95%B0%E5%AD%97%E6%94%BF%E5%BA%9C%E5%BB%BA%E8%AE%BE%E9%A2%86%E5%AF%BC%E5%B0%8F%E7%BB%84-2022-%E5%B9%B4%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BC%9A%E8%AE%AE"><span class="nav-number">1.2.</span> <span class="nav-text">市智慧城市和数字政府建设领导小组 2022 年第一次会议</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-BIM%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">什么是 BIM？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%BF%E7%AD%96%E8%83%8C%E6%99%AF"><span class="nav-number">2.1.</span> <span class="nav-text">政策背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BD%E5%AE%B6%E6%A0%87%E5%87%86"><span class="nav-number">2.2.</span> <span class="nav-text">国家标准</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BIM-%E7%89%B9%E7%82%B9"><span class="nav-number">2.3.</span> <span class="nav-text">BIM 特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E6%A8%A1%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.4.</span> <span class="nav-text">建模软件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CIM%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">什么是 CIM？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%BF%E7%AD%96%E8%83%8C%E6%99%AF-1"><span class="nav-number">3.1.</span> <span class="nav-text">政策背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%8E%E5%B8%82%E4%BF%A1%E6%81%AF%E6%A8%A1%E5%9E%8B%E9%9B%86%E6%88%90%E4%B8%8E%E5%BA%94%E7%94%A8%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="nav-number">3.2.</span> <span class="nav-text">城市信息模型集成与应用工程师</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/28/%E6%8E%A2%E7%B4%A2/BIM-CIM%E6%94%BF%E7%AD%96%E8%A7%A3%E8%AF%BB%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="BIM/CIM政策解读与技术概念 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BIM/CIM政策解读与技术概念
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-28 15:30:17" itemprop="dateCreated datePublished" datetime="2022-08-28T15:30:17+08:00">2022-08-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8E%A2%E7%B4%A2/" itemprop="url" rel="index"><span itemprop="name">探索</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>年初，覃伟中市长主持召开市智慧城市和数字政府建设领导小组 2022 年第一次会议，会议多次提到<code>BIM/CIM</code>工作的推进。</p>
+<p>2022 年 2 月，覃伟中市长率队赴<code>深智城集团</code>调研，在深智城集团下属<code>市城市交通规划设计研究中心</code>大数据实验室召开座谈会，听取深智城集团发展情况汇报，研究<strong>BIM&#x2F;CIM</strong>平台建设应用等工作。</p>
+<span id="more"></span>
+
+<h1 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h1><h2 id="市领导调研深智城集团"><a href="#市领导调研深智城集团" class="headerlink" title="市领导调研深智城集团"></a>市领导调研深智城集团</h2><p>2022 年 2 月 10 日上午，覃伟中市长率队赴<code>深智城集团</code>调研，在深智城集团下属<code>市城市交通规划设计研究中心</code>大数据实验室召开座谈会，听取深智城集团发展情况汇报，研究<strong>BIM&#x2F;CIM</strong>平台建设应用等工作。</p>
+<ol>
+<li><p><strong>2022 年底前上线应用全市 CIM 平台（1.0 版）</strong>。请市<code>政数局</code>、<code>市规自局</code>、<code>市住建局</code>、<code>深智城集团</code>和各区、各相关单位按照“三级平台、四级应用”的架构，运用正向建模、逆向建模、倾斜摄影等多种方法，加快推进 CIM 平台建模及应用，务必在<code>2022年底前建成全市CIM平台（1.0版）</code>，并实现不少于 10 个市直部门、每个部门不少于 3 个智能化深度应用，后续每年持续迭代推出新版本，争取用<code>2—3年</code>时间建成全国领先的全市域级<code>CIM平台</code>及可支撑城市规划建设管理的各类智能化深度应用。</p>
+</li>
+<li><p><strong>完善 CIM 平台生态体系</strong>。请<code>市工信局</code>、<code>市政数局</code>、<code>深智城集团</code>、<code>市城安院</code>等统筹考虑信息安全、专业优势等因素，加快完善 CIM 平台生态体系。</p>
+</li>
+<li><p><strong>在市政府会议中推广应用 CIM 平台</strong>。市政府常务会议、专题办公会议研究建设项目时，各区、各单位原则上<code>应使用CIM平台（或BIM系统）进行演示汇报</code>。</p>
+</li>
+<li><p><strong>相关领域 CIM 平台应用工作</strong>。市发改委要继续做好投资项目前期储备库、在线审批监管、智能固投调度等平台的建设和上线工作；<code>市工信局</code>、<code>市规自局</code>等单位要将<code>“20+8”战略性新兴产业集群</code>、<code>20个先进制造业园区</code>等纳入全市<code>CIM平台</code>并推动相关应用上线；</p>
+</li>
+</ol>
+<h2 id="市智慧城市和数字政府建设领导小组-2022-年第一次会议"><a href="#市智慧城市和数字政府建设领导小组-2022-年第一次会议" class="headerlink" title="市智慧城市和数字政府建设领导小组 2022 年第一次会议"></a>市智慧城市和数字政府建设领导小组 2022 年第一次会议</h2><p>覃伟中市长主持召开市智慧城市和数字政府建设领导小组 2022 年第一次会议，会议也多次提到<code>BIM/CIM</code>工作的推进。</p>
+<ol>
+<li><p>原则同意<code>市住房建设局</code>《关于提请市智慧城市和数字政府建设领导小组印发成立 BIM 工作专项推进小组的通知的请示》，请<code>市政数局</code>以<code>市智慧城市和数字政府建设领导小组办公室</code>名义印发成立<code>BIM工作专项推进小组</code>的通知。</p>
+</li>
+<li><p>以建设<code>数字孪生城市</code>为目标，全面应用<code>BIM/CIM</code>技术，建立建筑物、基础设施、地下空间等三维数字模型，建成全市域时空信息平台，打造智慧城市数字化底座。<code>市直每个部门都要建设基于数字化底座和动静态数据的智能化应用，至少有1-2个标志性应用，最多不超过5个</code>。</p>
+</li>
+<li><p>请<code>市住房建设局</code>牵头，加快制订<code>BIM技术标准</code>，抓紧出台相关文件。加大 BIM 技术应用推广力度，一定规模以上固定资产投资项目必须使用 BIM 技术报建，政府投资项目应使用国产化 BIM 软件报建。</p>
+</li>
+<li><p>请<code>市政数局</code>牵头，抓紧将前海、后海、深圳湾超级总部基地、莲塘口岸、深圳北站等重点片区，以及深圳地铁、水务、能源、燃气等<code>市属国有企业已有BIM数据导入CIM平台</code>。</p>
+</li>
+<li><p>请<code>市生态环境局</code>牵头，加强“一网统管”生态环境专题建设，重点做好大气、地表水、近岸海域、噪声、固体废物、土壤、环评等模块建设，将大气、地表水、近岸海域、噪声、土壤等监测点位和监测情况以及“三线一单”、项目环评、固定污染源排污许可等数据<code>全部落到CIM平台</code>。</p>
+</li>
+<li><p>请<code>前海管理局</code>探索开展<code>BIM模型法定化试点</code>，加快 BIM 技术推广应用。</p>
+</li>
+<li><p>请<code>市建筑工务署</code>做好工程建设项目<code>全生命周期BIM数字化管理</code>，实现<code>数字资产交付</code>。大力发展装配式建筑和绿色建筑，源头减少固体废弃物产生。</p>
+</li>
+<li><p>请市地铁集团、水务集团、燃气集团、特建发集团、深高速、天威视讯、深圳供电局、深圳电信、深圳移动、深圳联通、铁塔公司等企业，将本单位<code>静态BIM资产（含线性工程）导入全市CIM平台</code>，将必要的动态监测数据接入城市大数据中心和交通、应急等业务板块，为推进政府治理“一网统管”提供支撑。</p>
+</li>
+</ol>
+<h1 id="什么是-BIM？"><a href="#什么是-BIM？" class="headerlink" title="什么是 BIM？"></a>什么是 BIM？</h1><blockquote>
+<p>该章节主要摘录自百度百科<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%BB%BA%E7%AD%91%E4%BF%A1%E6%81%AF%E6%A8%A1%E5%9E%8B/5034795">建筑信息模型</a>。</p>
+</blockquote>
+<p><strong>建筑信息模型</strong>（<code>Building Information Modeling</code>）是<code>建筑学</code>、<code>工程学</code>及<code>土木工程</code>的新工具。建筑信息模型或建筑资讯模型一词由 Autodesk 所创的。它是来形容那些以<code>三维图形为主、物件导向、建筑学有关的电脑辅助设计</code>。</p>
+<h2 id="政策背景"><a href="#政策背景" class="headerlink" title="政策背景"></a>政策背景</h2><ol>
+<li><p>2020 年 7 月 3 日，<code>住房和城乡建设部</code>联合<code>国家发展和改革委员会</code>、<code>科学技术部</code>、<code>工业和信息化部</code>、<code>人力资源和社会保障部</code>、<code>交通运输部</code>、<code>水利部</code>等十三个部门联合印发<code>《关于推动智能建造与建筑工业化协同发展的指导意见》</code>。意见提出：<strong>加快推动新一代信息技术与建筑工业化技术协同发展，在建造全过程加大建筑信息模型（BIM）、互联网、物联网、大数据、云计算、移动通信、人工智能、区块链等新技术的集成与创新应用</strong>。</p>
+</li>
+<li><p>2020 年 08 月 28 日，<code>住房和城乡建设部</code>、<code>教育部</code>、<code>科技部</code>、<code>工业和信息化部</code>等九部门联合印发<code>《关于加快新型建筑工业化发展的若干意见》</code>。意见提出：<strong>大力推广建筑信息模型（BIM）技术</strong>。加快推进 BIM 技术在新型建筑工业化全寿命期的一体化集成应用。充分利用社会资源，共同建立、维护基于 BIM 技术的标准化部品部件库，实现设计、采购、生产、建造、交付、运行维护等阶段的信息互联互通和交互共享。试点推进 BIM 报建审批和施工图 BIM 审图模式，<strong>推进与城市信息模型（CIM）平台的融通联动</strong>，提高信息化监管能力，提高建筑行业全产业链资源配置效率。</p>
+</li>
+</ol>
+<h2 id="国家标准"><a href="#国家标准" class="headerlink" title="国家标准"></a>国家标准</h2><ol>
+<li><p>2015 年 08 月 27 日，中华人民共和国<code>住房和城乡建设部</code>发布 <strong>《工业化建筑评价标准》</strong> 国家标准，编号为 GB&#x2F;T51129-2015，自 2016 年 5 月 1 日起实施。本标准由中国建筑科学研究院、住房和城乡建设部住宅产业化促进中心主编，由住房和城乡建设部部标准定额研究所组织中国建筑工业出版社出版发行。</p>
+</li>
+<li><p>2016 年 12 月 02 日，中华人民共和国<code>住房和城乡建设部</code>发布 <strong>《建筑信息模型应用统一标准》</strong> 国家标准，编号为 GB&#x2F;T51212-2016，自 2017 年 7 月 1 日起实施。本标准由中国建筑科学研究院主编，由住房和城乡建设部部标准定额研究所组织中国建筑工业出版社出版发行。</p>
+</li>
+<li><p>2017 年 05 月 04 日，中华人民共和国<code>住房和城乡建设部</code>发布 <strong>《建筑信息模型施工应用标准》</strong> 国家标准，编号为 GB&#x2F;T51235-2017，自 2018 年 1 月 1 日起实施。本标准由中国建筑科学研究院、中国建筑股份有限公司主编，由住房和城乡建设部部标准定额研究所组织中国建筑工业出版社出版发行。</p>
+</li>
+</ol>
+<h2 id="BIM-特点"><a href="#BIM-特点" class="headerlink" title="BIM 特点"></a>BIM 特点</h2><p>BIM 具有以下五个特点：</p>
+<ol>
+<li>可视化<br>可视化即“所见所得”的形式，对于建筑行业来说，可视化的真正运用在建筑业的作用是非常大的，例如经常拿到的施工图纸，只是各个构件的信息在图纸上采用线条绘制表达，但是其真正的构造形式就需要建筑业从业人员去自行想象了。BIM 提供了可视化的思路，让人们将以往的线条式的构件形成一种三维的立体实物图形展示在人们的面前；建筑业也有设计方面的效果图。但是这种效果图不含有除构件的大小、位置和颜色以外的其他信息，缺少不同构件之间的互动性和反馈性。而 BIM 提到的可视化是一种能够同构件之间形成互动性和反馈性的可视化，由于整个过程都是可视化的，可视化的结果不仅可以用效果图展示及报表生成，更重要的是，项目设计、建造、运营过程中的沟通、讨论、决策都在可视化的状态下进行。</li>
+<li>协调性<br>协调是建筑业中的重点内容，不管是施工单位，还是业主及设计单位，都在做着协调及相配合的工作。一旦项目的实施过程中遇到了问题，就要将各有关人士组织起来开协调会，找各个施工问题发生的原因及解决办法．然后作出变更，做出相应补救措施等来解决问题。在设计时，往往由于各专业设计师之间的沟通不到位，出现各种专业之间的碰撞问题。例如暖通等专业中的管道在进行布置时，由于施工图纸是各自绘制在各自的施工图纸上的，在真正施工过程中，可能在布置管线时正好在此处有结构设计的梁等构件在此阻碍管线的布置，像这样的碰撞问题的协调解决就只能在问题出现之后再进行解决。BIM 的协调性服务就可以帮助处理这种问题，也就是说 BIM 建筑信息模型可在建筑物建造前期对各专业的碰撞问题进行协调，生成协调数据，并提供出来。当然，BIM 的协调作用也并不是只能解决各专业间的碰撞问题，它还可以解决例如电梯井布置与其他设计布置及净空要求的协调、防火分区与其他设计布置的协调、地下排水布置与其他设计布置的协调等。</li>
+<li>模拟性<br>模拟性并不是只能模拟设计出的建筑物模型，还可以模拟不能够在真实世界中进行操作的事物。在设计阶段，BIM 可以对设计上需要进行模拟的一些东西进行模拟实验。例如：节能模拟、紧急疏散模拟、日照模拟、热能传导模拟等；在招投标和施工阶段可以进行 4D 模拟（三维模型加项目的发展时间），也就是根据施工的组织设计模拟实际施工，从而确定合理的施工方案来指导施工。同时还可以进行 5D 模拟（基于 4D 模型加造价控制），从而实现成本控制；后期运营阶段可以模拟日常紧急情况的处理方式，例如地震人员逃生模拟及消防人员疏散模拟等。</li>
+<li>优化性<br>事实上整个设计、施工、运营的过程就是一个不断优化的过程。当然优化和 BIM 也不存在实质性的必然联系，但在 BIM 的基础上可以做更好的优化。优化受三种因素的制约：信息、复杂程度和时间。没有准确的信息，做不出合理的优化结果，BIM 模型提供了建筑物的实际存在的信息，包括几何信息、物理信息、规则信息，还提供了建筑物变化以后的实际存在信息。复杂程度较高时，参与人员本身的能力无法掌握所有的信息，必须借助一定的科学技术和设备的帮助。现代建筑物的复杂程度大多超过参与人员本身的能力极限，BIM 及与其配套的各种优化工具提供了对复杂项目进行优化的可能。</li>
+<li>可出图性<br>BIM 模型不仅能绘制常规的建筑设计图纸及构件加工的图纸，还能通过对建筑物进行可视化展示、协调、模拟、优化，并出具各专业图纸及深化图纸，使工程表达更加详细。</li>
+</ol>
+<h2 id="建模软件"><a href="#建模软件" class="headerlink" title="建模软件"></a>建模软件</h2><ol>
+<li>Autodesk 公司的 Revit 建筑、结构和设备软件。常用于民用建筑。</li>
+<li>Bentley 建筑、结构和设备系列，Bentley 产品常用于工业设计（石油、化工、电力、医药等）和基础设施(道路、桥梁、市政、水利等)领域。</li>
+<li>ArchiCAD，属于一个面向全球市场的产品，应该可以说是最早的一个具有市场影响力的 BIM 核心建模软件。</li>
+</ol>
+<h1 id="什么是-CIM？"><a href="#什么是-CIM？" class="headerlink" title="什么是 CIM？"></a>什么是 CIM？</h1><blockquote>
+<p>该章节主要摘录自百度百科<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%9F%8E%E5%B8%82%E4%BF%A1%E6%81%AF%E6%A8%A1%E5%9E%8B/61830472">城市信息模型</a></p>
+</blockquote>
+<p><strong>城市信息模型</strong>（<code>City Information Modeling</code>）：以<strong>建筑信息模型（BIM）</strong>、<strong>地理信息系统（GIS）</strong>、<strong>物联网（IoT）</strong>等技术为基础，整合城市地上地下、室内室外、历史现状未来多维多尺度信息模型数据和城市感知数据，构建起<strong>三维数字空间的城市信息综合体</strong>。CIM 基础平台与<code>新型智慧城市</code>、<code>数字孪生</code>、<code>元宇宙</code>、<code>空间规划</code>等概念密不可分，共同推动实景三维中国建设。</p>
+<h2 id="政策背景-1"><a href="#政策背景-1" class="headerlink" title="政策背景"></a>政策背景</h2><ol>
+<li><p><code>住房和城乡建设部</code>办公厅关于印发 <strong>《城市信息模型（CIM）基础平台技术导则》</strong>的通知。</p>
+</li>
+<li><p><strong>深圳市人民政府关于加快智慧城市和数字政府建设的若干意见</strong> 。指出探索“<strong>数字孪生城市</strong>”。依托<code>地理信息系统（GIS）</code>、<code>建筑信息模型（BIM）</code>、<code>城市信息模型（CIM）</code>等数字化手段，开展全域高精度三维城市建模，加强国土空间等数据治理，构建可视化城市空间数字平台，链接智慧泛在的城市神经网络，提升城市可感知、可判断、快速反应的能力。</p>
+</li>
+<li><p>2021 年 7 月 28 日，全国首个城市信息模型（CIM）基础平台——广州 CIM 平台正式发布 。基础平台的核心应用具有三维模型与信息全集成、可视化分析、模拟仿真、AI 辅助审查、多视频接入的无缝衔接与三维场景融合、物联网设备接入、BIM 模型轻量化格式高效转接等多项功能，有利于大幅提升智慧城市和建设工程多方主体的精细化管理水平。<code>落地CIM+工改</code>、<code>CIM+智慧工地</code>、<code>CIM+城市更新</code>、<strong>CIM+智慧园区</strong>、<strong>CIM+智慧社区</strong>、<code>穗智管城市运行管理中枢</code>六大应用场景。</p>
+</li>
+</ol>
+<h2 id="城市信息模型集成与应用工程师"><a href="#城市信息模型集成与应用工程师" class="headerlink" title="城市信息模型集成与应用工程师"></a>城市信息模型集成与应用工程师</h2><p><strong>城市信息模型集成与应用工程师</strong>是指能够熟练运用<strong>BIM</strong>、<strong>GIS</strong>、<strong>IoT 技术</strong>，以实现<strong>城市数字孪生</strong>。支持城市规划设计、建设、运行等方案模拟与发展推演,实现人口空间、公共设施布局、基础设施建设、城市治理服务等分析,极大地优化城市空间布局,支撑城市科学规划、高效建设、精细化治理,确保城市安全、有序运行,将城市治理提升到精细化水平,并实现“规建管”一体化的高端技术人才。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/25/%E7%90%86%E8%AE%BA/IaaS-PaaS-SaaS-DaaS%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="prev" title="IaaS、PaaS、SaaS、DaaS的区别">
+                  <i class="fa fa-chevron-left"></i> IaaS、PaaS、SaaS、DaaS的区别
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/03/%E6%8E%A2%E7%B4%A2/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E5%8F%91%E5%B1%95%E5%88%9B%E6%96%B0%E5%8F%98%E9%9D%A9/" rel="next" title="大数据技术体系发展创新变革">
+                  大数据技术体系发展创新变革 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="什么是主题MQTT 协议 通过网络传输应用消息，应用消息通过 MQTT 传输时，它们有关联的服务质量（QoS）和主题（Topic）。主题本质上是一个字符串，MQTT 协议规定主题是 UTF-8 编码的字符串，这意味着，主题过滤器和主题名的比较可以通过比较编码后的 UTF-8 字节或解码后的 Unicode 字符。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQTT 主题的高级特性">
+<meta property="og:url" content="http://example.com/2022/08/09/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%B8%BB%E9%A2%98%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="什么是主题MQTT 协议 通过网络传输应用消息，应用消息通过 MQTT 传输时，它们有关联的服务质量（QoS）和主题（Topic）。主题本质上是一个字符串，MQTT 协议规定主题是 UTF-8 编码的字符串，这意味着，主题过滤器和主题名的比较可以通过比较编码后的 UTF-8 字节或解码后的 Unicode 字符。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-08T16:04:35.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.864Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="MQTT">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/08/09/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%B8%BB%E9%A2%98%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/08/09/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%B8%BB%E9%A2%98%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/","path":"2022/08/09/物联网/MQTT/MQTT-主题的高级特性/","title":"MQTT 主题的高级特性"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MQTT 主题的高级特性 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%BB%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">什么是主题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E5%90%8D%E5%92%8C%E4%B8%BB%E9%A2%98%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">主题名和主题过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E5%92%8C%E4%B8%BB%E9%A2%98%E8%BF%87%E6%BB%A4%E5%99%A8%E5%91%BD%E5%90%8D%E7%9A%84%E8%A7%84%E5%88%99"><span class="nav-number">1.2.</span> <span class="nav-text">主题和主题过滤器命名的规则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E5%B1%82%E7%BA%A7"><span class="nav-number">2.</span> <span class="nav-text">主题层级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E5%B1%82%E7%BA%A7%E5%88%86%E9%9A%94%E7%AC%A6"><span class="nav-number">2.1.</span> <span class="nav-text">主题层级分隔符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%B1%82%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="nav-number">2.2.</span> <span class="nav-text">多层通配符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E5%B1%82%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="nav-number">2.3.</span> <span class="nav-text">单层通配符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5-%E5%BC%80%E5%A4%B4%E7%9A%84%E4%B8%BB%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text">以 $ 开头的主题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="nav-number">3.</span> <span class="nav-text">举个例子</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/09/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%B8%BB%E9%A2%98%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MQTT 主题的高级特性 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MQTT 主题的高级特性
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-09 00:04:35" itemprop="dateCreated datePublished" datetime="2022-08-09T00:04:35+08:00">2022-08-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">物联网</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/" itemprop="url" rel="index"><span itemprop="name">MQTT</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="什么是主题"><a href="#什么是主题" class="headerlink" title="什么是主题"></a>什么是主题</h1><p><code>MQTT 协议</code> 通过网络传输应用消息，应用消息通过 MQTT 传输时，它们有关联的<code>服务质量（QoS）</code>和<code>主题（Topic）</code>。主题本质上是一个字符串，MQTT 协议规定主题是 UTF-8 编码的字符串，这意味着，主题过滤器和主题名的比较可以通过比较编码后的 UTF-8 字节或解码后的 Unicode 字符。</p>
+<span id="more"></span>
+
+<h2 id="主题名和主题过滤器"><a href="#主题名和主题过滤器" class="headerlink" title="主题名和主题过滤器"></a>主题名和主题过滤器</h2><ul>
+<li>主题名<br>附加在应用消息上的一个标签，服务端已知且与订阅匹配。服务端发送应用消息的一个副本给每一个匹配的客户端订阅。</li>
+<li>主题过滤器<br>订阅中包含的一个表达式，用于表示相关的一个或多个主题。主题过滤器可以使用通配符。</li>
+</ul>
+<p>如果订阅的主题过滤器与消息的主题名匹配，应用消息会被发送给每一个匹配的客户端订阅。主题资源可以是管理员在服务端预先定义好的，也可以是服务端收到第一个订阅或使用那个主题名的应用消息时动态添加的。服务端可以使用一个安全组件有选择地授权客户端使用某个主题资源。</p>
+<h2 id="主题和主题过滤器命名的规则"><a href="#主题和主题过滤器命名的规则" class="headerlink" title="主题和主题过滤器命名的规则"></a>主题和主题过滤器命名的规则</h2><ul>
+<li>所有的主题名和主题过滤器必须至少包含一个字符。</li>
+<li>主题名和主题过滤器是大小写敏感的。<code>ACCOUNTS</code> 和 <code>Accounts</code> 是不同的主题名。</li>
+<li>主题名和主题过滤器可以包含空格字符。<code>Accounts payable</code> 是合法的主题名</li>
+<li>主题名或主题过滤器以前置或后置斜杠 <code>/</code> 区分。<code>/finance</code> 和 <code>finance</code> 是不同的。</li>
+<li>只包含斜杠 <code>/</code> 的主题名或主题过滤器是合法的。</li>
+<li>主题名和主题过滤器不能包含 <code>null</code> 字符(Unicode U+0000)。</li>
+<li>主题名和主题过滤器是 UTF-8 编码字符串，除了不能超过 UTF-8 编码字符串的长度限制之外，主题名或主题过滤器的层级数量没有其它限制。</li>
+</ul>
+<h1 id="主题层级"><a href="#主题层级" class="headerlink" title="主题层级"></a>主题层级</h1><h2 id="主题层级分隔符"><a href="#主题层级分隔符" class="headerlink" title="主题层级分隔符"></a>主题层级分隔符</h2><p>斜杠（“&#x2F;” U+002F）用于分割主题的每个层级，为主题名提供一个分层结构。分隔符用于将结构化引入主题名。如果存在分隔符，它将主题名分割为多个主题层级，是消息主题层级设计中很重要的符号。 比方说：<code>aaa/bbb</code>、<code>aaa/bbb/ccc</code> 和 <code>aaa/bbb/ccc/</code>ddd 这样的消息主题格式，是一个层层递进的关系，可通过多层通配符同时匹配两者，或者单层通配符只匹配一个。 这在现实场景中，可以应用到：公司的部门层级推送、国家城市层级推送等包含层级关系的场景。</p>
+<p>MQTT 订阅报文包含一个主题过滤器（Topic Filter）和一个最大的服务质量（QoS）等级。订阅的主题过滤器可以包含特殊的通配符，允许客户端一次订阅多个主题。当客户端订阅指定的主题过滤器包含两种通配符时，主题层级分隔符就很有用了。主题层级分隔符可以出现在主题过滤器或主题名字的任何位置。相邻的主题层次分隔符表示一个零长度的主题层级。</p>
+<blockquote>
+<p>主题过滤器中可以使用通配符，但是主题名不能使用通配符。单层通配符和多层通配符只能用于订阅 (subscribe) 消息而不能用于发布 (publish) 消息，层级分隔符两种情况下均可使用。</p>
+</blockquote>
+<h2 id="多层通配符"><a href="#多层通配符" class="headerlink" title="多层通配符"></a>多层通配符</h2><p>井字符号（“#” U+0023）是用于匹配主题中任意层级的通配符。多层通配符表示它的父级和任意数量的子层级。<br>例如，如果客户端订阅主题 <code>sport/tennis/player1/#</code>，它会收到使用下列主题名发布的消息：</p>
+<ul>
+<li><code>sport/tennis/player1</code></li>
+<li><code>sport/tennis/player1/ranking</code></li>
+<li><code>sport/tennis/player1/score/wimbledon</code></li>
+</ul>
+<p>因为多层通配符包括它自己的父级，所以 <code>sport/#</code> 也匹配单独的 <code>sport</code> 主题名，<code>sport/tennis/player1/#</code> 也可以匹配 <code>sport/tennis/player1</code>。</p>
+<p>单独的多层通配符 <code>#</code> 是有效的，它会收到所有的应用消息。</p>
+<p>多层通配符必须单独指定，或者跟在主题层级分隔符后面。多层通配符必须是主题过滤器的最后一个字符。因此，<code>sport/tennis#</code> 和 <code>sport/tennis/#/ranking</code> 都是无效的多层通配符。</p>
+<h2 id="单层通配符"><a href="#单层通配符" class="headerlink" title="单层通配符"></a>单层通配符</h2><p>加号 (“+” U+002B) 是只能用于单个主题层级匹配的通配符。例如，<code>sport/tennis/+</code> 匹配 <code>sport/tennis/player1</code> 和 <code>sport/tennis/player2</code> ，但是不匹配 <code>sport/tennis/player1/ranking</code>。同时，由于单层通配符只能匹配一个层级，<code>sport/+</code> 不匹配 <code>sport</code> 但是却匹配 <code>sport/</code>。</p>
+<p>在主题过滤器的任意层级都可以使用单层通配符，包括第一个和最后一个层级，可以在主题过滤器中的多个层级中使用它，也可以和多层通配符一起使用，<code>+</code>、<code>+/tennis/#</code> 、<code>sport/+/player1</code> 都有有效的。在使用单层通配符时，单层通配符占据过滤器的整个层级，<code>sport+</code> 是无效的。</p>
+<h2 id="以-开头的主题"><a href="#以-开头的主题" class="headerlink" title="以 $ 开头的主题"></a>以 $ 开头的主题</h2><p>服务端不能将 <code>$</code> 字符开头的主题名匹配通配符 （<code>#</code>或<code>+</code>） 开头的主题过滤器， 订阅 <code>#</code> 的客户端不会收到任何发布到以 <code>$</code> 开头主题的消息，订阅 <code>+/monitor/Clients</code> 的客户端也不会收到任何发布到 <code>$SYS/monitor/Clients</code> 的消息。服务端应该阻止客户端使用这种主题名与其他客户端交换消息，客户端注意不能使用 $ 字符开头的主题。</p>
+<p>服务端实现可以将 <code>$</code> 开头的主题名用作其他目的。,例如 <code>$SYS/</code> 被广泛用作包含服务器特定信息或控制接口的主题的前缀。订阅 <code>$SYS/#</code> 的客户端会收到发布到以 <code>$SYS/</code> 开头主题的消息，订阅 <code>$SYS/monitor/+</code> 的客户端会收到发布到 <code>$SYS/monitor/Clients</code> 主题的消息，如果客户端想同时接受以 <code>$SYS/</code> 开头主题的消息和不以 <code>$</code> 开头主题的消息，它需要同时订阅 <code>#</code> 和 <code>$SYS/#</code>。</p>
+<h1 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h1><p>比如我们用传感器监视家里的卧室、客厅以及厨房的温度、湿度和空气质量，可以设计一下几个主题：</p>
+<ul>
+<li><code>myhome/bedroom/temperature</code></li>
+<li><code>myhome/bedroom/humidity</code></li>
+<li><code>myhome/bedroom/airquality</code></li>
+<li><code>myhome/livingroom/temperature</code></li>
+<li><code>myhome/livingroom/humidity</code></li>
+<li><code>myhome/livingroom/airquality</code></li>
+<li><code>myhome/kitchen/temperature</code></li>
+<li><code>myhome/kitchen/humidity</code></li>
+<li><code>myhome/kitchen/airquality</code></li>
+</ul>
+<p>当我们想获取卧室的所有数据时，可以订阅 <code>myhome/bedroom/+</code> 主题，当我们想获取三个房间的温度数据的时候，可以订阅 <code>myhome/+/temperature</code> 主题，当我们想获取所有的数据的时候，可以订阅 <code>myhome/#</code> 或者 <code>#</code>。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/MQTT/" rel="tag"># MQTT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/" rel="prev" title="MQTT 使用MQTTX实现消息的发布与订阅">
+                  <i class="fa fa-chevron-left"></i> MQTT 使用MQTTX实现消息的发布与订阅
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/08/10/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BC%9A%E8%AF%9D/" rel="next" title="MQTT 会话">
+                  MQTT 会话 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

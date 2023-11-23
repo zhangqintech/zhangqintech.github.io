@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="为什么说 Java 中只有值传递？这个问题也颠覆了我学习&#x2F;工作多年的认知。最近也是拜读了Hollis的博客 为什么说 Java 中只有值传递 才有了新的认识，也欢迎大家去阅读原文。  Hollis张洪亮，阿里巴巴技术专家，51CTO 专栏作家，CSDN 博客专家，掘金优秀作者，《程序员的三门课》联合作者，《Java 工程师成神之路》系列文章作者。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么说Java中只有值传递">
+<meta property="og:url" content="http://example.com/2022/11/27/%E5%90%8E%E7%AB%AF/JAVA/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4Java%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="为什么说 Java 中只有值传递？这个问题也颠覆了我学习&#x2F;工作多年的认知。最近也是拜读了Hollis的博客 为什么说 Java 中只有值传递 才有了新的认识，也欢迎大家去阅读原文。  Hollis张洪亮，阿里巴巴技术专家，51CTO 专栏作家，CSDN 博客专家，掘金优秀作者，《程序员的三门课》联合作者，《Java 工程师成神之路》系列文章作者。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-27T15:43:57.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.795Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/11/27/%E5%90%8E%E7%AB%AF/JAVA/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4Java%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/27/%E5%90%8E%E7%AB%AF/JAVA/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4Java%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92/","path":"2022/11/27/后端/JAVA/为什么说Java中只有值传递/","title":"为什么说Java中只有值传递"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>为什么说Java中只有值传递 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%80%BC%E4%BC%A0%E9%80%92%E4%B8%8E%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92"><span class="nav-number">1.</span> <span class="nav-text">什么是值传递与引用传递</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B1%82%E5%80%BC%E7%AD%96%E7%95%A5"><span class="nav-number">2.</span> <span class="nav-text">什么是求值策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E5%80%BC%E8%B0%83%E7%94%A8%EF%BC%88%E5%80%BC%E4%BC%A0%E9%80%92%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">传值调用（值传递）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E5%BC%95%E7%94%A8%E8%B0%83%E7%94%A8%EF%BC%88%E5%BC%95%E7%94%A8%E4%BC%A0%E9%80%92%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">传引用调用（引用传递）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E5%85%B1%E4%BA%AB%E5%AF%B9%E8%B1%A1%E8%B0%83%E7%94%A8%EF%BC%88%E5%85%B1%E4%BA%AB%E5%AF%B9%E8%B1%A1%E4%BC%A0%E9%80%92%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">传共享对象调用（共享对象传递）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E7%9A%84%E6%B1%82%E5%80%BC%E7%AD%96%E7%95%A5"><span class="nav-number">2.4.</span> <span class="nav-text">Java 的求值策略</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">示例分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/27/%E5%90%8E%E7%AB%AF/JAVA/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4Java%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="为什么说Java中只有值传递 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为什么说Java中只有值传递
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-27 23:43:57" itemprop="dateCreated datePublished" datetime="2022-11-27T23:43:57+08:00">2022-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>为什么说 Java 中只有值传递？这个问题也颠覆了我学习&#x2F;工作多年的认知。最近也是拜读了<code>Hollis</code>的博客 <a target="_blank" rel="noopener" href="https://www.hollischuang.com/archives/2275">为什么说 Java 中只有值传递</a> 才有了新的认识，也欢迎大家去阅读原文。</p>
+<blockquote>
+<p>Hollis<br>张洪亮，阿里巴巴技术专家，51CTO 专栏作家，CSDN 博客专家，掘金优秀作者，《程序员的三门课》联合作者，《Java 工程师成神之路》系列文章作者。</p>
+</blockquote>
+<span id="more"></span>
+
+<p>回答这个问题，先需要明确几个概念<strong>什么是值传递与引用传递</strong>与<strong>什么是求值策略</strong>。</p>
+<h1 id="什么是值传递与引用传递"><a href="#什么是值传递与引用传递" class="headerlink" title="什么是值传递与引用传递"></a>什么是值传递与引用传递</h1><ul>
+<li><p>值传递（pass by value）<br>是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。<br>浓缩一下：<strong>会创建副本，函数中无法改变原始对象</strong>。</p>
+</li>
+<li><p>引用传递（pass by reference）<br>是指在调用函数时将实际参数的地址直接传递到函 数中，那么在函数中对参数所进行的修改，将影响到实际参数。<br>浓缩一下：<strong>不创建副本，函数中可以改变原始对象</strong>。</p>
+</li>
+</ul>
+<h1 id="什么是求值策略"><a href="#什么是求值策略" class="headerlink" title="什么是求值策略"></a>什么是求值策略</h1><p>在计算机科学中，<strong>求值策略</strong>（Evaluation strategies）是确定编程语言中表达式的求值的一组（通常确定性的）规则。求值策略定义何时和以何种顺序求值给函数的实际参数、什么时候把它们代换入函数、和代换以何种形式发生。</p>
+<p>求值策略分为两大基本类，基于如何处理给函数的实际参数，分为严格的和非严格的。在“严格求值”中，函数调用过程中，给函数的实际参数总是在应用这个函数之前求值。多数现存编程语言对函数都使用严格求值。在这里我们只讨论严格求值。</p>
+<p>在严格求值中有几个关键的求值策略是我们比较关心的，那就是<strong>传值调用</strong>（Call by value）、<strong>传引用调用</strong>（Call by reference）以及<strong>传共享对象调用</strong>（Call by sharing）。</p>
+<h2 id="传值调用（值传递）"><a href="#传值调用（值传递）" class="headerlink" title="传值调用（值传递）"></a>传值调用（值传递）</h2><p>在传值调用中，实际参数先被求值，然后其值通过复制，被传递给被调函数的形式参数。因为形式参数拿到的只是一个”局部拷贝”，所以如果在被调函数中改变了形式参数的值，并不会改变实际参数的值。</p>
+<h2 id="传引用调用（引用传递）"><a href="#传引用调用（引用传递）" class="headerlink" title="传引用调用（引用传递）"></a>传引用调用（引用传递）</h2><p>在传引用调用中，传递给函数的是它的实际参数的隐式引用而不是实参的拷贝。因为传递的是引用，所以，如果在被调函数中改变了形式参数的值，改变对于调用者来说是可见的。</p>
+<h2 id="传共享对象调用（共享对象传递）"><a href="#传共享对象调用（共享对象传递）" class="headerlink" title="传共享对象调用（共享对象传递）"></a>传共享对象调用（共享对象传递）</h2><p>传共享对象调用中，<strong>先获取到实际参数的地址，然后将其复制，并把该地址的拷贝传递给被调函数的形式参数</strong>。因为参数的地址都指向同一个对象，所以我们也称之为*“传共享对象”，所以，如果在被调函数中改变了形式参数的值，调用者是可以看到这种变化的。</p>
+<table>
+<thead>
+<tr>
+<th>求值策略</th>
+<th>是否创建副本</th>
+<th>是否改变原始对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>传值调用（值传递）</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>传引用调用（引用传递）</td>
+<td><strong>否</strong></td>
+<td><strong>是</strong></td>
+</tr>
+<tr>
+<td>传共享对象调用（共享对象传递）</td>
+<td><strong>否</strong></td>
+<td><strong>是</strong></td>
+</tr>
+</tbody></table>
+<p>共享对象传递的现象和引用传递也是一样的，那凭什么就说 Java 中的参数传递就一定是引用传递而不是共享对象传递呢？</p>
+<h2 id="Java-的求值策略"><a href="#Java-的求值策略" class="headerlink" title="Java 的求值策略"></a>Java 的求值策略</h2><blockquote>
+<p>《The Java™ Tutorials》中关于基本类型的描述：<br>Primitive arguments, such as an int or a double, are passed into methods by value. This means that any changes to the values of the para meters exist only within the scope of the method. When the method returns, the parameters are gone and any changes to them are lost.<br>即，原始参数通过值传递给方法。这意味着对参数值的任何更改都只存在于方法的范围内。当方法返回时，参数将消失，对它们的任何更改都将丢失。</p>
+</blockquote>
+<blockquote>
+<p>《The Java™ Tutorials》中关于对象传递的描述：<br>Reference data type parameters, such as objects, are also passed into methods by value. This means that when the method returns, the passed -in reference still references the same object as before. However, the values of the object’s fields can be changed in the method, if they have the proper access level.<br>引用数据类型参数(如对象)也按值传递给方法。这意味着，当方法返回时，传入的引用仍然引用与以前相同的对象。但是，如果对象字段具有适当的访问级别，则可以在方法中更改这些字段的值。</p>
+</blockquote>
+<p><strong>官方文档已经很明确的指出了，Java 就是值传递，只不过是把对象的引用当做值传递给方法。</strong> 也就是说，Java 中使用的求值策略就是传共享对象调用，Java 会将对象的地址的拷贝传递给被调函数的形式参数。</p>
+<h1 id="示例分析"><a href="#示例分析" class="headerlink" title="示例分析"></a>示例分析</h1><p>以下对象传递作为示例进行分析究竟是值传递还是引用传递。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Test&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Test test = new Test();</span><br><span class="line">        User user = new User();</span><br><span class="line">        user.setName(&quot;张三&quot;);</span><br><span class="line">        test.pass(user);</span><br><span class="line">        System.out.println(user.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void pass(User user) &#123;</span><br><span class="line">        user = new User();</span><br><span class="line">        user.setName(&quot;李四&quot;);</span><br><span class="line">        System.out.println(user.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果是引用传递</p>
+
+<p>如图，如果是引用传递，应该打印<code>李四</code>、<code>李四</code>。</p>
+</li>
+<li><p>如果是值传递(特例:传共享对象调用)</p>
+
+<p>如图，如果是值传递(特例:传共享对象调用)，应该打印<code>李四</code>、<code>张三</code>。没错，结论正是<code>李四</code>、<code>张三</code>。</p>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Java 中原始参数通过值传递给方法，而对象传递的求值策略是共享对象传递，共享对象传递是一种值传递的特例。值传递和引用传递最大的区别是传递的过程中有没有复制出一个副本来，如果是传递副本，那就是值传递，否则就是引用传递。<strong>在 Java 中是通过值传递实现的参数传递，只不过对于 Java 对象的传递，传递的内容是对象的引用。</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/" rel="prev" title="蓝牙定位技术">
+                  <i class="fa fa-chevron-left"></i> 蓝牙定位技术
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/04/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/5G-UWB-%E8%93%9D%E7%89%99%E8%9E%8D%E5%90%88%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/" rel="next" title="5G+UWB/蓝牙融合定位技术">
+                  5G+UWB/蓝牙融合定位技术 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

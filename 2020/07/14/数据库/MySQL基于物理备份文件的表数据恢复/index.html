@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="当我们遇到只有MySQL5.7的物理备份文件但只想恢复部分表数据，或者物理文件损坏无法恢复时，可以参照该文档恢复表数据。该文档的前提是 .frm 、 .idb 文件正常。恢复过程分为 2 个步骤：恢复表结构 、恢复表数据 。如果我们已经有了表结构脚本，则可直接进入第二步。 恢复的前提是：首先你需要有一台 MySQL 服务器，创建一个数据库。示例中创建的数据叫demo，需要恢复的表也叫demo。 注">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL基于物理备份文件的表数据恢复">
+<meta property="og:url" content="http://example.com/2020/07/14/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E7%9A%84%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="当我们遇到只有MySQL5.7的物理备份文件但只想恢复部分表数据，或者物理文件损坏无法恢复时，可以参照该文档恢复表数据。该文档的前提是 .frm 、 .idb 文件正常。恢复过程分为 2 个步骤：恢复表结构 、恢复表数据 。如果我们已经有了表结构脚本，则可直接进入第二步。 恢复的前提是：首先你需要有一台 MySQL 服务器，创建一个数据库。示例中创建的数据叫demo，需要恢复的表也叫demo。 注">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-14T05:33:32.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.831Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2020/07/14/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E7%9A%84%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2020/07/14/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E7%9A%84%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/","path":"2020/07/14/数据库/MySQL基于物理备份文件的表数据恢复/","title":"MySQL基于物理备份文件的表数据恢复"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MySQL基于物理备份文件的表数据恢复 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">恢复表结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D%E8%A1%A8%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">恢复表数据</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/14/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E7%9A%84%E8%A1%A8%E6%95%B0%E6%8D%AE%E6%81%A2%E5%A4%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MySQL基于物理备份文件的表数据恢复 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL基于物理备份文件的表数据恢复
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-14 13:33:32" itemprop="dateCreated datePublished" datetime="2020-07-14T13:33:32+08:00">2020-07-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>当我们遇到只有<code>MySQL5.7</code>的物理备份文件但只想恢复部分表数据，或者物理文件损坏无法恢复时，可以参照该文档恢复表数据。该文档的前提是 <strong>.frm</strong> 、 <strong>.idb</strong> 文件正常。<br>恢复过程分为 2 个步骤：<strong>恢复表结构</strong> 、<strong>恢复表数据</strong> 。如果我们已经有了表结构脚本，则可直接进入第二步。</p>
+<p>恢复的前提是：首先你需要有一台 MySQL 服务器，创建一个数据库。示例中创建的数据叫<strong>demo</strong>，需要恢复的表也叫<strong>demo</strong>。</p>
+<p><code>注意</code>：仅支持 InnoDB 数据库引擎。</p>
+<span id="more"></span>
+
+<h1 id="恢复表结构"><a href="#恢复表结构" class="headerlink" title="恢复表结构"></a>恢复表结构</h1><ol>
+<li>创建同名表。即这张表的名字要和要恢复的.frm 或者.ibd 一致。字段名称、类型、数量等则可随意。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table demo(f1 int);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>关闭数据库服务</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql stop</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>覆盖 demo.frm 文件<br>将要恢复的 demo.frm 文件覆盖新建数据库的 demo 表的 demo.frm 文件。<br>参考目录： <strong>&#x2F;zhangqin&#x2F;data&#x2F;mysql&#x2F;demo&#x2F;</strong> 。具体参见安装数据时配置的数据目录。</p>
+</li>
+<li><p>设置 innodb_force_recovery<br>修改数据库配置文件&#x2F;etc&#x2F;my.cnf，文件的最后加上：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innodb_force_recovery = 6</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>启动数据库服务</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql start</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>查看表结构（SQL 语句）<br>登录数据库使用命令查看表结构，可使用 navicat 执行命令。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc demo</span><br></pre></td></tr></table></figure>
+
+<p>执行报以下错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1146 (42S02) Table ‘demo.demo’ doesn&#x27;t exist</span><br></pre></td></tr></table></figure>
+
+<p>针对这个问题，我们可以通过查看 mysql 的日志文件来解决，查看 <strong>&#x2F;zhangqin&#x2F;data&#x2F;mysql&#x2F;</strong> 文件夹里面.err 结尾的文件，你会发现出现下面所示的错误信息：[Warning] InnoDB: Table demo&#x2F;demo contains 1 user defined columns in InnoDB, but 6 columns in MySQL. 是因为，我们要恢复的表有 6 个字段，而我们在创建表的时候只创建了 1 个字段。</p>
+<ol start="7">
+<li>重建 demo 表并获得表结构<blockquote>
+<p>关闭数据库服务 -&gt; 注释&#x2F;etc&#x2F;my.cnf 中的 innodb_force_recovery &#x3D; 6 -&gt; 启动数据库服务 -&gt; 删除 demo 表（详见 7.1） -&gt; 创建 6 个字段 demo 表（详见 7.2） -&gt; 重新执行以上步骤 1-6，出现表结构 -&gt; navicat 中复制 ddl 语句(其他工具均可) -&gt; DDL 语句最后增加 ROW_FORMAT&#x3D;COMPACT （详见 7.3）。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>7.1 删除 demo 表（SQL 语句）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop table demo</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>7.2 创建 demo 表（SQL 语句）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">create table demo(</span><br><span class="line">f1 int,</span><br><span class="line">f2 int,</span><br><span class="line">f3 int,</span><br><span class="line">f4 int,</span><br><span class="line">f5 int,</span><br><span class="line">f6 int,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>7.3 DDL 示例</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `demo` (</span><br><span class="line">  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT &#x27;主键ID&#x27;,</span><br><span class="line">  `creator_id` bigint(20) NOT NULL COMMENT &#x27;创建人ID&#x27;,</span><br><span class="line">  `modifier_id` bigint(20) DEFAULT NULL COMMENT &#x27;修改人ID&#x27;,</span><br><span class="line">  `gmt_create` datetime NOT NULL COMMENT &#x27;创建时间&#x27;,</span><br><span class="line">  `gmt_modified` datetime DEFAULT NULL COMMENT &#x27;修改时间&#x27;,</span><br><span class="line">  `is_deleted` tinyint(4) NOT NULL DEFAULT &#x27;0&#x27; COMMENT &#x27;删除标识：0-&gt;未删除；1-&gt;已删除&#x27;,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;表数据恢复DEMO表&#x27; ROW_FORMAT=COMPACT;</span><br></pre></td></tr></table></figure>
+
+<p><code>注意</code>：DDL 的末尾需要添加<strong>ROW_FORMAT&#x3D;COMPACT</strong>。</p>
+<ol start="8">
+<li>恢复表结构<blockquote>
+<p>关闭数据库服务 -&gt; 注释掉&#x2F;etc&#x2F;my.cnf 中的 innodb_force_recovery &#x3D; 6 -&gt; 启动数据库服务 -&gt; 删除 demo 表 -&gt; 执行刚才复制出的 DDL 语句 -&gt; 表结构恢复完成。</p>
+</blockquote>
+</li>
+</ol>
+<h1 id="恢复表数据"><a href="#恢复表数据" class="headerlink" title="恢复表数据"></a>恢复表数据</h1><ol>
+<li>解除.frm、.idb 文件绑定（SQL 语句）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table demo discard tablespace;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>关闭数据库服务<br>略。</p>
+</li>
+<li><p>覆盖 demo.idb 文件<br>参考目录： <strong>&#x2F;zhangqin&#x2F;data&#x2F;mysql&#x2F;demo&#x2F;</strong> 。具体参见安装数据时配置的数据目录。</p>
+</li>
+<li><p>文件赋权</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 /zhangqin/data/mysql/demo/demo.idb</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>启动数据服务<br>略</p>
+</li>
+<li><p>恢复.frm、.idb 文件绑定（SQL 语句）</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table demo import tablespace;</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>至此，完成。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/12/14/%E5%90%8E%E7%AB%AF/JAVA/JCE%E6%97%A0%E9%99%90%E5%BC%BA%E5%BA%A6%E7%AE%A1%E8%BE%96%E6%9D%83%E7%AD%96%E7%95%A5%E6%96%87%E4%BB%B6%E8%A7%A3%E9%87%8A/" rel="prev" title="JCE无限强度管辖权策略文件解释">
+                  <i class="fa fa-chevron-left"></i> JCE无限强度管辖权策略文件解释
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/07/18/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL%E5%A2%9E%E9%87%8F%E6%B6%88%E6%81%AF%E8%A7%A3%E6%9E%90%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E7%9A%84%E6%80%9D%E8%80%83/" rel="next" title="MySQL增量消息解析机制与应用场景的思考">
+                  MySQL增量消息解析机制与应用场景的思考 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

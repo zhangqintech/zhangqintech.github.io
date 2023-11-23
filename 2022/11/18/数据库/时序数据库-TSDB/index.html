@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="时序数据库全称为时间序列数据库。时间序列数据库指主要用于处理带时间标签（按照时间的顺序变化，即时间序列化）的数据，带时间标签的数据也称为时间序列数据。 时间序列数据库广泛应用于物联网（IoT）系统 ，企业能源管理系统（EMS），生产安全监控系统，电力检测系统等行业场景的专业数据库产品，提供百万高效写入，高压缩比低成本存储、预降采样、插值、多维聚合计算，查询结果可视化功能；解决由于设备采集点数量巨大">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时序数据库 TSDB">
+<meta property="og:url" content="http://example.com/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="时序数据库全称为时间序列数据库。时间序列数据库指主要用于处理带时间标签（按照时间的顺序变化，即时间序列化）的数据，带时间标签的数据也称为时间序列数据。 时间序列数据库广泛应用于物联网（IoT）系统 ，企业能源管理系统（EMS），生产安全监控系统，电力检测系统等行业场景的专业数据库产品，提供百万高效写入，高压缩比低成本存储、预降采样、插值、多维聚合计算，查询结果可视化功能；解决由于设备采集点数量巨大">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8E%92%E5%90%8D.jpg">
+<meta property="article:published_time" content="2022-11-18T09:30:23.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.838Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="TSDB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8E%92%E5%90%8D.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/","path":"2022/11/18/数据库/时序数据库-TSDB/","title":"时序数据库 TSDB"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>时序数据库 TSDB | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">特点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">3.1.</span> <span class="nav-text">数据写入的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">数据存储的特点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94"><span class="nav-number">4.</span> <span class="nav-text">对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%BA%90-TSDB"><span class="nav-number">4.1.</span> <span class="nav-text">开源 TSDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#InfluxDB"><span class="nav-number">4.1.1.</span> <span class="nav-text">InfluxDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenTSDB"><span class="nav-number">4.1.2.</span> <span class="nav-text">OpenTSDB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BD%E4%BA%A7-TSDB"><span class="nav-number">4.2.</span> <span class="nav-text">国产 TSDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DolphinDB"><span class="nav-number">4.2.1.</span> <span class="nav-text">DolphinDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TDengine"><span class="nav-number">4.2.2.</span> <span class="nav-text">TDengine</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-IoTDB"><span class="nav-number">4.2.3.</span> <span class="nav-text">Apache IoTDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BF%E9%87%8C-TSDB"><span class="nav-number">4.2.4.</span> <span class="nav-text">阿里 TSDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%85%BE%E8%AE%AF-CTSDB"><span class="nav-number">4.2.5.</span> <span class="nav-text">腾讯 CTSDB</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="时序数据库 TSDB | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          时序数据库 TSDB
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-18 17:30:23" itemprop="dateCreated datePublished" datetime="2022-11-18T17:30:23+08:00">2022-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>时序数据库</strong>全称为时间序列数据库。时间序列数据库指主要用于处理带时间标签（按照时间的顺序变化，即时间序列化）的数据，带时间标签的数据也称为时间序列数据。</p>
+<p>时间序列数据库广泛应用于<code>物联网（IoT）系统</code> ，企业能源管理系统（EMS），生产安全监控系统，电力检测系统等行业场景的专业数据库产品，提供百万高效写入，高压缩比低成本存储、预降采样、插值、多维聚合计算，查询结果可视化功能；<strong>解决由于设备采集点数量巨大，数据采集频率高，造成的存储成本高，写入和查询分析效率低的问题</strong>。</p>
+<span id="more"></span>
+
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><ul>
+<li><p>度量 Metric<br><code>Metric</code> 类似关系型数据库里的表（Table），代表一系列同类时序数据的集合，例如为空气质量传感器建立一个 Table，存储所有传感器的监测数据。</p>
+</li>
+<li><p>标签 Tag<br><code>Tag</code> 描述数据源的特征，通常不随时间变化，例如传感器设备，包含设备 DeviceId、设备所在的 Region 等 Tag 信息，数据库内部会自动为 Tag 建立索引，支持根据 Tag 来进行多维检索查询；Tag 由 <code>Tag Key</code>、<code>Tag Value</code> 组成，两者均为 String 类型。</p>
+</li>
+<li><p>时间戳 Timestamp<br><code>Timestamp</code> 代表数据产生的时间点，可以写入时指定，也可由系统自动生成；</p>
+</li>
+<li><p>量测值 Field<br><code>Field</code> 描述数据源的量测指标，通常随着时间不断变化，例如传感器设备包含温度、湿度等 Field；</p>
+</li>
+<li><p>数据点 Data Point<br>数据源在某个时间产生的某个量测指标值（Field Value）称为一个数据点，数据库查询、写入时按数据点数来作为统计指标；</p>
+</li>
+<li><p>时间线 Time Series<br>数据源的某一个指标随时间变化，形成时间线，<code>Metric + Tags + Field</code> 组合确定一条时间线；针对时序数据的计算包括降采样、聚合（sum、count、max、min 等）、插值等都基于时间线维度进行；</p>
+</li>
+</ul>
+<h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><p>时序数据库的应用场景在物联网和互联网 APM（应用性能管理）等场景应用比较多，下面是列举了一些时序数据库的应用场景，但不是全部：</p>
+<ul>
+<li><p>物联网<br>电梯、锅炉、机械、水表等各种联网设备；</p>
+</li>
+<li><p>互联网<br>服务器&#x2F;应用监测、用户访问日志、广告点击日志；</p>
+</li>
+<li><p>电力行业<br>智能电表、电网、发电设备的集中监测；</p>
+</li>
+<li><p>交通行业<br>实时路况、路口流量监测、卡口数据；</p>
+</li>
+<li><p>金融行业<br>交易记录、存取记录、ATM、POS 机监测；</p>
+</li>
+<li><p>公共安全<br>上网记录、通话记录、个体追踪、区间筛选；</p>
+</li>
+</ul>
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><blockquote>
+<p>具有不变性、唯一性、时间排序性。</p>
+</blockquote>
+<ul>
+<li><p>时序数据是基于时间的一系列的数据。在有时间的坐标中将这些数据点连成线，往过去看可以做成多纬度报表，揭示其趋势性、规律性、异常性；往未来看可以做大数据分析，机器学习，实现预测和预警。</p>
+</li>
+<li><p>时序数据库就是存放时序数据的数据库，并且需要支持时序数据的快速写入、持久化、多纬度的聚合查询等基本功能。</p>
+</li>
+</ul>
+<h2 id="数据写入的特点"><a href="#数据写入的特点" class="headerlink" title="数据写入的特点"></a>数据写入的特点</h2><ul>
+<li><p>写入平稳、持续、高并发高吞吐<br>时序数据的写入是比较平稳的，这点与应用数据不同，应用数据通常与应用的访问量成正比，而应用的访问量通常存在波峰波谷。时序数据的产生通常是以一个固定的时间频率产生，不会受其他因素的制约，其数据生成的速度是相对比较平稳的。</p>
+</li>
+<li><p>写多读少<br>时序数据上 95%-99%的操作都是写操作，是典型的写多读少的数据。这与其数据特性相关，例如监控数据，你的监控项可能很多，但是你真正去读的可能比较少，通常只会关心几个特定的关键指标或者在特定的场景下才会去读数据。</p>
+</li>
+<li><p>实时写入最近生成的数据，无更新<br>时序数据的写入是实时的，且每次写入都是最近生成的数据，这与其数据生成的特点相关，因为其数据生成是随着时间推进的，而新生成的数据会实时的进行写入。数据写入无更新，在时间这个维度上，随着时间的推进，每次数据都是新数据，不会存在旧数据的更新，不过不排除人为的对数据做订正。</p>
+</li>
+</ul>
+<h2 id="数据存储的特点"><a href="#数据存储的特点" class="headerlink" title="数据存储的特点"></a>数据存储的特点</h2><ul>
+<li><p>数据量大<br>拿监控数据来举例，如果我们采集的监控数据的时间间隔是 1s，那一个监控项每天会产生 86400 个数据点，若有 10000 个监控项，则一天就会产生 864000000 个数据点。在物联网场景下，这个数字会更大。整个数据的规模，是 TB 甚至是 PB 级的。</p>
+</li>
+<li><p>冷热分明<br>时序数据有非常典型的冷热特征，越是历史的数据，被查询和分析的概率越低。</p>
+</li>
+<li><p>具有时效性<br>时序数据具有时效性，数据通常会有一个保存周期，超过这个保存周期的数据可以认为是失效的，可以被回收。一方面是因为越是历史的数据，可利用的价值越低；另一方面是为了节省存储成本，低价值的数据可以被清理。</p>
+</li>
+<li><p>多精度数据存储<br>在查询的特点里提到时序数据出于存储成本和查询效率的考虑，会需要一个多精度的查询，同样也需要一个多精度数据的存储。</p>
+</li>
+</ul>
+<h1 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h1><p>先上个最新的时序数据库排行榜，数据来自权威的<a target="_blank" rel="noopener" href="https://db-engines.com/en/ranking/time+series+dbms">DB-Engines</a>。</p>
+<img src="/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E6%8E%92%E5%90%8D.jpg" class="" title="[]">
+
+<p>一共 38 个时序数据库参与了排名，其中第 9 名<code>DolphinDB</code>、第 13 名<code>TDengine</code>、第 19 名<code>Apache IoTDB</code>、第 35 名<code>Alibaba Cloud TSDB</code>属于国产数据库。除开 3 个 0 分的并列 36 名，<code>Alibaba Cloud TSDB</code> 竟然垫底了。当然也有许多优秀也有又有的国产数据库未上榜，如腾讯的<code>CTSDB</code>等。</p>
+<h2 id="开源-TSDB"><a href="#开源-TSDB" class="headerlink" title="开源 TSDB"></a>开源 TSDB</h2><h3 id="InfluxDB"><a href="#InfluxDB" class="headerlink" title="InfluxDB"></a>InfluxDB</h3><p>排名第一、关注度最高、社区活跃的开源时序数据库。官方是这样介绍 InfluxDB 的（翻译后）：</p>
+<blockquote>
+<p>InfluxDB 是一个从底层一步一步成长为能处理高写入，高查询的时序数据库，它专门针对时序数据做了优化，让其更高性能，他可以用来存储任何时序数据，包括<code>DevOps的监控</code>、<code>应用指标</code>、<code>物联网传感器数据</code>，并实时分析。</p>
+</blockquote>
+<h3 id="OpenTSDB"><a href="#OpenTSDB" class="headerlink" title="OpenTSDB"></a>OpenTSDB</h3><p>OpenTSDB 是可扩展的分布式时序数据库，底层依赖 HBase。作为基于通用存储开发的时序数据库典型代表，起步比较早，在时序市场的认可度相对较高。</p>
+<h2 id="国产-TSDB"><a href="#国产-TSDB" class="headerlink" title="国产 TSDB"></a>国产 TSDB</h2><h3 id="DolphinDB"><a href="#DolphinDB" class="headerlink" title="DolphinDB"></a>DolphinDB</h3><p><a target="_blank" rel="noopener" href="https://dolphindb.cn/">DolphinDB</a>是由浙江智臾科技有限公司研发的一款高性能分布式时序数据库，集成了功能强大的编程语言和高容量高速度的流数据分析系统，为海量结构化数据的快速存储、检索、分析及计算提供一站式解决方案，适用于量化金融及工业物联网等领域。</p>
+<h3 id="TDengine"><a href="#TDengine" class="headerlink" title="TDengine"></a>TDengine</h3><p><a target="_blank" rel="noopener" href="https://www.taosdata.com/">TDengine</a> 是一款 <code>涛思数据</code> 开源、云原生的时序数据库，专为物联网、工业互联网、金融、IT 运维监控等场景设计并优化。它能让大量设备、数据采集器每天产生的高达 TB 甚至 PB 级的数据得到高效实时的处理，对业务的运行状态进行实时的监测、预警，从大数据中挖掘出商业价值。有 3 个版本：社区版、企业版、云服务版本。</p>
+<h3 id="Apache-IoTDB"><a href="#Apache-IoTDB" class="headerlink" title="Apache IoTDB"></a>Apache IoTDB</h3><p><a target="_blank" rel="noopener" href="https://iotdb.apache.org/">IoTDB</a> 是清华大学主导的 Apache 孵化项目，是一款专为物联网时序数据打造的数据库，提供数据采集、存储、分析的功能。</p>
+<p>IoTDB 提供端云一体化的解决方案，在云端，提供高性能的数据读写以及丰富的查询能力，针对物联网场景定制高效的目录组织结构，并与 Apache Hadoop、Spark、Flink 等大数据系统无缝打通；</p>
+<p>在边缘端，提供轻量化的 TsFile 管理能力，端上的数据写到本地 TsFile，并提供一定的基础查询能力，同时支持将 TsFile 数据同步到云端。</p>
+<blockquote>
+<p>TsFile 是为物联网设备时序数据存储定制的文件格式。</p>
+</blockquote>
+<h3 id="阿里-TSDB"><a href="#阿里-TSDB" class="headerlink" title="阿里 TSDB"></a>阿里 TSDB</h3><p>阿里云有两个版本的时序数据库：</p>
+<ul>
+<li>时序数据库 InfluxDB® 版<br>官方是这样介绍的：<blockquote>
+<p>专门处理高写入和查询负载的时序数据库，用于存储大规模的时序数据并进行实时分析，包括来自<code>DevOps监控</code>、<code>应用指标</code>和<code>IoT传感器</code>上的数据。</p>
+</blockquote>
+</li>
+</ul>
+<p>不得不说，确实是基于<code>InfluxDB®</code>的版本，官方介绍都是如此的相似。<code>®</code>这个图标应该是指<code>InfluxDB</code>授权吧，也就是云厂商通用的做法，授权后开源产品上云进行商业化。</p>
+<p>官网中也将阿里云的<code>InfluxDB®版</code>和开源版本<code>InfluxDB</code>做了对比，摘了以下两个优化点：</p>
+<blockquote>
+<p>根据规格和场景提供最优的参数配置，提供完善的进程恢复机制以及全自动的 ECS 故障转移机制。另外，具备比开源版本<code>InfluxDB</code>更完善的内存管理机制，实现了全自动 Load Shedding，从容应对瞬时冲击。具有磁盘即将写满的自动保护机制。<br>提供了图形化的控制台，方便进行基本的管理操作，避免学习 InfluxDB 复杂的基本管理命令。</p>
+</blockquote>
+<ul>
+<li>时间序列数据库 TSDB<br>高度兼容<code>OpenTSDB</code>协议。2022 年 02 月停止售卖~~~！这可是上了排行榜的呀，咋说停止就停止了。。。</li>
+</ul>
+<h3 id="腾讯-CTSDB"><a href="#腾讯-CTSDB" class="headerlink" title="腾讯 CTSDB"></a>腾讯 CTSDB</h3><p>时序数据库 CTSDB（TencentDB for CTSDB）是腾讯云推出的一款分布式、可扩展、支持近实时数据搜索与分析的时序数据库。该数据库为非关系型数据库，提供高效读写、低成本存储、强大的聚合分析能力、实例监控以及数据查询结果可视化等功能。整个系统采用多节点多副本的部署方式，有效保证了服务的高可用性和数据的高可靠性。</p>
+<p>引用官网的宣传语，即可明白 CTSDB 的优势方向：</p>
+<blockquote>
+<p>极高性能写入、查询、聚合，天生适用<strong>IoT</strong>和<strong>日志存储</strong>等场景。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/TSDB/" rel="tag"># TSDB</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/17/%E8%99%9A%E6%8B%9F%E5%8C%96/Docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93-Registry/" rel="prev" title="Docker私有仓库-Registry">
+                  <i class="fa fa-chevron-left"></i> Docker私有仓库-Registry
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/" rel="next" title="蓝牙定位技术">
+                  蓝牙定位技术 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

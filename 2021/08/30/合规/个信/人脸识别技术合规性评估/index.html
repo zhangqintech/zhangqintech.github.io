@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="随着我们用户量的提升与人脸开门的普及，我们主动邀请第三方公司进行了人脸识别技术合规性评估，以确保我们的人脸识别技术在合规的前提下为用户提供更好的体验。该文章非各行业通用业务场景的合规性评估经验，仅供参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人脸识别技术合规性评估">
+<meta property="og:url" content="http://example.com/2021/08/30/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8A%80%E6%9C%AF%E5%90%88%E8%A7%84%E6%80%A7%E8%AF%84%E4%BC%B0/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="随着我们用户量的提升与人脸开门的普及，我们主动邀请第三方公司进行了人脸识别技术合规性评估，以确保我们的人脸识别技术在合规的前提下为用户提供更好的体验。该文章非各行业通用业务场景的合规性评估经验，仅供参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-30T13:24:26.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.816Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/08/30/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8A%80%E6%9C%AF%E5%90%88%E8%A7%84%E6%80%A7%E8%AF%84%E4%BC%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/08/30/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8A%80%E6%9C%AF%E5%90%88%E8%A7%84%E6%80%A7%E8%AF%84%E4%BC%B0/","path":"2021/08/30/合规/个信/人脸识别技术合规性评估/","title":"人脸识别技术合规性评估"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>人脸识别技术合规性评估 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%8A%E7%9F%A5%E4%B8%8E%E5%90%8C%E6%84%8F"><span class="nav-number">1.</span> <span class="nav-text">告知与同意</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%B6%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">收集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%98%E5%82%A8"><span class="nav-number">3.</span> <span class="nav-text">存储</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93"><span class="nav-number">4.</span> <span class="nav-text">传输</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%A0%E9%99%A4"><span class="nav-number">5.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">数据安全管理</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/30/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8A%80%E6%9C%AF%E5%90%88%E8%A7%84%E6%80%A7%E8%AF%84%E4%BC%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="人脸识别技术合规性评估 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          人脸识别技术合规性评估
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-30 21:24:26" itemprop="dateCreated datePublished" datetime="2021-08-30T21:24:26+08:00">2021-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%88%E8%A7%84/" itemprop="url" rel="index"><span itemprop="name">合规</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/" itemprop="url" rel="index"><span itemprop="name">个信</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>随着我们用户量的提升与人脸开门的普及，我们主动邀请第三方公司进行了<strong>人脸识别技术合规性评估</strong>，以确保我们的人脸识别技术在合规的前提下为用户提供更好的体验。该文章非各行业通用业务场景的合规性评估经验，仅供参考。</p>
+<span id="more"></span>
+
+<h1 id="告知与同意"><a href="#告知与同意" class="headerlink" title="告知与同意"></a>告知与同意</h1><ol>
+<li>是否就人脸信息处理活动单独取得个人的同意，是否通过一揽子告知同意等方式征得个人同意</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《个人信息保护法》</li>
+</ul>
+<ol start="2">
+<li>是否针对不满十四周岁的未成年人设置专门的数据处理规则和政策，且内容表述清晰、易懂</li>
+</ol>
+<ul>
+<li>依据<br>《个人信息保护法》第 31 条<br>《儿童个人信息网络保护规定》第 8 条</li>
+</ul>
+<ol start="3">
+<li>线下场景录入人脸信息时是否完成了有效的告知并获取信息主体单独同意</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《个人信息保护法》</li>
+<li>建议<br>要求收集方在收集用户人脸识别信息时对该类信息的处理规则、目的等内容进行告知说明，方式可通过纸质协议模版&#x2F;二维码链接+手写&#x2F;勾选同意项.</li>
+</ul>
+<ol start="4">
+<li>是否使用人脸识别方式对不满十四周岁的未成年人进行身份识别</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《信息安全技术 人脸识别数据安全要求》</li>
+<li>建议<br>在录入未成年人人脸时可以由其监护人录入，或有相应告知监护人同意的流程</li>
+</ul>
+<ol start="5">
+<li>是否采用格式条款与自然人订立合同，要求自然人授予其无期限限制、不可撤销、可任意转授权等处理人脸信息的权利</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》</li>
+</ul>
+<ol start="6">
+<li>是否存在除用户同意以外的例外情形</li>
+</ol>
+<ul>
+<li>依据<br>《个人信息保护法》</li>
+</ul>
+<ol start="7">
+<li>是否公开处理人脸信息的规则或明示处理的目的、方式、范围；</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="8">
+<li>收集人脸信息前是否通过隐私协议等方式向人脸信息主体告知同意</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》<br>《网络安全法》第 41 条（经被收集者同意）<br>《民法典》第 1035 条（征得该自然人或者其监护人同意）<br>《消费者权益保护法》第 29 条（经消费者同意）<br>《个人信息保护法》</li>
+</ul>
+<ol start="9">
+<li>是否在人脸隐私协议中向人脸信息主体告知人脸信息存储时间</li>
+</ol>
+<ul>
+<li><p>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》《APP 收集使用个人信息最小必要评估规范人脸信息》<br>《网络安全法》第 41 条（经被收集者同意）<br>《民法典》第 1035 条（征得该自然人或者其监护人同意）<br>《消费者权益保护法》第 29 条（经消费者同意）<br>《个人信息保护法》第 17 条</p>
+</li>
+<li><p>建议<br>在人脸隐私协议中向人脸信息主体告知不同情况下人脸信息存储时间</p>
+</li>
+</ul>
+<ol start="10">
+<li>是否在人脸隐私协议中向人脸信息主体告知人脸信息处理方式</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》<br>《网络安全法》第 41 条（经被收集者同意）<br>《民法典》第 1035 条（征得该自然人或者其监护人同意）<br>《消费者权益保护法》第 29 条（经消费者同意）<br>《个人信息保护法》第 17 条</li>
+<li>建议<br>在人脸隐私协议中向人脸信息主体告知人脸信息处理方式为仅本地或远程识别</li>
+</ul>
+<ol start="11">
+<li>是否在人脸隐私协议中向人脸信息主体告知运营者的联系信息</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》<br>《网络安全法》第 41 条（经被收集者同意）<br>《民法典》第 1035 条（征得该自然人或者其监护人同意）<br>《消费者权益保护法》第 29 条（经消费者同意）<br>《个人信息保护法》第 17 条</li>
+</ul>
+<ol start="12">
+<li>是否在人脸隐私协议中向人脸信息主体告知人脸信息主体实现查看、修改、删除其人脸信息以及撤回其授权同意的方式</li>
+</ol>
+<ul>
+<li><p>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》<br>《网络安全法》第 41 条（经被收集者同意）<br>《民法典》第 1035 条（征得该自然人或者其监护人同意）<br>《消费者权益保护法》第 29 条（经消费者同意）<br>《个人信息保护法》</p>
+</li>
+<li><p>建议<br>在人脸隐私协议中向人脸信息主体告知人脸信息主体实现查看、修改、删除其人脸信息以及撤回其授权同意的方式</p>
+</li>
+</ul>
+<ol start="13">
+<li>是否在人脸隐私协议中向人脸信息主体告知人脸信息安全的责任部门的联系方式</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》《APP 收集使用个人信息最小必要评估规范人脸信息》<br>《网络安全法》第 41 条（经被收集者同意）<br>《民法典》第 1035 条（征得该自然人或者其监护人同意）<br>《消费者权益保护法》第 29 条（经消费者同意）<br>《个人信息保护法》</li>
+</ul>
+<ol start="14">
+<li>是否超过向人脸信息主体告知同意的范围收集人脸信息</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="15">
+<li>是否在人脸信息主体拒绝使用人脸识别功能或服务后，频繁提示以获取人脸信息主体对人脸识别方式的授权同意</li>
+</ol>
+<ul>
+<li>依据<br>《信息安全技术 人脸识别数据安全要求》</li>
+</ul>
+<ol start="16">
+<li>是否存在公开披露所收集人脸信息的业务场景，如有，是否征得了用户的单独同意</li>
+</ol>
+<ul>
+<li>依据<br>《个人信息保护法》第 2 条</li>
+</ul>
+<ol start="17">
+<li>在人脸信息处理规则发生变化时，是否以适当方式通知信息主体并征得信息主体的同意</li>
+</ol>
+<ul>
+<li>依据<br>《个人信息保护法》<br>《深圳经济特区数据条例》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="18">
+<li>向物业&#x2F;第三方提供其处理的人脸信息，是否告知接收方的名称、联系方式、处理目的方式和个人信息类型</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》<br>《网络安全法》第 41 条（经被收集者同意）<br>《民法典》第 1035 条（征得该自然人或者其监护人同意）<br>《消费者权益保护法》第 29 条（经消费者同意）<br>《个人信息保护法》</li>
+</ul>
+<h1 id="收集"><a href="#收集" class="headerlink" title="收集"></a>收集</h1><ol>
+<li>是否在与合作方的合作协议中明确双方针对个人信息的处理规则，要求客户获得个人信息主体的授权同意</li>
+</ol>
+<ul>
+<li><p>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》</p>
+</li>
+<li><p>建议<br>在合作协议中明确物业公司&#x2F;合作方作为数据控制者的应承担的责任以及物业公司&#x2F;合作方在数据处理环节所承担的角色，包括但不限于数据采集设备的安装位置的选择、如何采集、以及后续数据处理的方式和目的。同时建议对双方责任划分进行约定。</p>
+</li>
+</ul>
+<ol start="2">
+<li>是否同时提供非人脸识别的身份识别方式，并提供数据主体选择使用</li>
+</ol>
+<ul>
+<li><p>依据<br>《信息安全技术 远程人脸识别系统技术要求》<br>《信息安全技术 人脸识别数据安全要求》</p>
+</li>
+<li><p>建议<br>APP 应以明示的方式告知用户提供了多种身份识别方式可以选择。</p>
+</li>
+</ul>
+<ol start="3">
+<li>隐私政策涉及个人敏感信息(人脸信息)的，是否明确标识或突出显示</li>
+</ol>
+<ul>
+<li>依据<br>《个人信息安全规范》(2020) 5.5</li>
+</ul>
+<ol start="4">
+<li>人脸隐私政策难以阅读（文字过小过密、颜色过淡、模糊不清、未提供简体中文版等）</li>
+</ol>
+<ul>
+<li>依据<br>《认定方法》第一章第 4 条<br>《自评估指南》1.4</li>
+</ul>
+<ol start="5">
+<li>人脸识别数据不应用于除身份识别之外的其他目的，包括但不限于评估或预测数据主体工作表现、经济状况、健康状况、偏好、兴趣等。</li>
+</ol>
+<ul>
+<li>依据<br>《信息安全技术 人脸识别数据安全要求》</li>
+</ul>
+<ol start="6">
+<li>首次使用人脸识别技术或者升级人脸识别技术时，是否事先进行个人信息安全影响评估</li>
+</ol>
+<ul>
+<li>依据<br>《个人信息保护法》<br>《信息安全技术 个人信息安全规范》<br>《信息安全技术 个人信息安全影响评估指南》</li>
+</ul>
+<ol start="7">
+<li>是否对除人脸以外的其他个人敏感信息有个人信息保护影响评估</li>
+</ol>
+<ul>
+<li><p>依据<br>《个人信息保护法》第 55 条</p>
+</li>
+<li><p>建议<br>可以自行内部启动评估，但更建议由独立的第三方对企业进行个人信息保护影响评估，具体评估项可参考《个人信息保护法》和《个人信息安全影响评估指南》</p>
+</li>
+</ul>
+<ol start="8">
+<li>用于采集人脸识别数据的设备是否遵循相关标准要求</li>
+</ol>
+<ul>
+<li>依据<br>《信息安全技术 人脸识别数据安全要求》</li>
+</ul>
+<ol start="9">
+<li>在公共场合收集人脸识别数据时，是否设置数据主体主动配合人脸识别的机制</li>
+</ol>
+<ul>
+<li><p>依据<br>《信息安全技术 人脸识别数据安全要求》</p>
+</li>
+<li><p>建议<br>涉及公共场合收集人脸识别数据时，应当以明显标识说明“人脸识别”的专用收集通道&#x2F;区域范围。<br>尽可能在和数据控制者（物业）的合作协议的权利与义务一节中明确公司系受物业方委托并按照其要求安装人脸识别门禁设备，收集人脸识别信息</p>
+</li>
+</ul>
+<ol start="10">
+<li>当人脸信息主体不进行人脸识别时，APP 是否禁止人脸信息主体的正常使用</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="11">
+<li>是否欺骗误导胁迫人脸信息主体进行人脸识别</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="12">
+<li>在申请收集用户敏感信息（身份证号、银行账号、行踪轨迹等）时，未同步告知用户其目的（或者目的不明确、难以理解）</li>
+</ol>
+<ul>
+<li><p>依据<br>《认定方法》第二章第 3 条<br>《自评估指南》2.3</p>
+</li>
+<li><p>建议<br>App 在要求用户提供个人敏感信息（身份证号、银行账号、行踪轨迹等）时，通过显著的方式同步告知用户其目的，且目的明确、易懂。目的描述可在收集个人敏感信息界面，或在用户同意协议后的下一步弹窗提示。</p>
+</li>
+</ul>
+<ol start="13">
+<li>是否会基于人脸信息生成用户画像</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="14">
+<li>是否会基于人脸信息进行定向推送</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="14">
+<li>是否收集未授权自然人的人脸图像。</li>
+</ol>
+<ul>
+<li>依据<br>在公共场合收集人脸识别数据时，可以有标注“人脸识别”的专用收集通道或其他明显标识等，且提供给公安要有相应证明，对于无公函、政策文件等具有官方背书效力的文件支持的储存行为，应尽快改正，避免仅依照行业惯例自行储存人脸识别信息。</li>
+</ul>
+<ol start="15">
+<li>未建立并公布个人信息安全投诉、举报渠道</li>
+</ol>
+<ul>
+<li>依据<br>《认定方法》第六章第 5 条<br>《自评估指南》1.5<br>《自评估指南》6.3</li>
+</ul>
+<h1 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h1><ol>
+<li>是否将人脸信息与人脸信息主体的身份信息分开存储</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="2">
+<li>人脸信息是否采用授权访问方式读取，访问</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="3">
+<li>存储人脸识别比对信息时，是否通过密码技术、假名标识符等方式生成不可逆、可更新的人脸参考，并进行加密存储；</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="4">
+<li>是否只存储满足人脸信息主体授权同意的目的所需的最少人脸信息；</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<h1 id="传输"><a href="#传输" class="headerlink" title="传输"></a>传输</h1><ol>
+<li>人脸识别是本地验证，在本地完成人脸比对后，是否将人脸信息传输至远程服务器</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="2">
+<li>收集或产生的人脸识别数据是否出境</li>
+</ol>
+<ul>
+<li>依据<br>《数据安全法》第三十一条</li>
+</ul>
+<ol start="3">
+<li>是否委托第三方处理个人信息</li>
+</ol>
+<ul>
+<li>依据<br>《个人信息保护法》第 21 条<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="4">
+<li>App 是否使用明文传输个人信息，人脸信息</li>
+</ol>
+<ul>
+<li><p>依据<br>App 治理工作组 2020.11.13 通报<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</p>
+</li>
+<li><p>建议<br>App 在传输个人信息和人脸信息时，应使用 https 协议传输并进行证书效验，且个人敏感信息应加密。</p>
+</li>
+</ul>
+<ol start="5">
+<li>既未经用户同意，也未做匿名化处理，App 直接向第三方（第三方 SDK、插件）提供人脸信息</li>
+</ol>
+<ul>
+<li>依据<br>《认定方法》第五章第 1 条<br>《自评估指南》5.1<br>工信部 337 号令第 3 条：“私自共享给第三方”<br>工信部 164 号令第 3 条：“违规使用个人信息”<br>App 用户权益保护测评规范 违规使用个人信息</li>
+</ul>
+<ol start="6">
+<li>是否共享、转让人脸识别数据。</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><ol>
+<li>客户端是否在完成验证或辨识后立即删除未获得授权的用户的人脸图像</li>
+</ol>
+<ul>
+<li>依据<br>《信息安全技术 人脸识别数据安全要求》</li>
+</ul>
+<ol start="2">
+<li>APP 提供的删除方法或途径是否便于人脸信息主体查找和操作</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="3">
+<li>未提供有效的更正、删除个人信息（人脸信息）功能</li>
+</ol>
+<ul>
+<li>依据<br>《最高人民法院关于审理使用人脸识别技术处理个人信息相关民事案件适用法律若干问题的规定》<br>《认定方法》第六章第 1 条<br>《自评估指南》6.2<br>《个人信息安全规范》(2020) 8.2<br>《个人信息安全规范》(2020) 8.3</li>
+</ul>
+<ol start="4">
+<li>超出存储期限后，是否及时对人脸信息进行删除</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<ol start="5">
+<li>是否给人脸信息设置不合理的删除条件</li>
+</ol>
+<ul>
+<li>依据<br>《APP 收集使用个人信息最小必要评估规范人脸信息》</li>
+</ul>
+<h1 id="数据安全管理"><a href="#数据安全管理" class="headerlink" title="数据安全管理"></a>数据安全管理</h1><ol>
+<li>检查目标系统是否通过等级保护测评，检查是否存在等级保护测评报告</li>
+</ol>
+<ul>
+<li>依据<br>《中华人民共和国网络安全法》 第二十一条</li>
+</ul>
+<ol start="2">
+<li>检查是否设置数据安全管理相关岗位，岗位负责人是否明确，检查相应管理制度</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第七十三条<br>《数据安全法》第二十七条<br>《个人信息保护法》第五十二条</li>
+</ul>
+<ol start="3">
+<li>数据处理者应当对其数据处理全流程进行记录，保障数据来源合法以及处理全流程清晰、可追溯。</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第七十五条<br>《数据安全法》第二十七条</li>
+</ul>
+<ol start="4">
+<li>询问是否针对敏感个人数据或重要数据制定去标识化等安全措施；</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第七十六条<br>《信息安全技术 个人信息安全规范》 6.3</li>
+</ul>
+<ol start="5">
+<li>询问数据分类分级的情况，以及是否存在对敏感个人数据的特殊保护措施（如加密）；</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第七十七条<br>《个人信息保护法》第五十一条<br>《数据安全法》第二十一条</li>
+</ul>
+<ol start="6">
+<li>询问数据处理的安全防护技术以及容灾备份制度；</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第七十八条</li>
+</ul>
+<ol start="7">
+<li>数据处理者共享、开放数据的，是否建立数据共享、开放安全管理制度，建立和完善对外数据接口的安全管理机制。</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第七十九条</li>
+</ul>
+<ol start="8">
+<li>数据处理者是否建立数据销毁规程,对需要销毁的数据实施有效销毁。</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第八十条</li>
+</ul>
+<ol start="9">
+<li>询问是否存在数据处理委托的情况，以及对数据销毁的相关约定，检查是否存在相关合同以及对于上述约定的证明材料；</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第八十一条<br>《个人信息保护法》第二十一条</li>
+</ul>
+<ol start="10">
+<li>数据处理者是否落实与数据安全防护级别相适应的监测预警措施，对数据泄露、毁损、丢失、篡改等异常情况进行监测和预警。</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第八十三条<br>《数据安全法》第二十九条</li>
+</ul>
+<ol start="11">
+<li>监测到发生或者可能发生数据泄露、毁损、丢失、篡改等数据安全事件的，数据处理者是否立即采取补救、预防措施。</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第八十三条<br>《个人信息保护法》第五十七条<br>《网络安全法》第四十二条</li>
+</ul>
+<ol start="12">
+<li>检查是否定期开展风险评估，检查是否存在风险评估报告以及其他相关记录材料；</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第八十四条<br>《个人信息保护法》第五十五条<br>《数据安全法》第三十条<br>《个人信息安全影响评估影响指南》</li>
+</ul>
+<ol start="13">
+<li>数据处理者是否建立数据安全应急处置机制，制定数据安全应急预案。数据安全应急预案是否按照危害程度、影响范围等因素对数据安全事件进行分级，并规定相应的应急处置措施。</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第八十五条<br>《个人信息保护法》第五十一条</li>
+</ul>
+<ol start="14">
+<li>当发生数据泄露、毁损、丢失、篡改等数据安全事件时，数据处理者是否立即启动应急预案，采取相应的应急处置措施，及时告知相关权利人，并按照有关规定向市网信、公安部门和有关行业主管部门报告。</li>
+</ol>
+<ul>
+<li>依据<br>《深圳经济特区数据条例》第八十六条</li>
+</ul>
+<ol start="15">
+<li>个人信息处理者是否根据个人信息的处理目的、处理方式、个人信息的种类以及对个人的影响、可能存在的安全风险等，采取必要措施确保个人信息处理活动符合法律、行政法规的规定，并防止未经授权的访问以及个人信息泄露或者被窃取、篡改、删除:，是否合理确定个人信息处理的操作权限，并定期对从业人员进行安全教育和培训；</li>
+</ol>
+<ul>
+<li>依据<br>《个人信息保护法》第五十一条</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/07/%E8%99%9A%E6%8B%9F%E5%8C%96/DockerCompose%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" rel="prev" title="DockerCompose入门笔记">
+                  <i class="fa fa-chevron-left"></i> DockerCompose入门笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/11/%E7%90%86%E8%AE%BA/%E5%8D%97%E5%90%91%E6%8E%A5%E5%8F%A3%E4%B8%8E%E5%8C%97%E5%90%91%E6%8E%A5%E5%8F%A3/" rel="next" title="南向接口与北向接口">
+                  南向接口与北向接口 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

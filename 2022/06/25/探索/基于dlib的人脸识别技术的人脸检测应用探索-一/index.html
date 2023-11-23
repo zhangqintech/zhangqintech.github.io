@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="原先我们的门禁系统在录入人脸照片时，会调用阿里云视觉智能开放平台进行人脸检测与五官定位，初步的判定照片的质量。现在项目里有内网私有化部署的需求，云厂的接口不再可行，需要寻找一种本地人脸检测的方案。此系列博客的目的重点在于替代检测而非识别。关注识别的，可以暂时绕开，等待博主有场景需求时再更新。本文的示例基于 dlib 框架，不要问为什么，因为这个上手更简单。有限的时间里，先拿软柿子捏。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于dlib的人脸识别技术的人脸检测应用探索(一)">
+<meta property="og:url" content="http://example.com/2022/06/25/%E6%8E%A2%E7%B4%A2/%E5%9F%BA%E4%BA%8Edlib%E7%9A%84%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8A%80%E6%9C%AF%E7%9A%84%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%BA%94%E7%94%A8%E6%8E%A2%E7%B4%A2-%E4%B8%80/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="原先我们的门禁系统在录入人脸照片时，会调用阿里云视觉智能开放平台进行人脸检测与五官定位，初步的判定照片的质量。现在项目里有内网私有化部署的需求，云厂的接口不再可行，需要寻找一种本地人脸检测的方案。此系列博客的目的重点在于替代检测而非识别。关注识别的，可以暂时绕开，等待博主有场景需求时再更新。本文的示例基于 dlib 框架，不要问为什么，因为这个上手更简单。有限的时间里，先拿软柿子捏。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%88%9D%E6%8E%A2/68%E4%B8%AA%E7%89%B9%E5%BE%81%E7%82%B9%E6%A0%87%E8%AE%B0.png">
+<meta property="og:image" content="http://example.com/images/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%88%9D%E6%8E%A2/%E7%85%A7%E7%89%87%E4%BA%BA%E8%84%B8%E5%80%BE%E6%96%9C%E8%A7%92%E5%BA%A6%E8%AE%A1%E7%AE%97.jpg">
+<meta property="article:published_time" content="2022-06-25T03:17:44.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.825Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%88%9D%E6%8E%A2/68%E4%B8%AA%E7%89%B9%E5%BE%81%E7%82%B9%E6%A0%87%E8%AE%B0.png">
+
+
+<link rel="canonical" href="http://example.com/2022/06/25/%E6%8E%A2%E7%B4%A2/%E5%9F%BA%E4%BA%8Edlib%E7%9A%84%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8A%80%E6%9C%AF%E7%9A%84%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%BA%94%E7%94%A8%E6%8E%A2%E7%B4%A2-%E4%B8%80/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/06/25/%E6%8E%A2%E7%B4%A2/%E5%9F%BA%E4%BA%8Edlib%E7%9A%84%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8A%80%E6%9C%AF%E7%9A%84%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%BA%94%E7%94%A8%E6%8E%A2%E7%B4%A2-%E4%B8%80/","path":"2022/06/25/探索/基于dlib的人脸识别技术的人脸检测应用探索-一/","title":"基于dlib的人脸识别技术的人脸检测应用探索(一)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>基于dlib的人脸识别技术的人脸检测应用探索(一) | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%B0%E8%A1%8C%E9%98%BF%E9%87%8C%E4%BA%91%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">现行阿里云方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.1.</span> <span class="nav-text">功能描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.2.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E8%89%B2%E4%BC%98%E5%8A%BF"><span class="nav-number">2.3.</span> <span class="nav-text">特色优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E9%99%90%E5%88%B6"><span class="nav-number">2.4.</span> <span class="nav-text">输入限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.5.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-dlib-%E7%9A%84%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">基于 dlib 的方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dlib-%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.1.</span> <span class="nav-text">dlib 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#face-recognition-%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.2.</span> <span class="nav-text">face_recognition 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E6%8A%8A-DEMO-%E8%B7%91%E8%B5%B7%E6%9D%A5"><span class="nav-number">3.3.</span> <span class="nav-text">先把 DEMO 跑起来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E4%BA%BA%E8%84%B8%E5%85%B3%E9%94%AE%E7%82%B9"><span class="nav-number">3.4.</span> <span class="nav-text">识别人脸关键点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94"><span class="nav-number">4.</span> <span class="nav-text">方案对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%89%B9%E5%BE%81%E7%82%B9"><span class="nav-number">4.1.</span> <span class="nav-text">关键特征点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E8%84%B8%E5%A7%BF%E6%80%81"><span class="nav-number">4.2.</span> <span class="nav-text">人脸姿态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/25/%E6%8E%A2%E7%B4%A2/%E5%9F%BA%E4%BA%8Edlib%E7%9A%84%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%8A%80%E6%9C%AF%E7%9A%84%E4%BA%BA%E8%84%B8%E6%A3%80%E6%B5%8B%E5%BA%94%E7%94%A8%E6%8E%A2%E7%B4%A2-%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="基于dlib的人脸识别技术的人脸检测应用探索(一) | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于dlib的人脸识别技术的人脸检测应用探索(一)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-06-25 11:17:44" itemprop="dateCreated datePublished" datetime="2022-06-25T11:17:44+08:00">2022-06-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8E%A2%E7%B4%A2/" itemprop="url" rel="index"><span itemprop="name">探索</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>原先我们的门禁系统在录入人脸照片时，会调用阿里云视觉智能开放平台进行人脸检测与五官定位，初步的判定照片的质量。现在项目里有内网私有化部署的需求，云厂的接口不再可行，需要寻找一种本地人脸检测的方案。<br>此系列博客的目的重点在于替代检测而非识别。关注识别的，可以暂时绕开，等待博主有场景需求时再更新。本文的示例基于 dlib 框架，不要问为什么，因为这个上手更简单。有限的时间里，先拿软柿子捏。</p>
+<span id="more"></span>
+
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>人脸检测是计算机视觉最典型的应用之一，早期 OpenCV 的 logo 就是 Haar 人脸检测的示意图。很多人的第一个 OpenCV 学习目标就是跑通 Haar 级联人脸检测，dlib 库在业内开始流行很大程度上是因为其 HOG-SVM 人脸检测比 OpenCV Haar 的好，而近年来 OpenCV 和 dlib 均已包含基于深度学习的人脸检测算法实现。</p>
+<h1 id="现行阿里云方案"><a href="#现行阿里云方案" class="headerlink" title="现行阿里云方案"></a>现行阿里云方案</h1><p>要想替代，先得了解他能做什么。我们目前采用的是阿里云视觉智能开放平台&gt;人脸人体&gt;人脸检测&gt;人脸检测与五官定位的功能。</p>
+<h2 id="功能描述"><a href="#功能描述" class="headerlink" title="功能描述"></a>功能描述</h2><p>人脸检测与五官定位能力可以检测图片中的人脸并给出每张人脸定位和关键点信息。输出人脸数量、人脸矩形坐标、人脸姿态、双瞳孔中心坐标、人脸置信度列表等信息。支持检测含有多张人脸的照片。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>人脸关键点检测，是后续识别、分析和特效应用的基础。它为人脸识别、表情分析、疲劳检测、三维人脸重建、人脸美颜、换脸等人脸相关应用提供了人脸精确信息。</p>
+<h2 id="特色优势"><a href="#特色优势" class="headerlink" title="特色优势"></a>特色优势</h2><ul>
+<li>稠密关键点：提供<strong>105</strong>个关键点，足以应对人脸识别、姿态矫正、换脸等要求高精度人脸定位的应用。</li>
+<li>适应能力强：适应最大 90 度侧脸，平面 360 旋转人脸等情景。适用于各种应用场景。</li>
+<li>支持多人脸：支持在同张图中检测上千个人脸。</li>
+</ul>
+<h2 id="输入限制"><a href="#输入限制" class="headerlink" title="输入限制"></a>输入限制</h2><ul>
+<li>图像格式：JPEG、JPG、PNG、BMP。</li>
+<li>图像大小：不超过 3 MB。</li>
+<li>图像分辨率：大于 32×32 像素，小于 4096×4096 像素，人脸占比不低于 64×64 像素。</li>
+<li>URL 地址中不能包含中文字符。</li>
+</ul>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;RequestId&quot; : &quot;E567D988-8072-43CF-B835-7AEF09FC5C1C&quot;,</span><br><span class="line">  &quot;Data&quot; : &#123;</span><br><span class="line">    &quot;FaceProbabilityList&quot; : 0.929632306098938,</span><br><span class="line">    &quot;LandmarkCount&quot; : 105,</span><br><span class="line">    &quot;FaceRectangles&quot; : [ 144, 18, 326, 405 ],</span><br><span class="line">    &quot;Landmarks&quot; : [ 177.1269073486328, 141.56689453125, 271.990478515625, 137.91294860839844, 223.6563262939453, 123.32662200927734, 224.28944396972656, 137.8303985595703, 190.42523193359375, 133.11012268066406, 206.60804748535156, 125.30608367919922, 240.8021240234375, 125.39529418945312, 257.24346923828125, 128.51979064941406, 191.29269409179688, 141.09840393066406, 207.5005645751953, 138.24703979492188, 240.81582641601562, 140.5307159423828, 257.2742004394531, 143.53077697753906, 343.474609375, 135.4432373046875, 441.0479736328125, 136.6552276611328 ],</span><br><span class="line">    &quot;Qualities&quot; : &#123;</span><br><span class="line">      &quot;NoiseList&quot; : 96.94622039794922,</span><br><span class="line">      &quot;ScoreList&quot; : 98.24667358398438,</span><br><span class="line">      &quot;BlurList&quot; : 99.35592651367188,</span><br><span class="line">      &quot;MaskList&quot; : 99.75968170166016,</span><br><span class="line">      &quot;GlassList&quot; : 99.99040222167969,</span><br><span class="line">      &quot;FnfList&quot; : 100,</span><br><span class="line">      &quot;PoseList&quot; : 99.88871002197266,</span><br><span class="line">      &quot;IlluList&quot; : 99.84143829345703</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;FaceCount&quot; : 1,</span><br><span class="line">    &quot;PoseList&quot; : [ 0.2377411127090454, 1.8424458503723145, 0.3763512670993805 ],</span><br><span class="line">    &quot;Pupils&quot; : [ 232.3559112548828, 173.39218139648438, 18.214069366455078, 387.1202392578125, 174.74411010742188, 18.214069366455078 ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>FaceProbabilityList</strong><br>截图中包含人脸的概率，取值范围 0~1。如有多个人脸，则依次返回。例如有两个人脸则返回[face_prob1, face_prob2]。图像中人脸区域分辨率越大，人脸越清晰，人脸正视，对应的该值越大。</li>
+<li>LandmarkCount<br>人脸特征点数目，目前固定为 105 点。依次为：眉毛 24 点，眼睛 32 点，鼻子 6 点，嘴巴 34 点，外轮廓 9 点。</li>
+<li>FaceRectangles<br>返回人脸矩形框，分别是[left, top, width, height]。如有多个人脸，则依次顺延，返回矩形框。例如有两个人脸则返回[left1, top1, width1, height1, left2, top2, width2, height2]。</li>
+<li>Landmarks<br>人脸特征点定位结果，每个人脸返回一组特征点位置，表示方式为（x0, y0, x1, y1, ……）；如有多个人脸，则依次顺延，返回定位浮点数。</li>
+<li><strong>Qualities</strong><br>人脸质量情况，分数越高表示越有利于识别。其中 ScoreList 为质量综合分数，BlurList 为人脸模糊度对识别的影响分数，FnfList 为人脸正确度对识别的影响分数，GlassList 为眼镜等上半脸遮挡对识别的影响分数，IlluList 为光照对识别的影响分数，MaskList 为口罩等下半脸遮挡对识别的影响分数，NoiseList 为图片噪声对识别的影响分数，PoseList 为姿态对识别的影响分数。</li>
+<li><strong>FaceCount</strong><br>检测出的人脸个数。</li>
+<li><strong>PoseList</strong><br>返回人脸姿态，格式为[yaw, pitch, roll]。如有多个人脸，则依次顺延。<br>yaw 为左右角度，取值范围-90~90。<br>pitch 为上下角度，取值范围-90~90。<br>roll 为平面旋转角度，取值范围-180~180。</li>
+<li>Pupils<br>左右两个瞳孔的中心点坐标和半径，每个人脸 6 个浮点数，顺序为[left_iris_cenpt.x, left_iris_cenpt.y, left_iris_radius, right_iris_cenpt.x, right_iris_cenpt.y, right_iris_radis]。</li>
+</ul>
+<h1 id="基于-dlib-的方案"><a href="#基于-dlib-的方案" class="headerlink" title="基于 dlib 的方案"></a>基于 dlib 的方案</h1><h2 id="dlib-介绍"><a href="#dlib-介绍" class="headerlink" title="dlib 介绍"></a>dlib 介绍</h2><p>dlib 是较流行的人脸识别的开源库，使用 c++编写，里面包含了许多的机器学习算法，在 python 中也可以使用。dlib 保持着很好的更新节奏，文档也写得相当清晰，涉及到的资源都有标明在哪里下载，是一个优秀的人脸识别开源库。dlib 库采用 68 点位置标志人脸重要部位，比如 18-22 点标志右眉毛，51-68 标志嘴巴。<br><img src="/images/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%88%9D%E6%8E%A2/68%E4%B8%AA%E7%89%B9%E5%BE%81%E7%82%B9%E6%A0%87%E8%AE%B0.png" alt="68个特征点位置" title="68个特征点位置"></p>
+<h2 id="face-recognition-介绍"><a href="#face-recognition-介绍" class="headerlink" title="face_recognition 介绍"></a>face_recognition 介绍</h2><p><a target="_blank" rel="noopener" href="https://github.com/ageitgey/face_recognition">face_recognition</a>是一个强大、简单、易上手的人脸识别开源项目，并且配备了完整的开发文档和应用案例，特别是兼容树莓派系统。基于业内领先的 C++开源库 dlib 中的深度学习模型，用 Labeled Faces in the Wild 人脸数据集进行测试，有高达 99.38%的准确率。但对小孩和亚洲人脸的识别准确率尚待提升。此次基于 python 的人脸学习就是基于这个项目。</p>
+<h2 id="先把-DEMO-跑起来"><a href="#先把-DEMO-跑起来" class="headerlink" title="先把 DEMO 跑起来"></a>先把 DEMO 跑起来</h2><p>基于 docker 镜像能大幅提升运行环境的搭建。假设大家都会点 docker 的基础技能，也安装好了 docker 环境。执行以下一个命令即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -i -t -v ~/mydata/face:/mydata/face animcogn/face_recognition:latest /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>我是将自己的磁盘的&#x2F;mydata&#x2F;face&#x2F;挂在到了容器的&#x2F;mydata&#x2F;face&#x2F;目录,这样上传下载素材更方便。</p>
+<h2 id="识别人脸关键点"><a href="#识别人脸关键点" class="headerlink" title="识别人脸关键点"></a>识别人脸关键点</h2><p>准备涨照片，命名为<code>1.jpg</code>，扔到&#x2F;mydata&#x2F;face&#x2F;目录下；在把<code>landmarks.py</code>也扔进去，内容如下。准备工作就完成了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">from PIL import Image</span><br><span class="line">import face_recognition</span><br><span class="line"></span><br><span class="line"># Load the jpg file into a numpy array</span><br><span class="line">image = face_recognition.load_image_file(&quot;1.jpg&quot;)</span><br><span class="line"></span><br><span class="line"># Find all the faces in the image using the default HOG-based model.</span><br><span class="line"># This method is fairly accurate, but not as accurate as the CNN model and not GPU accelerated.</span><br><span class="line"># See also: find_faces_in_picture_cnn.py</span><br><span class="line">face_locations = face_recognition.face_locations(image)</span><br><span class="line"></span><br><span class="line">print(&quot;图片中检测到人脸：&#123;&#125; 张。&quot;.format(len(face_locations)))</span><br><span class="line"></span><br><span class="line">for face_location in face_locations:</span><br><span class="line"></span><br><span class="line">    # Print the location of each face in this image</span><br><span class="line">    top, right, bottom, left = face_location</span><br><span class="line">    print(&quot;人脸在图片中的坐标位置(px) 上: &#123;&#125;, 左: &#123;&#125;, 下: &#123;&#125;, 右: &#123;&#125;&quot;.format(top, left, bottom, right))</span><br><span class="line"></span><br><span class="line">    # You can access the actual face itself like this:</span><br><span class="line">    face_image = image[top:bottom, left:right]</span><br><span class="line">    pil_image = Image.fromarray(face_image)</span><br><span class="line">    pil_image.show()</span><br><span class="line"></span><br><span class="line">face_landmarks_list = face_recognition.face_landmarks(image)</span><br><span class="line"></span><br><span class="line">for face_landmarks in face_landmarks_list:</span><br><span class="line">    # Print the location of each facial feature in this image</span><br><span class="line">    for facial_feature in face_landmarks.keys():</span><br><span class="line">        print(&quot;人脸的 &#123;&#125; 检测到关键特征点: &#123;&#125;&quot;.format(facial_feature, face_landmarks[facial_feature]))</span><br><span class="line"></span><br><span class="line">pil_image.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在&#x2F;mydata&#x2F;face&#x2F;目录下执行： <code>python3 find_faces_in_picture.py</code><br>我的结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">图片中检测到人脸：1 张。</span><br><span class="line">人脸在图片中的坐标位置(px) 上: 320, 左: 468, 下: 587, 右: 735</span><br><span class="line">人脸的 chin 检测到关键特征点: [(429, 356), (422, 399), (418, 445), (421, 486), (440, 526), (467, 559), (498, 586), (534, 607), (570, 614), (599, 607), (618, 582), (636, 556), (651, 527), (665, 495), (675, 463), (683, 430), (686, 400)]</span><br><span class="line">人脸的 left_eyebrow 检测到关键特征点: [(497, 342), (527, 331), (558, 333), (585, 344), (609, 360)]</span><br><span class="line">人脸的 right_eyebrow 检测到关键特征点: [(644, 365), (660, 360), (675, 357), (688, 359), (693, 370)]</span><br><span class="line">人脸的 nose_bridge 检测到关键特征点: [(622, 381), (625, 404), (628, 428), (631, 452)]</span><br><span class="line">人脸的 nose_tip 检测到关键特征点: [(585, 464), (597, 467), (609, 473), (620, 472), (630, 467)]</span><br><span class="line">人脸的 left_eye 检测到关键特征点: [(530, 366), (547, 362), (563, 365), (572, 377), (559, 378), (543, 374)]</span><br><span class="line">人脸的 right_eye 检测到关键特征点: [(636, 385), (648, 378), (660, 379), (666, 388), (659, 392), (648, 390)]</span><br><span class="line">人脸的 top_lip 检测到关键特征点: [(541, 514), (564, 510), (585, 510), (598, 514), (609, 512), (616, 515), (620, 521), (615, 520), (607, 518), (595, 520), (583, 518), (548, 515)]</span><br><span class="line">人脸的 bottom_lip 检测到关键特征点: [(620, 521), (610, 531), (602, 535), (590, 537), (576, 536), (558, 530), (541, 514), (548, 515), (581, 520), (594, 522), (606, 520), (615, 520)]</span><br></pre></td></tr></table></figure>
+
+<h1 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h1><p>我们在场景下的需求如下：</p>
+<ol>
+<li>识别照片中有多少张人脸，我们的诉求是每张照片里仅有一张人脸。目前看阿里和 dlib 都能满足这个基础的要求。</li>
+<li>人脸质量得分，能通过设置分值快速的过滤照片质量，比如高于 80 为合格照片。这个使用 dlib 得自己实现了。</li>
+<li>人脸姿态判断，人脸在照片中的姿态是否比较正，允许倾斜 15 度。</li>
+<li>判断越精准越好。</li>
+</ol>
+<h2 id="关键特征点"><a href="#关键特征点" class="headerlink" title="关键特征点"></a>关键特征点</h2><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>阿里云</th>
+<th>Dlib</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>总关键点数量</td>
+<td>105</td>
+<td>68</td>
+</tr>
+<tr>
+<td>眉毛关键点数量</td>
+<td>24</td>
+<td>10</td>
+</tr>
+<tr>
+<td>眼睛关键点数量</td>
+<td>32</td>
+<td>12</td>
+</tr>
+<tr>
+<td>鼻子关键点数量</td>
+<td>6</td>
+<td>9</td>
+</tr>
+<tr>
+<td>嘴巴关键点数量</td>
+<td>34</td>
+<td>22</td>
+</tr>
+<tr>
+<td>轮廓关键点数量</td>
+<td>9</td>
+<td>17</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>细心的杠精可能真对会去数一数，比如说我自己。。。<br>看运行的结果，嘴巴共有 24 个关键点，上嘴唇和下嘴唇各 12，而我的对比表里写的是 22 个。实际上嘴唇和下嘴唇有 2 个关键点是重复计算的，分别是 49 和 55。</p>
+</blockquote>
+<p>从关键特征点数量上看，阿里云的人脸检测功能明显高于 Dlib，商业版和开源版还是有很大区别的。看在钱的面子上，我觉得 68 个点也不是不能接受。</p>
+<h2 id="人脸姿态"><a href="#人脸姿态" class="headerlink" title="人脸姿态"></a>人脸姿态</h2><p>阿里云的人脸检测功能能够直接返回人脸姿态情况，包含：左右、上下、平面旋转角度。翻遍了 face_recognition 的所有功能都没有直接的 API。不过，有了 68 个点，也不是不能解决的。以下图为例：<br><img src="/images/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E5%88%9D%E6%8E%A2/%E7%85%A7%E7%89%87%E4%BA%BA%E8%84%B8%E5%80%BE%E6%96%9C%E8%A7%92%E5%BA%A6%E8%AE%A1%E7%AE%97.jpg" alt="照片人脸倾斜角度计算" title="照片人脸倾斜角度计算"><br>通过识别两个眼睛的坐标点，可以计算出 a 和 b 的边长，并 a 和 b 的夹角为 90°。理论上就可以利用三角函数计算出照片中人脸的倾斜角度了。嗯…招个高中生吧……</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://github.com/ageitgey/face_recognition">face_recognition github</a><br><a target="_blank" rel="noopener" href="https://hub.docker.com/r/animcogn/face_recognition">face_recognition dockerhub</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/zimiao552147572/article/details/106443039/">あずにゃん的博客：关键点提取：face_recognition、疲劳检测、人脸校准、人脸数据库</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/08/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E5%89%8D%E7%AB%AF/vite2%E6%8E%A5%E5%85%A5qiankun%E5%BE%AE%E6%A1%86%E6%9E%B6/" rel="prev" title="vite2接入qiankun微框架">
+                  <i class="fa fa-chevron-left"></i> vite2接入qiankun微框架
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/07/03/%E6%8E%A2%E7%B4%A2/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97%E6%8A%80%E6%9C%AF%E8%B7%AF%E7%BA%BF%E5%88%86%E6%9E%90/" rel="next" title="隐私计算技术路线分析">
+                  隐私计算技术路线分析 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

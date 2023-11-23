@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文为 2023 年度等保三级完整测评项表格，仅供参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="等保三级之完整测评项">
+<meta property="og:url" content="http://example.com/2023/06/25/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E5%AE%8C%E6%95%B4%E6%B5%8B%E8%AF%84%E9%A1%B9/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="本文为 2023 年度等保三级完整测评项表格，仅供参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-25T02:24:09.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.819Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="等保">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/06/25/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E5%AE%8C%E6%95%B4%E6%B5%8B%E8%AF%84%E9%A1%B9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/06/25/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E5%AE%8C%E6%95%B4%E6%B5%8B%E8%AF%84%E9%A1%B9/","path":"2023/06/25/合规/等保/等保三级之完整测评项/","title":"等保三级之完整测评项"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>等保三级之完整测评项 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E5%85%A8%E7%89%A9%E7%90%86%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">一、安全物理环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%89%A9%E7%90%86%E4%BD%8D%E7%BD%AE%E9%80%89%E6%8B%A9"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 物理位置选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E9%98%B2%E7%9B%97%E7%AA%83%E5%92%8C%E9%98%B2%E7%A0%B4%E5%9D%8F"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 防盗窃和防破坏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E9%98%B2%E9%9B%B7%E5%87%BB"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 防雷击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E9%98%B2%E7%81%AB"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 防火</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-%E9%98%B2%E6%B0%B4%E5%92%8C%E9%98%B2%E6%BD%AE"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 防水和防潮</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-%E9%98%B2%E9%9D%99%E7%94%B5"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 防静电</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-%E6%B8%A9%E6%B9%BF%E5%BA%A6%E6%8E%A7%E5%88%B6"><span class="nav-number">1.7.</span> <span class="nav-text">1.7 温湿度控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-8-%E7%94%B5%E5%8A%9B%E4%BE%9B%E5%BA%94"><span class="nav-number">1.8.</span> <span class="nav-text">1.8 电力供应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-9-%E7%94%B5%E7%A3%81%E9%98%B2%E6%8A%A4"><span class="nav-number">1.9.</span> <span class="nav-text">1.9 电磁防护</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E5%85%A8%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C"><span class="nav-number">2.</span> <span class="nav-text">二、安全通信网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 网络架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E9%80%9A%E4%BF%A1%E4%BC%A0%E8%BE%93"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 通信传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E5%8F%AF%E4%BF%A1%E9%AA%8C%E8%AF%81"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 可信验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%89%E5%85%A8%E5%8C%BA%E5%9F%9F%E8%BE%B9%E7%95%8C"><span class="nav-number">3.</span> <span class="nav-text">三、安全区域边界</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E8%BE%B9%E7%95%8C%E9%98%B2%E6%8A%A4"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 边界防护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 访问控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%85%A5%E4%BE%B5%E9%98%B2%E8%8C%83"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 入侵防范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%92%8C%E5%9E%83%E5%9C%BE%E9%82%AE%E4%BB%B6%E9%98%B2%E8%8C%83"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 恶意代码和垃圾邮件防范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 安全审计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-%E5%8F%AF%E4%BF%A1%E9%AA%8C%E8%AF%81"><span class="nav-number">3.6.</span> <span class="nav-text">3.6 可信验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AE%89%E5%85%A8%E8%AE%A1%E7%AE%97%E7%8E%AF%E5%A2%83"><span class="nav-number">4.</span> <span class="nav-text">四、安全计算环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E6%95%B0%E6%8D%AE%E8%B5%84%E6%BA%90"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 数据资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">4.1.1.</span> <span class="nav-text">4.1.1 数据完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AF%86%E6%80%A7"><span class="nav-number">4.1.2.</span> <span class="nav-text">4.1.2 数据保密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D"><span class="nav-number">4.1.3.</span> <span class="nav-text">4.1.3 数据备份恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-4-%E5%89%A9%E4%BD%99%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.1.4.</span> <span class="nav-text">4.1.4 剩余信息保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-5-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.1.5.</span> <span class="nav-text">4.1.5 个人信息保护</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-%E8%BA%AB%E4%BB%BD%E9%89%B4%E5%88%AB"><span class="nav-number">4.2.1.</span> <span class="nav-text">4.2.1 身份鉴别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">4.2.2.</span> <span class="nav-text">4.2.2 访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-3-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="nav-number">4.2.3.</span> <span class="nav-text">4.2.3 安全审计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-4-%E5%85%A5%E4%BE%B5%E9%98%B2%E8%8C%83"><span class="nav-number">4.2.4.</span> <span class="nav-text">4.2.4 入侵防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-5-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83"><span class="nav-number">4.2.5.</span> <span class="nav-text">4.2.5 恶意代码防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-6-%E5%8F%AF%E4%BF%A1%E9%AA%8C%E8%AF%81"><span class="nav-number">4.2.6.</span> <span class="nav-text">4.2.6 可信验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-7-%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">4.2.7.</span> <span class="nav-text">4.2.7 数据完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-8-%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AF%86%E6%80%A7"><span class="nav-number">4.2.8.</span> <span class="nav-text">4.2.8 数据保密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-9-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D"><span class="nav-number">4.2.9.</span> <span class="nav-text">4.2.9 数据备份恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-10-%E5%89%A9%E4%BD%99%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.2.10.</span> <span class="nav-text">4.2.10 剩余信息保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-11-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.2.11.</span> <span class="nav-text">4.2.11 个人信息保护</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 应用系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-%E8%BA%AB%E4%BB%BD%E9%89%B4%E5%88%AB"><span class="nav-number">4.3.1.</span> <span class="nav-text">4.3.1 身份鉴别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">4.3.2.</span> <span class="nav-text">4.3.2 访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="nav-number">4.3.3.</span> <span class="nav-text">4.3.3 安全审计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-4-%E5%85%A5%E4%BE%B5%E9%98%B2%E8%8C%83"><span class="nav-number">4.3.4.</span> <span class="nav-text">4.3.4 入侵防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-5-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83"><span class="nav-number">4.3.5.</span> <span class="nav-text">4.3.5 恶意代码防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-6-%E5%8F%AF%E4%BF%A1%E9%AA%8C%E8%AF%81"><span class="nav-number">4.3.6.</span> <span class="nav-text">4.3.6 可信验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-7-%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">4.3.7.</span> <span class="nav-text">4.3.7 数据完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-8-%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AF%86%E6%80%A7"><span class="nav-number">4.3.8.</span> <span class="nav-text">4.3.8 数据保密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-9-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D"><span class="nav-number">4.3.9.</span> <span class="nav-text">4.3.9 数据备份恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-10-%E5%89%A9%E4%BD%99%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.3.10.</span> <span class="nav-text">4.3.10 剩余信息保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-11-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.3.11.</span> <span class="nav-text">4.3.11 个人信息保护</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-%E6%9C%8D%E5%8A%A1%E5%99%A8-x2F-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 服务器&#x2F;操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-1-%E8%BA%AB%E4%BB%BD%E9%89%B4%E5%88%AB"><span class="nav-number">4.4.1.</span> <span class="nav-text">4.4.1 身份鉴别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-2-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">4.4.2.</span> <span class="nav-text">4.4.2 访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-3-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="nav-number">4.4.3.</span> <span class="nav-text">4.4.3 安全审计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-4-%E5%85%A5%E4%BE%B5%E9%98%B2%E8%8C%83"><span class="nav-number">4.4.4.</span> <span class="nav-text">4.4.4 入侵防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-5-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83"><span class="nav-number">4.4.5.</span> <span class="nav-text">4.4.5 恶意代码防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-6-%E5%8F%AF%E4%BF%A1%E9%AA%8C%E8%AF%81"><span class="nav-number">4.4.6.</span> <span class="nav-text">4.4.6 可信验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-7-%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">4.4.7.</span> <span class="nav-text">4.4.7 数据完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-8-%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AF%86%E6%80%A7"><span class="nav-number">4.4.8.</span> <span class="nav-text">4.4.8 数据保密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-9-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D"><span class="nav-number">4.4.9.</span> <span class="nav-text">4.4.9 数据备份恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-10-%E5%89%A9%E4%BD%99%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.4.10.</span> <span class="nav-text">4.4.10 剩余信息保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-11-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.4.11.</span> <span class="nav-text">4.4.11 个人信息保护</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-%E8%BF%90%E7%BB%B4%E7%BB%88%E7%AB%AF-x2F-%E7%BB%88%E7%AB%AF"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 运维终端&#x2F;终端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-1-%E8%BA%AB%E4%BB%BD%E9%89%B4%E5%88%AB"><span class="nav-number">4.5.1.</span> <span class="nav-text">4.5.1 身份鉴别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-2-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">4.5.2.</span> <span class="nav-text">4.5.2 访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-3-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="nav-number">4.5.3.</span> <span class="nav-text">4.5.3 安全审计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-4-%E5%85%A5%E4%BE%B5%E9%98%B2%E8%8C%83"><span class="nav-number">4.5.4.</span> <span class="nav-text">4.5.4 入侵防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-5-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83"><span class="nav-number">4.5.5.</span> <span class="nav-text">4.5.5 恶意代码防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-6-%E5%8F%AF%E4%BF%A1%E9%AA%8C%E8%AF%81"><span class="nav-number">4.5.6.</span> <span class="nav-text">4.5.6 可信验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-7-%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">4.5.7.</span> <span class="nav-text">4.5.7 数据完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-8-%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AF%86%E6%80%A7"><span class="nav-number">4.5.8.</span> <span class="nav-text">4.5.8 数据保密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-9-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D"><span class="nav-number">4.5.9.</span> <span class="nav-text">4.5.9 数据备份恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-10-%E5%89%A9%E4%BD%99%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.5.10.</span> <span class="nav-text">4.5.10 剩余信息保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-11-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.5.11.</span> <span class="nav-text">4.5.11 个人信息保护</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-%E4%BA%A4%E6%8D%A2%E6%9C%BA-x2F-%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 交换机&#x2F;路由器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-1-%E8%BA%AB%E4%BB%BD%E9%89%B4%E5%88%AB"><span class="nav-number">4.6.1.</span> <span class="nav-text">4.6.1 身份鉴别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-2-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">4.6.2.</span> <span class="nav-text">4.6.2 访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-3-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="nav-number">4.6.3.</span> <span class="nav-text">4.6.3 安全审计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-4-%E5%85%A5%E4%BE%B5%E9%98%B2%E8%8C%83"><span class="nav-number">4.6.4.</span> <span class="nav-text">4.7.4 入侵防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-5-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83"><span class="nav-number">4.6.5.</span> <span class="nav-text">4.7.5 恶意代码防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-6-%E5%8F%AF%E4%BF%A1%E9%AA%8C%E8%AF%81"><span class="nav-number">4.6.6.</span> <span class="nav-text">4.7.6 可信验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-7-%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">4.6.7.</span> <span class="nav-text">4.7.7 数据完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-8-%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AF%86%E6%80%A7"><span class="nav-number">4.6.8.</span> <span class="nav-text">4.7.8 数据保密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-9-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D"><span class="nav-number">4.6.9.</span> <span class="nav-text">4.7.9 数据备份恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-10-%E5%89%A9%E4%BD%99%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.6.10.</span> <span class="nav-text">4.7.10 剩余信息保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-11-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4"><span class="nav-number">4.6.11.</span> <span class="nav-text">4.7.11 个人信息保护</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-7-%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87"><span class="nav-number">4.7.</span> <span class="nav-text">4.7 安全设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-1-%E8%BA%AB%E4%BB%BD%E9%89%B4%E5%88%AB"><span class="nav-number">4.7.1.</span> <span class="nav-text">4.7.1 身份鉴别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-2-%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">4.7.2.</span> <span class="nav-text">4.7.2 访问控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-3-%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1"><span class="nav-number">4.7.3.</span> <span class="nav-text">4.7.3 安全审计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-4-%E5%85%A5%E4%BE%B5%E9%98%B2%E8%8C%83-1"><span class="nav-number">4.7.4.</span> <span class="nav-text">4.7.4 入侵防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-5-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83-1"><span class="nav-number">4.7.5.</span> <span class="nav-text">4.7.5 恶意代码防范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-6-%E5%8F%AF%E4%BF%A1%E9%AA%8C%E8%AF%81-1"><span class="nav-number">4.7.6.</span> <span class="nav-text">4.7.6 可信验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-7-%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7-1"><span class="nav-number">4.7.7.</span> <span class="nav-text">4.7.7 数据完整性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-8-%E6%95%B0%E6%8D%AE%E4%BF%9D%E5%AF%86%E6%80%A7-1"><span class="nav-number">4.7.8.</span> <span class="nav-text">4.7.8 数据保密性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-9-%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D-1"><span class="nav-number">4.7.9.</span> <span class="nav-text">4.7.9 数据备份恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-10-%E5%89%A9%E4%BD%99%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4-1"><span class="nav-number">4.7.10.</span> <span class="nav-text">4.7.10 剩余信息保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-11-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E4%BF%9D%E6%8A%A4-1"><span class="nav-number">4.7.11.</span> <span class="nav-text">4.7.11 个人信息保护</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83"><span class="nav-number">5.</span> <span class="nav-text">五、安全管理中心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 系统管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E5%AE%A1%E8%AE%A1%E7%AE%A1%E7%90%86"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 审计管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 安全管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-%E9%9B%86%E4%B8%AD%E7%AE%A1%E6%8E%A7"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 集中管控</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E5%88%B6%E5%BA%A6"><span class="nav-number">6.</span> <span class="nav-text">六、安全管理制度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 安全策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E7%AE%A1%E7%90%86%E5%88%B6%E5%BA%A6"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 管理制度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E5%88%B6%E5%AE%9A%E5%92%8C%E5%8F%91%E5%B8%83"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 制定和发布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-%E8%AF%84%E5%AE%A1%E5%92%8C%E4%BF%AE%E8%AE%A2"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 评审和修订</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E6%9C%BA%E6%9E%84"><span class="nav-number">7.</span> <span class="nav-text">七、安全管理机构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-%E5%B2%97%E4%BD%8D%E8%AE%BE%E7%BD%AE"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 岗位设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-%E4%BA%BA%E5%91%98%E9%85%8D%E5%A4%87"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 人员配备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-%E6%8E%88%E6%9D%83%E5%92%8C%E5%AE%A1%E6%89%B9"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 授权和审批</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-%E6%B2%9F%E9%80%9A%E5%92%8C%E5%90%88%E4%BD%9C"><span class="nav-number">7.4.</span> <span class="nav-text">7.4 沟通和合作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-5-%E5%AE%A1%E6%A0%B8%E5%92%8C%E6%A3%80%E6%9F%A5"><span class="nav-number">7.5.</span> <span class="nav-text">7.5 审核和检查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%BA%BA%E5%91%98"><span class="nav-number">8.</span> <span class="nav-text">八、安全管理人员</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-%E4%BA%BA%E5%91%98%E5%BD%95%E7%94%A8"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 人员录用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-%E4%BA%BA%E5%91%98%E7%A6%BB%E5%B2%97"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 人员离岗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-%E5%AE%89%E5%85%A8%E6%84%8F%E8%AF%86%E6%95%99%E8%82%B2%E5%92%8C%E5%9F%B9%E8%AE%AD"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 安全意识教育和培训</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-%E5%A4%96%E9%83%A8%E4%BA%BA%E5%91%98%E8%AE%BF%E9%97%AE%E7%AE%A1%E7%90%86"><span class="nav-number">8.4.</span> <span class="nav-text">8.4 外部人员访问管理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E5%AE%89%E5%85%A8%E5%BB%BA%E8%AE%BE%E7%AE%A1%E7%90%86"><span class="nav-number">9.</span> <span class="nav-text">九、安全建设管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-%E5%AE%9A%E7%BA%A7%E5%92%8C%E5%A4%87%E6%A1%88"><span class="nav-number">9.1.</span> <span class="nav-text">9.1 定级和备案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1"><span class="nav-number">9.2.</span> <span class="nav-text">9.2 安全方案设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-3-%E4%BA%A7%E5%93%81%E9%87%87%E8%B4%AD%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">9.3.</span> <span class="nav-text">9.3 产品采购和使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-4-%E8%87%AA%E8%A1%8C%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">9.4.</span> <span class="nav-text">9.4 自行软件开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-5-%E5%A4%96%E5%8C%85%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">9.5.</span> <span class="nav-text">9.5 外包软件开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-6-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%96%BD"><span class="nav-number">9.6.</span> <span class="nav-text">9.6 工程实施</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-7-%E6%B5%8B%E8%AF%95%E9%AA%8C%E6%94%B6"><span class="nav-number">9.7.</span> <span class="nav-text">9.7 测试验收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-8-%E7%B3%BB%E7%BB%9F%E4%BA%A4%E4%BB%98"><span class="nav-number">9.8.</span> <span class="nav-text">9.8 系统交付</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-9-%E7%AD%89%E7%BA%A7%E6%B5%8B%E8%AF%84"><span class="nav-number">9.9.</span> <span class="nav-text">9.9 等级测评</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-10-%E6%9C%8D%E5%8A%A1%E4%BE%9B%E5%BA%94%E5%95%86%E9%80%89%E6%8B%A9"><span class="nav-number">9.10.</span> <span class="nav-text">9.10 服务供应商选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E5%AE%89%E5%85%A8%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86"><span class="nav-number">10.</span> <span class="nav-text">十、安全运维管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-1-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86"><span class="nav-number">10.1.</span> <span class="nav-text">10.1 环境管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-2-%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86"><span class="nav-number">10.2.</span> <span class="nav-text">10.2 资产管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-3-%E4%BB%8B%E8%B4%A8%E7%AE%A1%E7%90%86"><span class="nav-number">10.3.</span> <span class="nav-text">10.3 介质管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-4-%E8%AE%BE%E5%A4%87%E7%BB%B4%E6%8A%A4%E7%AE%A1%E7%90%86"><span class="nav-number">10.4.</span> <span class="nav-text">10.4 设备维护管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-5-%E6%BC%8F%E6%B4%9E%E5%92%8C%E9%A3%8E%E9%99%A9%E7%AE%A1%E7%90%86"><span class="nav-number">10.5.</span> <span class="nav-text">10.5 漏洞和风险管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-6-%E7%BD%91%E7%BB%9C%E5%92%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86"><span class="nav-number">10.6.</span> <span class="nav-text">10.6 网络和系统安全管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-7-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83%E7%AE%A1%E7%90%86"><span class="nav-number">10.7.</span> <span class="nav-text">10.7 恶意代码防范管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-8-%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="nav-number">10.8.</span> <span class="nav-text">10.8 配置管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-9-%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86"><span class="nav-number">10.9.</span> <span class="nav-text">10.9 密码管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-10-%E5%8F%98%E6%9B%B4%E7%AE%A1%E7%90%86"><span class="nav-number">10.10.</span> <span class="nav-text">10.10 变更管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-11-%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%E7%AE%A1%E7%90%86"><span class="nav-number">10.11.</span> <span class="nav-text">10.11 备份与恢复管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-12-%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%BD%AE"><span class="nav-number">10.12.</span> <span class="nav-text">10.12 安全事件处置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-13-%E5%BA%94%E6%80%A5%E9%A2%84%E6%A1%88%E7%AE%A1%E7%90%86"><span class="nav-number">10.13.</span> <span class="nav-text">10.13 应急预案管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-14-%E5%A4%96%E5%8C%85%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86"><span class="nav-number">10.14.</span> <span class="nav-text">10.14 外包运维管理</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/25/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E5%AE%8C%E6%95%B4%E6%B5%8B%E8%AF%84%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="等保三级之完整测评项 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          等保三级之完整测评项
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-25 10:24:09" itemprop="dateCreated datePublished" datetime="2023-06-25T10:24:09+08:00">2023-06-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%88%E8%A7%84/" itemprop="url" rel="index"><span itemprop="name">合规</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/" itemprop="url" rel="index"><span itemprop="name">等保</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本文为 2023 年度等保三级完整测评项表格，仅供参考。</p>
+<span id="more"></span>
+
+<h1 id="一、安全物理环境"><a href="#一、安全物理环境" class="headerlink" title="一、安全物理环境"></a>一、安全物理环境</h1><h2 id="1-1-物理位置选择"><a href="#1-1-物理位置选择" class="headerlink" title="1.1 物理位置选择"></a>1.1 物理位置选择</h2><ol>
+<li>【机房】机房场地应选择在具有防震、防风和防雨等能力的建筑内；</li>
+<li>【机房】机房场地不应设在建筑物的顶层或地下室，否则应加强防水和防潮措施。</li>
+<li>【机房】机房出入口应配置电子门禁系统，控制、鉴别和记录进入的人员；(高风险项)</li>
+</ol>
+<h2 id="1-2-防盗窃和防破坏"><a href="#1-2-防盗窃和防破坏" class="headerlink" title="1.2 防盗窃和防破坏"></a>1.2 防盗窃和防破坏</h2><ol>
+<li>【机房】应将设备或主要部件进行固定，并设置明显的不易除去的标识；</li>
+<li>【机房】应将通信线缆铺设在隐蔽安全处；</li>
+<li>【机房】应设置机房防盗报警系统或设置有专人值守的视频监控系统。(高风险项)</li>
+</ol>
+<h2 id="1-3-防雷击"><a href="#1-3-防雷击" class="headerlink" title="1.3 防雷击"></a>1.3 防雷击</h2><ol>
+<li>【机房】应将各类机柜、设施和设备等通过接地系统安全接地；</li>
+<li>【机房】应采取措施防止感应雷，例如设置防雷保安器或过压保护装置等。</li>
+</ol>
+<h2 id="1-4-防火"><a href="#1-4-防火" class="headerlink" title="1.4 防火"></a>1.4 防火</h2><ol>
+<li>【机房】机房应设置火灾自动消防系统，能够自动检测火情、自动报警，并自动灭火；(高风险项)</li>
+<li>【机房】机房及相关的工作房间和辅助房应采用具有耐火等级的建筑</li>
+<li>【机房】应对机房划分区域进行管理，区域和区域之间设置隔离防火措施。</li>
+</ol>
+<h2 id="1-5-防水和防潮"><a href="#1-5-防水和防潮" class="headerlink" title="1.5 防水和防潮"></a>1.5 防水和防潮</h2><ol>
+<li>【机房】应采取措施防止雨水通过机房窗户、屋顶和墙壁渗透；</li>
+<li>【机房】应采取措施防止机房内水蒸气结露和地下积水的转移与渗透；</li>
+<li>【机房】应安装对水敏感的检测仪表或元件，对机房进行防水检测和报警。</li>
+</ol>
+<h2 id="1-6-防静电"><a href="#1-6-防静电" class="headerlink" title="1.6 防静电"></a>1.6 防静电</h2><ol>
+<li>【机房】应采用防静电地板或地面并采用必要的接地防静电措施；</li>
+<li>【机房】应采取措施防止静电的产生，例如采用静电消除器、佩戴防静电手环等。</li>
+</ol>
+<h2 id="1-7-温湿度控制"><a href="#1-7-温湿度控制" class="headerlink" title="1.7 温湿度控制"></a>1.7 温湿度控制</h2><ol>
+<li>【机房】应设置温湿度自动调节设施，使机房温湿度的变化在设备运行所允许的范围之内。</li>
+</ol>
+<h2 id="1-8-电力供应"><a href="#1-8-电力供应" class="headerlink" title="1.8 电力供应"></a>1.8 电力供应</h2><ol>
+<li>【机房】应在机房供电线路上配置稳压器和过电压防护设备；</li>
+<li>【机房】应提供短期的备用电力供应，至少满足设备在断电情况下的正常运行要求；(高风险项)</li>
+<li>【机房】应设置冗余或并行的电力电缆线路为计算机系统供电；</li>
+</ol>
+<h2 id="1-9-电磁防护"><a href="#1-9-电磁防护" class="headerlink" title="1.9 电磁防护"></a>1.9 电磁防护</h2><ol>
+<li>【机房】电源线和通信线缆应隔离铺设，避免互相干扰；</li>
+<li>【机房】应对关键设备实施电磁屏蔽。</li>
+</ol>
+<h1 id="二、安全通信网络"><a href="#二、安全通信网络" class="headerlink" title="二、安全通信网络"></a>二、安全通信网络</h1><h2 id="2-1-网络架构"><a href="#2-1-网络架构" class="headerlink" title="2.1 网络架构"></a>2.1 网络架构</h2><ol>
+<li>【网络全局】网络设备的业务处理能力应满足业务高峰期需求；(高风险项)</li>
+<li>【网络全局】网络各个部分的带宽应满足业务高峰期需要；</li>
+<li>【网络全局】应划分不同的网络区域，并按照方便管理和控制的原则为各网络区域分配地址；(高风险项)</li>
+<li>【网络全局】不应将重要网络区域部署在边界处，重要网络区域与其他网络区域之间应采取可靠的技术隔离手段。(高风险项)</li>
+<li>【网络全局】应提供通信线路、关键网络设备和关键计算设备的硬件冗余，保证系统的可用性。(高风险项)</li>
+</ol>
+<h2 id="2-2-通信传输"><a href="#2-2-通信传输" class="headerlink" title="2.2 通信传输"></a>2.2 通信传输</h2><ol>
+<li>【网络全局】应采用校验技术或密码技术保证通信过程中数据的完整性；(高风险项)</li>
+<li>【网络全局】应采用密码技术保证通信过程中的保密性。(高风险项)</li>
+</ol>
+<h2 id="2-3-可信验证"><a href="#2-3-可信验证" class="headerlink" title="2.3 可信验证"></a>2.3 可信验证</h2><ol>
+<li>【网络全局】可基于可信根对通信设备的系统引导程序、系统程序、重要配置参数和通信应用程序等进行可信验证，并在应用程序的关键执行环节进行动态可信验证，在检测到其可信性受到破坏后进行报警，并将验证结果形成审计记录送至安全管理中心。</li>
+</ol>
+<h1 id="三、安全区域边界"><a href="#三、安全区域边界" class="headerlink" title="三、安全区域边界"></a>三、安全区域边界</h1><h2 id="3-1-边界防护"><a href="#3-1-边界防护" class="headerlink" title="3.1 边界防护"></a>3.1 边界防护</h2><ol>
+<li>【网络全局】跨越边界的访问和数据流应通过边界设备提供的受控接口进行通信；(高风险项)</li>
+<li>【网络全局】应能够对非授权设备私自联到内部网络的行为进行检查或限制；</li>
+<li>【网络全局】应能够对内部用户非授权联到外部网络的行为进行检查或限制；</li>
+<li>【网络全局】应限制无线网络的使用，保证无线网络通过受控的边界设备接入内部网络。(高风险项)</li>
+</ol>
+<h2 id="3-2-访问控制"><a href="#3-2-访问控制" class="headerlink" title="3.2 访问控制"></a>3.2 访问控制</h2><ol>
+<li>【网络全局】应在网络边界或区域之间根据访问控制策略设置访问控制规则，默认情况下除允许通信外受控接口拒绝所有通信；(高风险项)</li>
+<li>【网络全局】应删除多余或无效的访问控制规则，优化访问控制列表，并保证访问控制规则数量最小化；</li>
+<li>【网络全局】应对源地址、目的地址、源端口、目的端口和协议等进行检查，以允许&#x2F;拒绝数据包进出；</li>
+<li>【网络全局】应能根据会话状态信息为进出数据流提供明确的允许&#x2F;拒绝访问的能力；</li>
+<li>【网络全局】应对进出网络的数据流实现基于应用协议和应用内容的访问控制。</li>
+</ol>
+<h2 id="3-3-入侵防范"><a href="#3-3-入侵防范" class="headerlink" title="3.3 入侵防范"></a>3.3 入侵防范</h2><ol>
+<li>【网络全局】应在关键网络节点处检测、防止或限制从外部发起的网络攻击行为；(高风险项)</li>
+<li>【网络全局】应在关键网络节点处检测、防止或限制从内部发起的网络攻击行为；(高风险项)</li>
+<li>【网络全局】应采取技术措施对网络行为进行分析，实现对网络攻击特别是新型网络攻击行为的分析；</li>
+<li>【网络全局】当检测到攻击行为时，记录攻击源 IP、攻击类型、攻击目标、攻击时间，在发生严重入侵事件时应提供报警。</li>
+</ol>
+<h2 id="3-4-恶意代码和垃圾邮件防范"><a href="#3-4-恶意代码和垃圾邮件防范" class="headerlink" title="3.4 恶意代码和垃圾邮件防范"></a>3.4 恶意代码和垃圾邮件防范</h2><ol>
+<li>【网络全局】应在关键网络节点处对恶意代码进行检测和清除， 并维护恶意代码防护机制的升级和更新；(高风险项)</li>
+<li>【网络全局】应在关键网络节点处对垃圾邮件进行检测和防护，并维护垃圾邮件防护机制的升级和更新。</li>
+</ol>
+<h2 id="3-5-安全审计"><a href="#3-5-安全审计" class="headerlink" title="3.5 安全审计"></a>3.5 安全审计</h2><ol>
+<li>【网络全局】应在网络边界、重要网络节点进行安全审计，审计覆盖到每个用户，对重要的用户行为和重要安全事件进行审计；(高风险项)</li>
+<li>【网络全局】审计记录应包括事件的日期和时间、用户、事件类型、事件是否成功及其他与审计相关的信息；</li>
+<li>【网络全局】应对审计记录进行保护，定期备份，避免受到未预期的删除、修改或覆盖等；</li>
+<li>【网络全局】应能对远程访问的用户行为、访问互联网的用户行为等单独进行行为审计和数据分析。(高风险项)</li>
+</ol>
+<h2 id="3-6-可信验证"><a href="#3-6-可信验证" class="headerlink" title="3.6 可信验证"></a>3.6 可信验证</h2><ol>
+<li>【网络全局】可基于可信根对边界设备的系统引导程序、系统程序、重要配置参数和边界防护应用程序等进行可信验证，并在应用程序的关键执行环节进行动态可信验证，在检测到其可信性受到破坏后进行报警，并将验证结果形成审计记录送至安全管理中心。</li>
+</ol>
+<h1 id="四、安全计算环境"><a href="#四、安全计算环境" class="headerlink" title="四、安全计算环境"></a>四、安全计算环境</h1><h2 id="4-1-数据资源"><a href="#4-1-数据资源" class="headerlink" title="4.1 数据资源"></a>4.1 数据资源</h2><h3 id="4-1-1-数据完整性"><a href="#4-1-1-数据完整性" class="headerlink" title="4.1.1 数据完整性"></a>4.1.1 数据完整性</h3><ol>
+<li>【数据资源】应采用校验技术或密码技术保证重要数据在传输过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等；</li>
+<li>【数据资源】应采用校验技术或密码技术保证重要数据在存储过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-1-2-数据保密性"><a href="#4-1-2-数据保密性" class="headerlink" title="4.1.2 数据保密性"></a>4.1.2 数据保密性</h3><ol>
+<li>【数据资源】应采用密码技术保证重要数据在传输过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等；</li>
+<li>【数据资源】应采用密码技术保证重要数据在存储过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-1-3-数据备份恢复"><a href="#4-1-3-数据备份恢复" class="headerlink" title="4.1.3 数据备份恢复"></a>4.1.3 数据备份恢复</h3><ol>
+<li>【数据资源】应提供重要数据的本地数据备份与恢复功能；</li>
+<li>【数据资源】应提供异地实时备份功能，利用通信网络将重要数据实时备份至备份场地；</li>
+<li>【数据资源】应提供重要数据处理系统的热冗余，保证系统的高可用性。(高风险项)</li>
+</ol>
+<h3 id="4-1-4-剩余信息保护"><a href="#4-1-4-剩余信息保护" class="headerlink" title="4.1.4 剩余信息保护"></a>4.1.4 剩余信息保护</h3><ol>
+<li>【数据资源】鉴别信息所在的存储空间被释放或重新分配前得到完全清除；(高风险项)</li>
+<li>【数据资源】存有敏感数据的存储空间被释放或重新分配前得到完全清除。(高风险项)</li>
+</ol>
+<h3 id="4-1-5-个人信息保护"><a href="#4-1-5-个人信息保护" class="headerlink" title="4.1.5 个人信息保护"></a>4.1.5 个人信息保护</h3><ol>
+<li>【数据资源】应仅采集和保存业务必需的用户个人信息；(高风险项)</li>
+<li>【数据资源】不应未授权访问和非法使用用户个人信息。(高风险项)</li>
+</ol>
+<h2 id="4-2-数据库"><a href="#4-2-数据库" class="headerlink" title="4.2 数据库"></a>4.2 数据库</h2><h3 id="4-2-1-身份鉴别"><a href="#4-2-1-身份鉴别" class="headerlink" title="4.2.1 身份鉴别"></a>4.2.1 身份鉴别</h3><ol>
+<li>【数据库】应对登录的用户进行身份标识和鉴别，身份标识具有唯一性，身份鉴别信息具有复杂度要求并定期更换；(高风险项)</li>
+<li>【数据库】应具有登录失败处理功能，应配置并启用结束会话、限制非法登录次数和当登录连接超时自动退出等相关措施。(高风险项)</li>
+<li>【数据库】当进行远程管理时，应采取必要措施防止鉴别信息在网络传输过程中被窃听。(高风险项)</li>
+<li>【数据库】应采用口令、密码技术、生物技术等两种或两种以上组合的鉴别技术对用户进行身份鉴别，且其中一种鉴别技术至少应使用密码技术来实现。(高风险项)</li>
+</ol>
+<h3 id="4-2-2-访问控制"><a href="#4-2-2-访问控制" class="headerlink" title="4.2.2 访问控制"></a>4.2.2 访问控制</h3><ol>
+<li>【数据库】应对登录的用户分配账户和权限；</li>
+<li>【数据库】应重命名或删除默认账户，修改默认账户的默认口令；(高风险项)</li>
+<li>【数据库】应及时删除或停用多余的、过期的账户，避免共享账户的存在；</li>
+<li>【数据库】应授予管理用户所需的最小权限，实现管理用户的权限分离。</li>
+<li>【数据库】应由授权主体配置访问控制策略，访问控制策略规定主体对客体的访问规则；</li>
+<li>【数据库】访问控制的粒度应达到主体为用户级或进程级，客体为文件、数据库表级；</li>
+<li>【数据库】应对重要主体和客体设置安全标记，并控制主体对有安全标记信息资源的访问。</li>
+</ol>
+<h3 id="4-2-3-安全审计"><a href="#4-2-3-安全审计" class="headerlink" title="4.2.3 安全审计"></a>4.2.3 安全审计</h3><ol>
+<li>【数据库】应启用安全审计功能，审计覆盖到每个用户，对重要的用户行为和重要安全事件进行审计；(高风险项)</li>
+<li>【数据库】审计记录应包括事件的日期和时间、用户、事件类型、事件是否成功及其他与审计相关的信息；</li>
+<li>【数据库】应对审计记录进行保护，定期备份，避免受到未预期的删除、修改或覆盖等；(高风险项)</li>
+<li>【数据库】应对审计进程进行保护，防止未经授权的中断。</li>
+</ol>
+<h3 id="4-2-4-入侵防范"><a href="#4-2-4-入侵防范" class="headerlink" title="4.2.4 入侵防范"></a>4.2.4 入侵防范</h3><ol>
+<li>【数据库】【不适用】应遵循最小安装的原则，仅安装需要的组件和应用程序；<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【数据库】【不适用】应关闭不需要的系统服务、默认共享和高危端口；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【数据库】【不适用】应通过设定终端接入方式或网络地址范围对通过网络进行管理的管理终端进行限制；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【数据库】【不适用】应提供数据有效性检验功能，保证通过人机接口输入或通过通信接口输入的内容符合系统设定要求；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【数据库】应能发现可能存在的已知漏洞，并在经过充分测试评估后，及时修补漏洞。(高风险项)</li>
+<li>【数据库】【不适用】应能够检测到对重要节点进行入侵的行为，并在发生严重入侵事件时提供报警。<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h3 id="4-2-5-恶意代码防范"><a href="#4-2-5-恶意代码防范" class="headerlink" title="4.2.5 恶意代码防范"></a>4.2.5 恶意代码防范</h3><ol>
+<li>【数据库】应采用免受恶意代码攻击的技术措施或主动免疫可信验证机制及时识别入侵和病毒行为，并将其有效阻断。(高风险项)</li>
+</ol>
+<h3 id="4-2-6-可信验证"><a href="#4-2-6-可信验证" class="headerlink" title="4.2.6 可信验证"></a>4.2.6 可信验证</h3><ol>
+<li>【数据库】可基于可信根对计算设备的系统引导程序、系统程序、重要配置参数和应用程序等进行可信验证，并在应用程序的关键执行环节进行动态可信验证，在检测到其可信性受到破坏后进行报警，并将验证结果形成审计记录送至安全管理中心。</li>
+</ol>
+<h3 id="4-2-7-数据完整性"><a href="#4-2-7-数据完整性" class="headerlink" title="4.2.7 数据完整性"></a>4.2.7 数据完整性</h3><ol>
+<li><p>【数据库】应采用校验技术或密码技术保证重要数据在传输过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等；</p>
+</li>
+<li><p>【数据库】应采用校验技术或密码技术保证重要数据在存储过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等。</p>
+</li>
+</ol>
+<h3 id="4-2-8-数据保密性"><a href="#4-2-8-数据保密性" class="headerlink" title="4.2.8 数据保密性"></a>4.2.8 数据保密性</h3><ol>
+<li>【数据库】应采用密码技术保证重要数据在传输过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等；</li>
+<li>【数据库】应采用密码技术保证重要数据在存储过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-2-9-数据备份恢复"><a href="#4-2-9-数据备份恢复" class="headerlink" title="4.2.9 数据备份恢复"></a>4.2.9 数据备份恢复</h3><ol>
+<li>【数据库】应提供重要数据的本地数据备份与恢复功能；</li>
+<li>【数据库】应提供异地实时备份功能，利用通信网络将重要数据实时备份至备份场地；</li>
+<li>【数据库】应提供重要数据处理系统的热冗余，保证系统的高可用性。(高风险项)</li>
+</ol>
+<h3 id="4-2-10-剩余信息保护"><a href="#4-2-10-剩余信息保护" class="headerlink" title="4.2.10 剩余信息保护"></a>4.2.10 剩余信息保护</h3><ol>
+<li>【数据库】鉴别信息所在的存储空间被释放或重新分配前得到完全清除；(高风险项)</li>
+<li>【数据库】存有敏感数据的存储空间被释放或重新分配前得到完全清除。(高风险项)</li>
+</ol>
+<h3 id="4-2-11-个人信息保护"><a href="#4-2-11-个人信息保护" class="headerlink" title="4.2.11 个人信息保护"></a>4.2.11 个人信息保护</h3><ol>
+<li>【数据库】应仅采集和保存业务必需的用户个人信息；(高风险项)</li>
+<li>【数据库】不应未授权访问和非法使用用户个人信息。(高风险项)</li>
+</ol>
+<h2 id="4-3-应用系统"><a href="#4-3-应用系统" class="headerlink" title="4.3 应用系统"></a>4.3 应用系统</h2><h3 id="4-3-1-身份鉴别"><a href="#4-3-1-身份鉴别" class="headerlink" title="4.3.1 身份鉴别"></a>4.3.1 身份鉴别</h3><ol>
+<li>【应用系统】应对登录的用户进行身份标识和鉴别，身份标识具有唯一性，身份鉴别信息具有复杂度要求并定期更换；(高风险项)</li>
+<li>【应用系统】应具有登录失败处理功能，应配置并启用结束会话、限制非法登录次数和当登录连接超时自动退出等相关措施。(高风险项)</li>
+<li>【应用系统】当进行远程管理时，应采取必要措施防止鉴别信息在网络传输过程中被窃听。(高风险项)</li>
+<li>【应用系统】应采用口令、密码技术、生物技术等两种或两种以上组合的鉴别技术对用户进行身份鉴别，且其中一种鉴别技术至少应使用密码技术来实现。(高风险项)</li>
+</ol>
+<h3 id="4-3-2-访问控制"><a href="#4-3-2-访问控制" class="headerlink" title="4.3.2 访问控制"></a>4.3.2 访问控制</h3><ol>
+<li>【应用系统】应对登录的用户分配账户和权限；</li>
+<li>【应用系统】应重命名或删除默认账户，修改默认账户的默认口令；(高风险项)</li>
+<li>【应用系统】应及时删除或停用多余的、过期的账户，避免共享账户的存在；</li>
+<li>【应用系统】应授予管理用户所需的最小权限，实现管理用户的权限分离。</li>
+<li>【应用系统】应由授权主体配置访问控制策略，访问控制策略规定主体对客体的访问规则；</li>
+<li>【应用系统】访问控制的粒度应达到主体为用户级或进程级，客体为文件、数据库表级；</li>
+<li>【应用系统】应对重要主体和客体设置安全标记，并控制主体对有安全标记信息资源的访问。</li>
+</ol>
+<h3 id="4-3-3-安全审计"><a href="#4-3-3-安全审计" class="headerlink" title="4.3.3 安全审计"></a>4.3.3 安全审计</h3><ol>
+<li>【应用系统】应启用安全审计功能，审计覆盖到每个用户，对重要的用户行为和重要安全事件进行审计；(高风险项)</li>
+<li>【应用系统】审计记录应包括事件的日期和时间、用户、事件类型、事件是否成功及其他与审计相关的信息；</li>
+<li>【应用系统】应对审计记录进行保护，定期备份，避免受到未预期的删除、修改或覆盖等；(高风险项)</li>
+<li>【应用系统】应对审计进程进行保护，防止未经授权的中断。</li>
+</ol>
+<h3 id="4-3-4-入侵防范"><a href="#4-3-4-入侵防范" class="headerlink" title="4.3.4 入侵防范"></a>4.3.4 入侵防范</h3><ol>
+<li>【应用系统】【不适用】应遵循最小安装的原则，仅安装需要的组件和应用程序；<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【应用系统】【不适用】应关闭不需要的系统服务、默认共享和高危端口；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【应用系统】【不适用】应通过设定终端接入方式或网络地址范围对通过网络进行管理的管理终端进行限制；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【应用系统】应提供数据有效性检验功能，保证通过人机接口输入或通过通信接口输入的内容符合系统设定要求；(高风险项)</li>
+<li>【应用系统】应能发现可能存在的已知漏洞，并在经过充分测试评估后，及时修补漏洞。(高风险项)</li>
+<li>【应用系统】【不适用】应能够检测到对重要节点进行入侵的行为，并在发生严重入侵事件时提供报警。<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h3 id="4-3-5-恶意代码防范"><a href="#4-3-5-恶意代码防范" class="headerlink" title="4.3.5 恶意代码防范"></a>4.3.5 恶意代码防范</h3><ol>
+<li>【应用系统】应采用免受恶意代码攻击的技术措施或主动免疫可信验证机制及时识别入侵和病毒行为，并将其有效阻断。(高风险项)</li>
+</ol>
+<h3 id="4-3-6-可信验证"><a href="#4-3-6-可信验证" class="headerlink" title="4.3.6 可信验证"></a>4.3.6 可信验证</h3><ol>
+<li>【应用系统】可基于可信根对计算设备的系统引导程序、系统程序、重要配置参数和应用程序等进行可信验证，并在应用程序的关键执行环节进行动态可信验证，在检测到其可信性受到破坏后进行报警，并将验证结果形成审计记录送至安全管理中心。</li>
+</ol>
+<h3 id="4-3-7-数据完整性"><a href="#4-3-7-数据完整性" class="headerlink" title="4.3.7 数据完整性"></a>4.3.7 数据完整性</h3><ol>
+<li><p>【应用系统】应采用校验技术或密码技术保证重要数据在传输过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等；</p>
+</li>
+<li><p>【应用系统】应采用校验技术或密码技术保证重要数据在存储过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等。</p>
+</li>
+</ol>
+<h3 id="4-3-8-数据保密性"><a href="#4-3-8-数据保密性" class="headerlink" title="4.3.8 数据保密性"></a>4.3.8 数据保密性</h3><ol>
+<li>【应用系统】应采用密码技术保证重要数据在传输过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等；</li>
+<li>【应用系统】应采用密码技术保证重要数据在存储过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-3-9-数据备份恢复"><a href="#4-3-9-数据备份恢复" class="headerlink" title="4.3.9 数据备份恢复"></a>4.3.9 数据备份恢复</h3><ol>
+<li>【应用系统】应提供重要数据的本地数据备份与恢复功能；</li>
+<li>【应用系统】应提供异地实时备份功能，利用通信网络将重要数据实时备份至备份场地；</li>
+<li>【应用系统】应提供重要数据处理系统的热冗余，保证系统的高可用性。(高风险项)</li>
+</ol>
+<h3 id="4-3-10-剩余信息保护"><a href="#4-3-10-剩余信息保护" class="headerlink" title="4.3.10 剩余信息保护"></a>4.3.10 剩余信息保护</h3><ol>
+<li>【应用系统】鉴别信息所在的存储空间被释放或重新分配前得到完全清除；(高风险项)</li>
+<li>【应用系统】存有敏感数据的存储空间被释放或重新分配前得到完全清除。(高风险项)</li>
+</ol>
+<h3 id="4-3-11-个人信息保护"><a href="#4-3-11-个人信息保护" class="headerlink" title="4.3.11 个人信息保护"></a>4.3.11 个人信息保护</h3><ol>
+<li>【应用系统】应仅采集和保存业务必需的用户个人信息；(高风险项)</li>
+<li>【应用系统】不应未授权访问和非法使用用户个人信息。(高风险项)</li>
+</ol>
+<h2 id="4-4-服务器-x2F-操作系统"><a href="#4-4-服务器-x2F-操作系统" class="headerlink" title="4.4 服务器&#x2F;操作系统"></a>4.4 服务器&#x2F;操作系统</h2><h3 id="4-4-1-身份鉴别"><a href="#4-4-1-身份鉴别" class="headerlink" title="4.4.1 身份鉴别"></a>4.4.1 身份鉴别</h3><ol>
+<li>【服务器&#x2F;操作系统】应对登录的用户进行身份标识和鉴别，身份标识具有唯一性，身份鉴别信息具有复杂度要求并定期更换；(高风险项)</li>
+<li>【服务器&#x2F;操作系统】应具有登录失败处理功能，应配置并启用结束会话、限制非法登录次数和当登录连接超时自动退出等相关措施。(高风险项)</li>
+<li>【服务器&#x2F;操作系统】当进行远程管理时，应采取必要措施防止鉴别信息在网络传输过程中被窃听。(高风险项)</li>
+<li>【服务器&#x2F;操作系统】应采用口令、密码技术、生物技术等两种或两种以上组合的鉴别技术对用户进行身份鉴别，且其中一种鉴别技术至少应使用密码技术来实现。(高风险项)</li>
+</ol>
+<h3 id="4-4-2-访问控制"><a href="#4-4-2-访问控制" class="headerlink" title="4.4.2 访问控制"></a>4.4.2 访问控制</h3><ol>
+<li>【服务器&#x2F;操作系统】应对登录的用户分配账户和权限；</li>
+<li>【服务器&#x2F;操作系统】应重命名或删除默认账户，修改默认账户的默认口令；(高风险项)</li>
+<li>【服务器&#x2F;操作系统】应及时删除或停用多余的、过期的账户，避免共享账户的存在；</li>
+<li>【服务器&#x2F;操作系统】应授予管理用户所需的最小权限，实现管理用户的权限分离。</li>
+<li>【服务器&#x2F;操作系统】应由授权主体配置访问控制策略，访问控制策略规定主体对客体的访问规则；</li>
+<li>【服务器&#x2F;操作系统】访问控制的粒度应达到主体为用户级或进程级，客体为文件、数据库表级；</li>
+<li>【服务器&#x2F;操作系统】应对重要主体和客体设置安全标记，并控制主体对有安全标记信息资源的访问。</li>
+</ol>
+<h3 id="4-4-3-安全审计"><a href="#4-4-3-安全审计" class="headerlink" title="4.4.3 安全审计"></a>4.4.3 安全审计</h3><ol>
+<li>【服务器&#x2F;操作系统】应启用安全审计功能，审计覆盖到每个用户，对重要的用户行为和重要安全事件进行审计；(高风险项)</li>
+<li>【服务器&#x2F;操作系统】审计记录应包括事件的日期和时间、用户、事件类型、事件是否成功及其他与审计相关的信息；</li>
+<li>【服务器&#x2F;操作系统】应对审计记录进行保护，定期备份，避免受到未预期的删除、修改或覆盖等；(高风险项)</li>
+<li>【服务器&#x2F;操作系统】应对审计进程进行保护，防止未经授权的中断。</li>
+</ol>
+<h3 id="4-4-4-入侵防范"><a href="#4-4-4-入侵防范" class="headerlink" title="4.4.4 入侵防范"></a>4.4.4 入侵防范</h3><ol>
+<li>【服务器&#x2F;操作系统】应遵循最小安装的原则，仅安装需要的组件和应用程序；</li>
+<li>【服务器&#x2F;操作系统】应关闭不需要的系统服务、默认共享和高危端口；(高风险项)</li>
+<li>【服务器&#x2F;操作系统】应通过设定终端接入方式或网络地址范围对通过网络进行管理的管理终端进行限制；(高风险项)</li>
+<li>【服务器&#x2F;操作系统】【不适用】应提供数据有效性检验功能，保证通过人机接口输入或通过通信接口输入的内容符合系统设定要求；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【服务器&#x2F;操作系统】应能发现可能存在的已知漏洞，并在经过充分测试评估后，及时修补漏洞。(高风险项)</li>
+<li>【服务器&#x2F;操作系统】应能够检测到对重要节点进行入侵的行为，并在发生严重入侵事件时提供报警。</li>
+</ol>
+<h3 id="4-4-5-恶意代码防范"><a href="#4-4-5-恶意代码防范" class="headerlink" title="4.4.5 恶意代码防范"></a>4.4.5 恶意代码防范</h3><ol>
+<li>【服务器&#x2F;操作系统】应采用免受恶意代码攻击的技术措施或主动免疫可信验证机制及时识别入侵和病毒行为，并将其有效阻断。(高风险项)</li>
+</ol>
+<h3 id="4-4-6-可信验证"><a href="#4-4-6-可信验证" class="headerlink" title="4.4.6 可信验证"></a>4.4.6 可信验证</h3><ol>
+<li>【服务器&#x2F;操作系统】可基于可信根对计算设备的系统引导程序、系统程序、重要配置参数和应用程序等进行可信验证，并在应用程序的关键执行环节进行动态可信验证，在检测到其可信性受到破坏后进行报警，并将验证结果形成审计记录送至安全管理中心。</li>
+</ol>
+<h3 id="4-4-7-数据完整性"><a href="#4-4-7-数据完整性" class="headerlink" title="4.4.7 数据完整性"></a>4.4.7 数据完整性</h3><ol>
+<li>【服务器&#x2F;操作系统】应采用校验技术或密码技术保证重要数据在传输过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等；</li>
+<li>【服务器&#x2F;操作系统】应采用校验技术或密码技术保证重要数据在存储过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-4-8-数据保密性"><a href="#4-4-8-数据保密性" class="headerlink" title="4.4.8 数据保密性"></a>4.4.8 数据保密性</h3><ol>
+<li>【服务器&#x2F;操作系统】应采用密码技术保证重要数据在传输过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等；</li>
+<li>【服务器&#x2F;操作系统】应采用密码技术保证重要数据在存储过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-4-9-数据备份恢复"><a href="#4-4-9-数据备份恢复" class="headerlink" title="4.4.9 数据备份恢复"></a>4.4.9 数据备份恢复</h3><ol>
+<li>【服务器&#x2F;操作系统】应提供重要数据的本地数据备份与恢复功能；</li>
+<li>【服务器&#x2F;操作系统】应提供异地实时备份功能，利用通信网络将重要数据实时备份至备份场地；</li>
+<li>【服务器&#x2F;操作系统】应提供重要数据处理系统的热冗余，保证系统的高可用性。(高风险项)</li>
+</ol>
+<h3 id="4-4-10-剩余信息保护"><a href="#4-4-10-剩余信息保护" class="headerlink" title="4.4.10 剩余信息保护"></a>4.4.10 剩余信息保护</h3><ol>
+<li>【服务器&#x2F;操作系统】鉴别信息所在的存储空间被释放或重新分配前得到完全清除；(高风险项)</li>
+<li>【服务器&#x2F;操作系统】存有敏感数据的存储空间被释放或重新分配前得到完全清除。(高风险项)</li>
+</ol>
+<h3 id="4-4-11-个人信息保护"><a href="#4-4-11-个人信息保护" class="headerlink" title="4.4.11 个人信息保护"></a>4.4.11 个人信息保护</h3><ol>
+<li>【服务器&#x2F;操作系统】【不适用】应仅采集和保存业务必需的用户个人信息；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【服务器&#x2F;操作系统】【不适用】不应未授权访问和非法使用用户个人信息。(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h2 id="4-5-运维终端-x2F-终端"><a href="#4-5-运维终端-x2F-终端" class="headerlink" title="4.5 运维终端&#x2F;终端"></a>4.5 运维终端&#x2F;终端</h2><h3 id="4-5-1-身份鉴别"><a href="#4-5-1-身份鉴别" class="headerlink" title="4.5.1 身份鉴别"></a>4.5.1 身份鉴别</h3><ol>
+<li>【运维终端&#x2F;终端】应对登录的用户进行身份标识和鉴别，身份标识具有唯一性，身份鉴别信息具有复杂度要求并定期更换；(高风险项)</li>
+<li>【运维终端&#x2F;终端】应具有登录失败处理功能，应配置并启用结束会话、限制非法登录次数和当登录连接超时自动退出等相关措施。(高风险项)</li>
+<li>【运维终端&#x2F;终端】当进行远程管理时，应采取必要措施防止鉴别信息在网络传输过程中被窃听。(高风险项)</li>
+<li>【运维终端&#x2F;终端】应采用口令、密码技术、生物技术等两种或两种以上组合的鉴别技术对用户进行身份鉴别，且其中一种鉴别技术至少应使用密码技术来实现。(高风险项)</li>
+</ol>
+<h3 id="4-5-2-访问控制"><a href="#4-5-2-访问控制" class="headerlink" title="4.5.2 访问控制"></a>4.5.2 访问控制</h3><ol>
+<li>【运维终端&#x2F;终端】应对登录的用户分配账户和权限；</li>
+<li>【运维终端&#x2F;终端】应重命名或删除默认账户，修改默认账户的默认口令；(高风险项)</li>
+<li>【运维终端&#x2F;终端】应及时删除或停用多余的、过期的账户，避免共享账户的存在；</li>
+<li>【运维终端&#x2F;终端】应授予管理用户所需的最小权限，实现管理用户的权限分离。</li>
+<li>【运维终端&#x2F;终端】应由授权主体配置访问控制策略，访问控制策略规定主体对客体的访问规则；</li>
+<li>【运维终端&#x2F;终端】访问控制的粒度应达到主体为用户级或进程级，客体为文件、数据库表级；</li>
+<li>【运维终端&#x2F;终端】应对重要主体和客体设置安全标记，并控制主体对有安全标记信息资源的访问。</li>
+</ol>
+<h3 id="4-5-3-安全审计"><a href="#4-5-3-安全审计" class="headerlink" title="4.5.3 安全审计"></a>4.5.3 安全审计</h3><ol>
+<li>【运维终端&#x2F;终端】应启用安全审计功能，审计覆盖到每个用户，对重要的用户行为和重要安全事件进行审计；(高风险项)</li>
+<li>【运维终端&#x2F;终端】审计记录应包括事件的日期和时间、用户、事件类型、事件是否成功及其他与审计相关的信息；</li>
+<li>【运维终端&#x2F;终端】应对审计记录进行保护，定期备份，避免受到未预期的删除、修改或覆盖等；(高风险项)</li>
+<li>【运维终端&#x2F;终端】应对审计进程进行保护，防止未经授权的中断。</li>
+</ol>
+<h3 id="4-5-4-入侵防范"><a href="#4-5-4-入侵防范" class="headerlink" title="4.5.4 入侵防范"></a>4.5.4 入侵防范</h3><ol>
+<li>【运维终端&#x2F;终端】应遵循最小安装的原则，仅安装需要的组件和应用程序；</li>
+<li>【运维终端&#x2F;终端】应关闭不需要的系统服务、默认共享和高危端口；(高风险项)</li>
+<li>【运维终端&#x2F;终端】应通过设定终端接入方式或网络地址范围对通过网络进行管理的管理终端进行限制；(高风险项)</li>
+<li>【运维终端&#x2F;终端】【不适用】应提供数据有效性检验功能，保证通过人机接口输入或通过通信接口输入的内容符合系统设定要求；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【运维终端&#x2F;终端】应能发现可能存在的已知漏洞，并在经过充分测试评估后，及时修补漏洞。(高风险项)</li>
+<li>【运维终端&#x2F;终端】应能够检测到对重要节点进行入侵的行为，并在发生严重入侵事件时提供报警。</li>
+</ol>
+<h3 id="4-5-5-恶意代码防范"><a href="#4-5-5-恶意代码防范" class="headerlink" title="4.5.5 恶意代码防范"></a>4.5.5 恶意代码防范</h3><ol>
+<li>【运维终端&#x2F;终端】应采用免受恶意代码攻击的技术措施或主动免疫可信验证机制及时识别入侵和病毒行为，并将其有效阻断。(高风险项)</li>
+</ol>
+<h3 id="4-5-6-可信验证"><a href="#4-5-6-可信验证" class="headerlink" title="4.5.6 可信验证"></a>4.5.6 可信验证</h3><ol>
+<li>【运维终端&#x2F;终端】可基于可信根对计算设备的系统引导程序、系统程序、重要配置参数和应用程序等进行可信验证，并在应用程序的关键执行环节进行动态可信验证，在检测到其可信性受到破坏后进行报警，并将验证结果形成审计记录送至安全管理中心。</li>
+</ol>
+<h3 id="4-5-7-数据完整性"><a href="#4-5-7-数据完整性" class="headerlink" title="4.5.7 数据完整性"></a>4.5.7 数据完整性</h3><ol>
+<li>【运维终端&#x2F;终端】应采用校验技术或密码技术保证重要数据在传输过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等；</li>
+<li>【运维终端&#x2F;终端】应采用校验技术或密码技术保证重要数据在存储过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-5-8-数据保密性"><a href="#4-5-8-数据保密性" class="headerlink" title="4.5.8 数据保密性"></a>4.5.8 数据保密性</h3><ol>
+<li>【运维终端&#x2F;终端】应采用密码技术保证重要数据在传输过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等；</li>
+<li>【运维终端&#x2F;终端】应采用密码技术保证重要数据在存储过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-5-9-数据备份恢复"><a href="#4-5-9-数据备份恢复" class="headerlink" title="4.5.9 数据备份恢复"></a>4.5.9 数据备份恢复</h3><ol>
+<li>【运维终端&#x2F;终端】应提供重要数据的本地数据备份与恢复功能；</li>
+<li>【运维终端&#x2F;终端】应提供异地实时备份功能，利用通信网络将重要数据实时备份至备份场地；</li>
+<li>【运维终端&#x2F;终端】应提供重要数据处理系统的热冗余，保证系统的高可用性。(高风险项)</li>
+</ol>
+<h3 id="4-5-10-剩余信息保护"><a href="#4-5-10-剩余信息保护" class="headerlink" title="4.5.10 剩余信息保护"></a>4.5.10 剩余信息保护</h3><ol>
+<li>【运维终端&#x2F;终端】应仅采集和保存业务必需的用户个人信息；(高风险项)</li>
+<li>【运维终端&#x2F;终端】不应未授权访问和非法使用用户个人信息。(高风险项)</li>
+</ol>
+<h3 id="4-5-11-个人信息保护"><a href="#4-5-11-个人信息保护" class="headerlink" title="4.5.11 个人信息保护"></a>4.5.11 个人信息保护</h3><ol>
+<li>【运维终端&#x2F;终端】【不适用】应仅采集和保存业务必需的用户个人信息；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【运维终端&#x2F;终端】【不适用】不应未授权访问和非法使用用户个人信息。(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h2 id="4-6-交换机-x2F-路由器"><a href="#4-6-交换机-x2F-路由器" class="headerlink" title="4.6 交换机&#x2F;路由器"></a>4.6 交换机&#x2F;路由器</h2><h3 id="4-6-1-身份鉴别"><a href="#4-6-1-身份鉴别" class="headerlink" title="4.6.1 身份鉴别"></a>4.6.1 身份鉴别</h3><ol>
+<li>【交换机&#x2F;路由器】应对登录的用户进行身份标识和鉴别，身份标识具有唯一性，身份鉴别信息具有复杂度要求并定期更换；(高风险项)</li>
+<li>【交换机&#x2F;路由器】应具有登录失败处理功能，应配置并启用结束会话、限制非法登录次数和当登录连接超时自动退出等相关措施。(高风险项)</li>
+<li>【交换机&#x2F;路由器】当进行远程管理时，应采取必要措施防止鉴别信息在网络传输过程中被窃听。(高风险项)</li>
+<li>【交换机&#x2F;路由器】应采用口令、密码技术、生物技术等两种或两种以上组合的鉴别技术对用户进行身份鉴别，且其中一种鉴别技术至少应使用密码技术来实现。(高风险项)</li>
+</ol>
+<h3 id="4-6-2-访问控制"><a href="#4-6-2-访问控制" class="headerlink" title="4.6.2 访问控制"></a>4.6.2 访问控制</h3><ol>
+<li>【交换机&#x2F;路由器】应对登录的用户分配账户和权限；</li>
+<li>【交换机&#x2F;路由器】应重命名或删除默认账户，修改默认账户的默认口令；(高风险项)</li>
+<li>【交换机&#x2F;路由器】应及时删除或停用多余的、过期的账户，避免共享账户的存在；</li>
+<li>【交换机&#x2F;路由器】应授予管理用户所需的最小权限，实现管理用户的权限分离。</li>
+<li>【交换机&#x2F;路由器】应由授权主体配置访问控制策略，访问控制策略规定主体对客体的访问规则；</li>
+<li>【交换机&#x2F;路由器】访问控制的粒度应达到主体为用户级或进程级，客体为文件、数据库表级；</li>
+<li>【交换机&#x2F;路由器】应对重要主体和客体设置安全标记，并控制主体对有安全标记信息资源的访问。</li>
+</ol>
+<h3 id="4-6-3-安全审计"><a href="#4-6-3-安全审计" class="headerlink" title="4.6.3 安全审计"></a>4.6.3 安全审计</h3><ol>
+<li>【交换机&#x2F;路由器】应启用安全审计功能，审计覆盖到每个用户，对重要的用户行为和重要安全事件进行审计；(高风险项)</li>
+<li>【交换机&#x2F;路由器】审计记录应包括事件的日期和时间、用户、事件类型、事件是否成功及其他与审计相关的信息；</li>
+<li>【交换机&#x2F;路由器】应对审计记录进行保护，定期备份，避免受到未预期的删除、修改或覆盖等；(高风险项)</li>
+<li>【交换机&#x2F;路由器】应对审计进程进行保护，防止未经授权的中断。</li>
+</ol>
+<h3 id="4-7-4-入侵防范"><a href="#4-7-4-入侵防范" class="headerlink" title="4.7.4 入侵防范"></a>4.7.4 入侵防范</h3><ol>
+<li>【交换机&#x2F;路由器】应遵循最小安装的原则，仅安装需要的组件和应用程序；</li>
+<li>【交换机&#x2F;路由器】应关闭不需要的系统服务、默认共享和高危端口；(高风险项)</li>
+<li>【交换机&#x2F;路由器】应通过设定终端接入方式或网络地址范围对通过网络进行管理的管理终端进行限制；(高风险项)</li>
+<li>【交换机&#x2F;路由器】【不适用】应提供数据有效性检验功能，保证通过人机接口输入或通过通信接口输入的内容符合系统设定要求；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【交换机&#x2F;路由器】应能发现可能存在的已知漏洞，并在经过充分测试评估后，及时修补漏洞。(高风险项)</li>
+<li>【交换机&#x2F;路由器】应能够检测到对重要节点进行入侵的行为，并在发生严重入侵事件时提供报警。</li>
+</ol>
+<h3 id="4-7-5-恶意代码防范"><a href="#4-7-5-恶意代码防范" class="headerlink" title="4.7.5 恶意代码防范"></a>4.7.5 恶意代码防范</h3><ol>
+<li>【交换机&#x2F;路由器】【不适用】应采用免受恶意代码攻击的技术措施或主动免疫可信验证机制及时识别入侵和病毒行为，并将其有效阻断。(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h3 id="4-7-6-可信验证"><a href="#4-7-6-可信验证" class="headerlink" title="4.7.6 可信验证"></a>4.7.6 可信验证</h3><ol>
+<li>【交换机&#x2F;路由器】可基于可信根对计算设备的系统引导程序、系统程序、重要配置参数和应用程序等进行可信验证，并在应用程序的关键执行环节进行动态可信验证，在检测到其可信性受到破坏后进行报警，并将验证结果形成审计记录送至安全管理中心。</li>
+</ol>
+<h3 id="4-7-7-数据完整性"><a href="#4-7-7-数据完整性" class="headerlink" title="4.7.7 数据完整性"></a>4.7.7 数据完整性</h3><ol>
+<li>【交换机&#x2F;路由器】应采用校验技术或密码技术保证重要数据在传输过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等；</li>
+<li>【交换机&#x2F;路由器】应采用校验技术或密码技术保证重要数据在存储过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-7-8-数据保密性"><a href="#4-7-8-数据保密性" class="headerlink" title="4.7.8 数据保密性"></a>4.7.8 数据保密性</h3><ol>
+<li>【交换机&#x2F;路由器】【不适用】应采用密码技术保证重要数据在传输过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等；<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【交换机&#x2F;路由器】应采用密码技术保证重要数据在存储过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-7-9-数据备份恢复"><a href="#4-7-9-数据备份恢复" class="headerlink" title="4.7.9 数据备份恢复"></a>4.7.9 数据备份恢复</h3><ol>
+<li>【交换机&#x2F;路由器】应提供重要数据的本地数据备份与恢复功能；</li>
+<li>【交换机&#x2F;路由器】应提供异地实时备份功能，利用通信网络将重要数据实时备份至备份场地；</li>
+<li>【交换机&#x2F;路由器】应提供重要数据处理系统的热冗余，保证系统的高可用性。(高风险项)</li>
+</ol>
+<h3 id="4-7-10-剩余信息保护"><a href="#4-7-10-剩余信息保护" class="headerlink" title="4.7.10 剩余信息保护"></a>4.7.10 剩余信息保护</h3><ol>
+<li>【交换机&#x2F;路由器】【不适用】鉴别信息所在的存储空间被释放或重新分配前得到完全清除；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【交换机&#x2F;路由器】【不适用】存有敏感数据的存储空间被释放或重新分配前得到完全清除。(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h3 id="4-7-11-个人信息保护"><a href="#4-7-11-个人信息保护" class="headerlink" title="4.7.11 个人信息保护"></a>4.7.11 个人信息保护</h3><ol>
+<li>【交换机&#x2F;路由器】【不适用】应仅采集和保存业务必需的用户个人信息；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【交换机&#x2F;路由器】【不适用】不应未授权访问和非法使用用户个人信息。(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h2 id="4-7-安全设备"><a href="#4-7-安全设备" class="headerlink" title="4.7 安全设备"></a>4.7 安全设备</h2><h3 id="4-7-1-身份鉴别"><a href="#4-7-1-身份鉴别" class="headerlink" title="4.7.1 身份鉴别"></a>4.7.1 身份鉴别</h3><ol>
+<li>【安全设备】应对登录的用户进行身份标识和鉴别，身份标识具有唯一性，身份鉴别信息具有复杂度要求并定期更换；(高风险项)</li>
+<li>【安全设备】应具有登录失败处理功能，应配置并启用结束会话、限制非法登录次数和当登录连接超时自动退出等相关措施。(高风险项)</li>
+<li>【安全设备】当进行远程管理时，应采取必要措施防止鉴别信息在网络传输过程中被窃听。(高风险项)</li>
+<li>【安全设备】应采用口令、密码技术、生物技术等两种或两种以上组合的鉴别技术对用户进行身份鉴别，且其中一种鉴别技术至少应使用密码技术来实现。(高风险项)</li>
+</ol>
+<h3 id="4-7-2-访问控制"><a href="#4-7-2-访问控制" class="headerlink" title="4.7.2 访问控制"></a>4.7.2 访问控制</h3><ol>
+<li>【安全设备】应对登录的用户分配账户和权限；</li>
+<li>【安全设备】应重命名或删除默认账户，修改默认账户的默认口令；(高风险项)</li>
+<li>【安全设备】应及时删除或停用多余的、过期的账户，避免共享账户的存在；</li>
+<li>【安全设备】应授予管理用户所需的最小权限，实现管理用户的权限分离。</li>
+<li>【安全设备】应由授权主体配置访问控制策略，访问控制策略规定主体对客体的访问规则；</li>
+<li>【安全设备】访问控制的粒度应达到主体为用户级或进程级，客体为文件、数据库表级；</li>
+<li>【安全设备】应对重要主体和客体设置安全标记，并控制主体对有安全标记信息资源的访问。</li>
+</ol>
+<h3 id="4-7-3-安全审计"><a href="#4-7-3-安全审计" class="headerlink" title="4.7.3 安全审计"></a>4.7.3 安全审计</h3><ol>
+<li>【安全设备】应启用安全审计功能，审计覆盖到每个用户，对重要的用户行为和重要安全事件进行审计；(高风险项)</li>
+<li>【安全设备】审计记录应包括事件的日期和时间、用户、事件类型、事件是否成功及其他与审计相关的信息；</li>
+<li>【安全设备】应对审计记录进行保护，定期备份，避免受到未预期的删除、修改或覆盖等；(高风险项)</li>
+<li>【安全设备】应对审计进程进行保护，防止未经授权的中断。</li>
+</ol>
+<h3 id="4-7-4-入侵防范-1"><a href="#4-7-4-入侵防范-1" class="headerlink" title="4.7.4 入侵防范"></a>4.7.4 入侵防范</h3><ol>
+<li>【安全设备】应遵循最小安装的原则，仅安装需要的组件和应用程序；</li>
+<li>【安全设备】应关闭不需要的系统服务、默认共享和高危端口；(高风险项)</li>
+<li>【安全设备】应通过设定终端接入方式或网络地址范围对通过网络进行管理的管理终端进行限制；(高风险项)</li>
+<li>【安全设备】【不适用】应提供数据有效性检验功能，保证通过人机接口输入或通过通信接口输入的内容符合系统设定要求；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【安全设备】应能发现可能存在的已知漏洞，并在经过充分测试评估后，及时修补漏洞。(高风险项)</li>
+<li>【安全设备】应能够检测到对重要节点进行入侵的行为，并在发生严重入侵事件时提供报警。</li>
+</ol>
+<h3 id="4-7-5-恶意代码防范-1"><a href="#4-7-5-恶意代码防范-1" class="headerlink" title="4.7.5 恶意代码防范"></a>4.7.5 恶意代码防范</h3><ol>
+<li>【安全设备】【不适用】应采用免受恶意代码攻击的技术措施或主动免疫可信验证机制及时识别入侵和病毒行为，并将其有效阻断。(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h3 id="4-7-6-可信验证-1"><a href="#4-7-6-可信验证-1" class="headerlink" title="4.7.6 可信验证"></a>4.7.6 可信验证</h3><ol>
+<li>【安全设备】可基于可信根对计算设备的系统引导程序、系统程序、重要配置参数和应用程序等进行可信验证，并在应用程序的关键执行环节进行动态可信验证，在检测到其可信性受到破坏后进行报警，并将验证结果形成审计记录送至安全管理中心。</li>
+</ol>
+<h3 id="4-7-7-数据完整性-1"><a href="#4-7-7-数据完整性-1" class="headerlink" title="4.7.7 数据完整性"></a>4.7.7 数据完整性</h3><ol>
+<li>【安全设备】应采用校验技术或密码技术保证重要数据在传输过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等；</li>
+<li>【安全设备】应采用校验技术或密码技术保证重要数据在存储过程中的完整性，包括但不限于鉴别数据、重要业务数据、重要审计数据、重要配置数据、重要视频数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-7-8-数据保密性-1"><a href="#4-7-8-数据保密性-1" class="headerlink" title="4.7.8 数据保密性"></a>4.7.8 数据保密性</h3><ol>
+<li>【安全设备】【不适用】应采用密码技术保证重要数据在传输过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等；<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【安全设备】应采用密码技术保证重要数据在存储过程中的保密性，包括但不限于鉴别数据、重要业务数据和重要个人信息等。</li>
+</ol>
+<h3 id="4-7-9-数据备份恢复-1"><a href="#4-7-9-数据备份恢复-1" class="headerlink" title="4.7.9 数据备份恢复"></a>4.7.9 数据备份恢复</h3><ol>
+<li>【安全设备】应提供重要数据的本地数据备份与恢复功能；</li>
+<li>【安全设备】应提供异地实时备份功能，利用通信网络将重要数据实时备份至备份场地；</li>
+<li>【安全设备】应提供重要数据处理系统的热冗余，保证系统的高可用性。(高风险项)</li>
+</ol>
+<h3 id="4-7-10-剩余信息保护-1"><a href="#4-7-10-剩余信息保护-1" class="headerlink" title="4.7.10 剩余信息保护"></a>4.7.10 剩余信息保护</h3><ol>
+<li>【安全设备】【不适用】鉴别信息所在的存储空间被释放或重新分配前得到完全清除；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【安全设备】【不适用】存有敏感数据的存储空间被释放或重新分配前得到完全清除。(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h3 id="4-7-11-个人信息保护-1"><a href="#4-7-11-个人信息保护-1" class="headerlink" title="4.7.11 个人信息保护"></a>4.7.11 个人信息保护</h3><ol>
+<li>【安全设备】【不适用】应仅采集和保存业务必需的用户个人信息；(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+<li>【安全设备】【不适用】不应未授权访问和非法使用用户个人信息。(高风险项)<br>依据《信息安全技术网络安全等级保护测评要求》，此对象不适用。</li>
+</ol>
+<h1 id="五、安全管理中心"><a href="#五、安全管理中心" class="headerlink" title="五、安全管理中心"></a>五、安全管理中心</h1><h2 id="5-1-系统管理"><a href="#5-1-系统管理" class="headerlink" title="5.1 系统管理"></a>5.1 系统管理</h2><ol>
+<li>【安全管理】应对系统管理员进行身份鉴别，只允许其通过特定的命令或操作界面进行系统管理操作，并对这些操作进行审计；</li>
+<li>【安全管理】应通过系统管理员对系统的资源和运行进行配置、控制和管理，包括用户身份、系统资源配置、 系统加载和启动、系统运行的异常处理、数据和设备的备份与恢复等。</li>
+</ol>
+<h2 id="5-2-审计管理"><a href="#5-2-审计管理" class="headerlink" title="5.2 审计管理"></a>5.2 审计管理</h2><ol>
+<li>【安全管理】应对审计管理员进行身份鉴别，只允许其通过特定的命令或操作界面进行安全审计操作，并对这些操作进行审计；</li>
+<li>【安全管理】应通过审计管理员对审计记录应进行分析，并根据分析结果进行处理，包括根据安全审计策略 对审计记录进行存储、管理和查询等。</li>
+</ol>
+<h2 id="5-3-安全管理"><a href="#5-3-安全管理" class="headerlink" title="5.3 安全管理"></a>5.3 安全管理</h2><ol>
+<li>【安全管理】应对安全管理员进行身份鉴别，只允许其通过特定的命令或操作界面进行安全管理操作，并对这些操作进行审计；</li>
+<li>【安全管理】应通过安全管理员对系统中的安全策略进行配置，包括安全参数的设置，主体、客体进行统 一安全标记，对主体进行授权，配置可信验证策略等。</li>
+</ol>
+<h2 id="5-4-集中管控"><a href="#5-4-集中管控" class="headerlink" title="5.4 集中管控"></a>5.4 集中管控</h2><ol>
+<li>【安全管理】应划分出特定的管理区域，对分布在网络中的安全设备或安全组件进行管控；</li>
+<li>【安全管理】应能够建立一条安全的信息传输路径，对网络中的安全设备或安全组件进行管理；</li>
+<li>【安全管理】应对网络链路、安全设备、网络设备和服务器等的运行状况进行集中监测；(高风险项)</li>
+<li>【安全管理】应对分散在各个设备上的审计数据进行收集汇总和集中分析，审计记录的留存时间应符合法律法规要求：(高风险项)</li>
+<li>【安全管理】应对安全策略、恶意代码、补丁升级等安全相关事项进行集中管理；</li>
+<li>【安全管理】应能对网络中发生的各类安全事件进行识别、报警和分析；(高风险项)</li>
+</ol>
+<h1 id="六、安全管理制度"><a href="#六、安全管理制度" class="headerlink" title="六、安全管理制度"></a>六、安全管理制度</h1><h2 id="6-1-安全策略"><a href="#6-1-安全策略" class="headerlink" title="6.1 安全策略"></a>6.1 安全策略</h2><ol>
+<li>【安全管理】应制定网络安全工作的总体方针和安全策略，阐明机构安全工作的总体目标、范围、原则和安全框架等。</li>
+</ol>
+<h2 id="6-2-管理制度"><a href="#6-2-管理制度" class="headerlink" title="6.2 管理制度"></a>6.2 管理制度</h2><ol>
+<li>【安全管理】应对安全管理活动中的各类管理内容建立安全管理制度；(高风险项)</li>
+<li>【安全管理】应对管理人员或操作人员执行的日常管理操作建立操作规程；</li>
+<li>【安全管理】应形成由安全策略、管理制度、操作规程、记录表单等构成的全面的安全管理制度体系。</li>
+</ol>
+<h2 id="6-3-制定和发布"><a href="#6-3-制定和发布" class="headerlink" title="6.3 制定和发布"></a>6.3 制定和发布</h2><ol>
+<li>【安全管理】应指定或授权专门的部门或人员负责安全管理制度的制定；</li>
+<li>【安全管理】安全管理制度应通过正式、有效的方式发布，并进行版本控制。</li>
+</ol>
+<h2 id="6-4-评审和修订"><a href="#6-4-评审和修订" class="headerlink" title="6.4 评审和修订"></a>6.4 评审和修订</h2><ol>
+<li>【安全管理】应定期对安全管理制度的合理性和适用性进行论证和审定，对存在不足或需要改进的安全管理制度进行修订。</li>
+</ol>
+<h1 id="七、安全管理机构"><a href="#七、安全管理机构" class="headerlink" title="七、安全管理机构"></a>七、安全管理机构</h1><h2 id="7-1-岗位设置"><a href="#7-1-岗位设置" class="headerlink" title="7.1 岗位设置"></a>7.1 岗位设置</h2><ol>
+<li>【安全管理】应成立指导和管理网络安全工作的委员会或领导小组，其最高领导由单位主管领导担任或授权；(高风险项)</li>
+<li>【安全管理】应设立网络安全管理工作的职能部门，设立安全主管、安全管理各个方面的负责人岗位，并定义各负责人的职责；</li>
+<li>【安全管理】应设立系统管理员、审计管理员和安全管理员等岗位，并定义部门及各个工作岗位的职责。</li>
+</ol>
+<h2 id="7-2-人员配备"><a href="#7-2-人员配备" class="headerlink" title="7.2 人员配备"></a>7.2 人员配备</h2><ol>
+<li>【安全管理】应配备一定数量的系统管理员、审计管理员和安全管理员等；</li>
+<li>【安全管理】应配备专职安全管理员，不可兼任。</li>
+</ol>
+<h2 id="7-3-授权和审批"><a href="#7-3-授权和审批" class="headerlink" title="7.3 授权和审批"></a>7.3 授权和审批</h2><ol>
+<li>【安全管理】应根据各个部门和岗位的职责明确授权审批事项、审批部门和批准人等；</li>
+<li>【安全管理】应针对系统变更、重要操作、物理访问和系统接入等事项建立审批程序，按照审批程序执行审批过程，对重要活动建立逐级审批制度；</li>
+<li>【安全管理】应定期审查审批事项，及时更新需授权和审批的项目、审批部门和审批人等信息。</li>
+</ol>
+<h2 id="7-4-沟通和合作"><a href="#7-4-沟通和合作" class="headerlink" title="7.4 沟通和合作"></a>7.4 沟通和合作</h2><ol>
+<li>【安全管理】应加强各类管理人员、组织内部机构和网络安全管理部门之间的合作与沟通，定期召开协调会议，共同协作处理网络安全问题；</li>
+<li>【安全管理】应加强与网络安全职能部门、各类供应商、业界专家及安全组织的合作与沟通；</li>
+<li>【安全管理】应建立外联单位联系列表，包括外联单位名称、合作内容、联系人和联系方式等信息。</li>
+</ol>
+<h2 id="7-5-审核和检查"><a href="#7-5-审核和检查" class="headerlink" title="7.5 审核和检查"></a>7.5 审核和检查</h2><ol>
+<li>【安全管理】应定期进行常规安全检查，检查内容包括系统日常运行、系统漏洞和数据备份等情况；</li>
+<li>【安全管理】应定期进行全面安全检查，检查内容包括现有安全技术措施的有效性、安全配置与安全策略的一致性、安全管理制度的执行情况等；</li>
+<li>【安全管理】应制定安全检查表格实施安全检查，汇总安全检查数据，形成安全检查报告，并对安全检查结果进行通报。</li>
+</ol>
+<h1 id="八、安全管理人员"><a href="#八、安全管理人员" class="headerlink" title="八、安全管理人员"></a>八、安全管理人员</h1><h2 id="8-1-人员录用"><a href="#8-1-人员录用" class="headerlink" title="8.1 人员录用"></a>8.1 人员录用</h2><ol>
+<li>【安全管理】应指定或授权专门的部门或人员负责人员录用；</li>
+<li>【安全管理】应对被录用人员的身份、安全背景、专业资格或资质等进行审查，对其所具有的技术技能进行考核；</li>
+<li>【安全管理】应与被录用人员签署保密协议，与关键岗位人员签署岗位责任协议；</li>
+</ol>
+<h2 id="8-2-人员离岗"><a href="#8-2-人员离岗" class="headerlink" title="8.2 人员离岗"></a>8.2 人员离岗</h2><ol>
+<li>【安全管理】应及时终止离岗人员的所有访问权限，取回各种身份证件、钥匙、徽章等以及机构提供的软硬件设备；</li>
+<li>【安全管理】应办理严格的调离手续，并承诺调离后的保密义务后方可离开。</li>
+</ol>
+<h2 id="8-3-安全意识教育和培训"><a href="#8-3-安全意识教育和培训" class="headerlink" title="8.3 安全意识教育和培训"></a>8.3 安全意识教育和培训</h2><ol>
+<li>【安全管理】应对各类人员进行安全意识教育和岗位技能培训，并告知相关的安全责任和惩戒措施；(高风险项)</li>
+<li>【安全管理】应针对不同岗位制定不同的培训计划，对安全基础知识、岗位操作规程等进行培训；</li>
+<li>【安全管理】应定期对不同岗位的人员进行技能考核。</li>
+</ol>
+<h2 id="8-4-外部人员访问管理"><a href="#8-4-外部人员访问管理" class="headerlink" title="8.4 外部人员访问管理"></a>8.4 外部人员访问管理</h2><ol>
+<li>【安全管理】应在外部人员物理访问受控区域前先提出书面申请，批准后由专人全程陪同，并登记备案；</li>
+<li>【安全管理】应在外部人员接入受控网络访问系统前先提出书面申请，批准后由专人开设账户、分配权限，并登记备案；(高风险项)</li>
+<li>【安全管理】外部人员离场后应及时清除其所有的访问权限；</li>
+<li>【安全管理】获得系统访问授权的外部人员应签署保密协议，不应进行非授权操作，不应复制和泄露任何敏感信息。</li>
+</ol>
+<h1 id="九、安全建设管理"><a href="#九、安全建设管理" class="headerlink" title="九、安全建设管理"></a>九、安全建设管理</h1><h2 id="9-1-定级和备案"><a href="#9-1-定级和备案" class="headerlink" title="9.1 定级和备案"></a>9.1 定级和备案</h2><ol>
+<li>【安全管理】应以书面的形式说明保护对象的安全保护等级及确定等级的方法和理由；</li>
+<li>【安全管理】应组织相关部门和有关安全技术专家对定级结果的合理性和正确性进行论证和审定；</li>
+<li>【安全管理】定级结果应经过相关部门的批准；</li>
+<li>【安全管理】应将备案材料报主管部门和相应公安机关备案。</li>
+</ol>
+<h2 id="9-2-安全方案设计"><a href="#9-2-安全方案设计" class="headerlink" title="9.2 安全方案设计"></a>9.2 安全方案设计</h2><ol>
+<li>【安全管理】应根据安全保护等级选择基本安全措施，依据风险分析的结果补充和调整安全措施；</li>
+<li>【安全管理】应根据保护对象的安全保护等级及与其他级别保护对象的关系进行安全整体规划和安全方案设计，设计内容应包含密码技术相关内容，并形成配套文件；</li>
+<li>【安全管理】应组织相关部门和有关安全专家对安全整体规划及其配套文件的合理性和正确性进行论证和 审定，经过批准后才能正式实施。</li>
+</ol>
+<h2 id="9-3-产品采购和使用"><a href="#9-3-产品采购和使用" class="headerlink" title="9.3 产品采购和使用"></a>9.3 产品采购和使用</h2><ol>
+<li>【安全管理】网络安全产品采购和使用应符合国家主管部门的相关要求；(高风险项)</li>
+<li>【安全管理】密码产品与服务的采购和使用应符合国家密码管理主管部门的要求；</li>
+<li>【安全管理】应预先对产品进行选型测试，确定产品的候选范围，并定期审定和更新候选产品名单。</li>
+</ol>
+<h2 id="9-4-自行软件开发"><a href="#9-4-自行软件开发" class="headerlink" title="9.4 自行软件开发"></a>9.4 自行软件开发</h2><ol>
+<li>【安全管理】应将开发环境与实际运行环境物理分开，测试数据和测试结果受到控制；</li>
+<li>【安全管理】应制定软件开发管理制度，明确说明开发过程的控制方法和人员行为准则；</li>
+<li>【安全管理】应制定代码编写安全规范，要求开发人员参照规范编写代码；</li>
+<li>【安全管理】应具备软件设计的相关文档和使用指南，并对文档使用进行控制；</li>
+<li>【安全管理】在软件开发过程中应对安全性进行测试，在软件安装前对可能存在的恶意代码进行检测；</li>
+<li>【安全管理】应对程序资源库的修改、更新、发布进行授权和批准，并严格进行版本控制；</li>
+<li>【安全管理】开发人员应为专职人员，开发人员的开发活动应受到控制、监视和审查。</li>
+</ol>
+<h2 id="9-5-外包软件开发"><a href="#9-5-外包软件开发" class="headerlink" title="9.5 外包软件开发"></a>9.5 外包软件开发</h2><ol>
+<li>【安全管理】应在软件交付前检测其中可能存在的恶意代码；</li>
+<li>【安全管理】开发单位应提供软件设计文档和使用指南；</li>
+<li>【安全管理】开发单位应提供软件源代码，并审查软件中可能存在的后门和隐蔽信道。(高风险项)</li>
+</ol>
+<h2 id="9-6-工程实施"><a href="#9-6-工程实施" class="headerlink" title="9.6 工程实施"></a>9.6 工程实施</h2><ol>
+<li>【安全管理】应指定或授权专门的部门或人员负责工程实施过程的管理；</li>
+<li>【安全管理】应制定安全工程实施方案控制工程实施过程；</li>
+<li>【安全管理】应通过第三方工程监理控制项目的实施过程。</li>
+</ol>
+<h2 id="9-7-测试验收"><a href="#9-7-测试验收" class="headerlink" title="9.7 测试验收"></a>9.7 测试验收</h2><ol>
+<li>【安全管理】应制订测试验收方案，并依据测试验收方案实施测试验收，形成测试验收报告；</li>
+<li>【安全管理】应进行上线前的安全性测试，并出具安全测试报告，安全测试报告应包含密码应用安全性测试相关内容。(高风险项)</li>
+</ol>
+<h2 id="9-8-系统交付"><a href="#9-8-系统交付" class="headerlink" title="9.8 系统交付"></a>9.8 系统交付</h2><ol>
+<li>【安全管理】应制定交付清单，并根据交付清单对所交接的设备、软件和文档等进行清点；</li>
+<li>【安全管理】应对负责运行维护的技术人员进行相应的技能培训；</li>
+<li>【安全管理】应提供建设过程文档和运行维护文档。</li>
+</ol>
+<h2 id="9-9-等级测评"><a href="#9-9-等级测评" class="headerlink" title="9.9 等级测评"></a>9.9 等级测评</h2><ol>
+<li>【安全管理】应定期进行等级测评，发现不符合相应等级保护标准要求的及时整改；</li>
+<li>【安全管理】应在发生重大变更或级别发生变化时进行等级测评；</li>
+<li>【安全管理】测评机构的选择应符合 国家主管部门的相关要求。</li>
+</ol>
+<h2 id="9-10-服务供应商选择"><a href="#9-10-服务供应商选择" class="headerlink" title="9.10 服务供应商选择"></a>9.10 服务供应商选择</h2><ol>
+<li>【安全管理】服务供应商的选择应符合国家主管部门的相关要求；</li>
+<li>【安全管理】应与选定的服务供应商签订相关协议，明确整个服务供应链各方需履行的网络安全相关义务；</li>
+<li>【安全管理】应定期监督、评审和审核服务供应商提供的服务，并对其变更服务内容加以控制。</li>
+</ol>
+<h1 id="十、安全运维管理"><a href="#十、安全运维管理" class="headerlink" title="十、安全运维管理"></a>十、安全运维管理</h1><h2 id="10-1-环境管理"><a href="#10-1-环境管理" class="headerlink" title="10.1 环境管理"></a>10.1 环境管理</h2><ol>
+<li>【安全管理】应指定专门的部门或人员负责机房安全，对机房出入进行管理，定期对机房供配电、空调、温湿度控制、消防等设施进行维护管理；</li>
+<li>【安全管理】应建立机房安全管理制度，对有关物理访问、物品进出和环境安全等方面的管理作出规定；</li>
+<li>【安全管理】不应在重要区域接待来访人员，不随意放置含有敏感信息的纸档文件和移动介质等；</li>
+</ol>
+<h2 id="10-2-资产管理"><a href="#10-2-资产管理" class="headerlink" title="10.2 资产管理"></a>10.2 资产管理</h2><ol>
+<li>【安全管理】应编制并保存与保护对象相关的资产清单，包括资产责任部门、重要程度和所处位置等内容；</li>
+<li>【安全管理】应根据资产的重要程度对资产进行标识管理，根据资产的价值选择相应的管理措施；</li>
+<li>【安全管理】应对信息分类与标识方法作出规定，并对信息的使用、传输和存储等进行规范化管理；</li>
+</ol>
+<h2 id="10-3-介质管理"><a href="#10-3-介质管理" class="headerlink" title="10.3 介质管理"></a>10.3 介质管理</h2><ol>
+<li>【安全管理】应将介质存放在安全的环境中，对各类介质进行控制和保护，实行存储环境专人管理，并根据 存档介质的目录清单定期盘点；</li>
+<li>【安全管理】应对介质在物理传输过程中的人员选择、打包、交付等情况进行控制，并对介质的归档和查询等进行登记记录；</li>
+</ol>
+<h2 id="10-4-设备维护管理"><a href="#10-4-设备维护管理" class="headerlink" title="10.4 设备维护管理"></a>10.4 设备维护管理</h2><ol>
+<li>【安全管理】对各种设备（包括备份和冗余设备）、线路等指定专门的部门或人员定期进行维护管理；</li>
+<li>【安全管理】应建立配套设施、软硬件维护方面的管理制度，对其维护进行有效管理，包括明确维护人员的责任、维修和服务的审批、维修过程的监督控制等；</li>
+<li>【安全管理】信息处理设备必须经过审批才能带离机房或办公地点，含有存储介质的设备带出工作环境时其中重要数据必须加密；</li>
+<li>【安全管理】含有存储介质的设备在报废或重用前，应进行完全清除或被安全覆盖，保证该设备上的敏感数据和授权软件无法被恢复重用；</li>
+</ol>
+<h2 id="10-5-漏洞和风险管理"><a href="#10-5-漏洞和风险管理" class="headerlink" title="10.5 漏洞和风险管理"></a>10.5 漏洞和风险管理</h2><ol>
+<li>【安全管理】应采取必要的措施识别安全漏洞和隐患，对发现的安全漏洞和隐患及时进行修补或评估可能的 影响后进行修补；</li>
+<li>【安全管理】应定期开展安全测评，形成安全测评报告，采取措施应对发现的安全问题；</li>
+</ol>
+<h2 id="10-6-网络和系统安全管理"><a href="#10-6-网络和系统安全管理" class="headerlink" title="10.6 网络和系统安全管理"></a>10.6 网络和系统安全管理</h2><ol>
+<li>【安全管理】应划分不同的管理员角色进行网络和系统的运维管理，明确各个角色的责任和权限；</li>
+<li>【安全管理】应指定专门的部门或人员进行账户管理，对申请账户、建立账户、删除账户等进行控制；</li>
+<li>【安全管理】应建立网络和系统安全管理制度，对安全策略、账户管理、配置管理、日志管理、日常操作、升级与打补丁、口令更新周期等方面作出规定；</li>
+<li>【安全管理】应制定重要设备的配置和操作手册，依据手册对设备进行安全配置和优化配置等；</li>
+<li>【安全管理】应详细记录运维操作日志，包括日常巡检工作、运行维护记录、参数的设置和修改等内容；</li>
+<li>【安全管理】应指定专门的部门或人员对日志、监测和报警数据等进行分析、统计，及时发现可疑行为；</li>
+<li>【安全管理】应严格控制变更性运维，经过审批后才可改变连接、安装系统组件或调整配置参数，操作过程中应保留不可更改的审计日志，操作结束后应同步更新配置信息库；</li>
+<li>【安全管理】应严格控制运维工具的使用，经过审批后才可接入进行操作，操作过程中应保留不可更改的审计日志，操作结束后应删除工具中的敏感数据；(高风险项)</li>
+<li>【安全管理】应严格控制远程运维的开通，经过审批后才可开通远程运维接口或通道，操作过程中应保留不可更改的审计日志，操作结束后立即关闭接口或通道；</li>
+<li>【安全管理】所有与外部的连接均应得到授权和批准，应定期检查违反规定无线上网及其他违反网络安全策略的行为；应每月至少检查一次违反网络安全策略的行为。(高风险项)</li>
+</ol>
+<h2 id="10-7-恶意代码防范管理"><a href="#10-7-恶意代码防范管理" class="headerlink" title="10.7 恶意代码防范管理"></a>10.7 恶意代码防范管理</h2><ol>
+<li>【安全管理】应提高所有用户的防恶意代码意识，对外来计算机或存储设备接入系统前进行恶意代码检查等；(高风险项)</li>
+<li>【安全管理】应定期验证防范恶意代码攻击的技术措施的有效性；</li>
+</ol>
+<h2 id="10-8-配置管理"><a href="#10-8-配置管理" class="headerlink" title="10.8 配置管理"></a>10.8 配置管理</h2><ol>
+<li>【安全管理】应记录和保存基本配置信息，包括网络拓扑结构、各个设备安装的软件组件、软件组件的版本和补丁信息、各个设备或软件组件的配置参数等；</li>
+<li>【安全管理】应将基本配置信息改变纳入变更范畴，实施对配置信息改变的控制，并及时更新基本配置信息库；</li>
+</ol>
+<h2 id="10-9-密码管理"><a href="#10-9-密码管理" class="headerlink" title="10.9 密码管理"></a>10.9 密码管理</h2><ol>
+<li>【安全管理】应遵循密码相关的国家标准和行业标准；</li>
+<li>【安全管理】应使用国家密码管理主管部门认证核准的密码技术和产品；</li>
+</ol>
+<h2 id="10-10-变更管理"><a href="#10-10-变更管理" class="headerlink" title="10.10 变更管理"></a>10.10 变更管理</h2><ol>
+<li>【安全管理】应明确变更需求，变更前根据变更需求制定变更方案，变更方案经过评审、审批后方可实施；(高风险项)</li>
+<li>【安全管理】应建立变更的申报和审批控制程序，依据程序控制所有的变更，记录变更实施过程；</li>
+<li>【安全管理】应建立中止变更并从失败变更中恢复的程序，明确过程控制方法和人员职责，必要时对恢复过程进行演练；</li>
+</ol>
+<h2 id="10-11-备份与恢复管理"><a href="#10-11-备份与恢复管理" class="headerlink" title="10.11 备份与恢复管理"></a>10.11 备份与恢复管理</h2><ol>
+<li>【安全管理】应识别需要定期备份的重要业务信息、系统数据及软件系统等；</li>
+<li>【安全管理】应规定备份信息的备份方式、备份频度、存储介质、保存期等；</li>
+<li>【安全管理】应根据数据的重要性和数据对系统运行的影响，制定数据的备份策略和恢复策略、备份程序和恢复程序等；(高风险项)</li>
+</ol>
+<h2 id="10-12-安全事件处置"><a href="#10-12-安全事件处置" class="headerlink" title="10.12 安全事件处置"></a>10.12 安全事件处置</h2><ol>
+<li>【安全管理】应及时向安全管理部门报告所发现的安全弱点和可疑事件；</li>
+<li>【安全管理】应制定安全事件报告和处置管理制度，明确不同安全事件的报告、处置和响应流程，规定安全事件的现场处理、事件报告和后期恢复的管理职责等；</li>
+<li>【安全管理】应在安全事件报告和响应处理过程中，分析和鉴定事件产生的原因，收集证据，记录处理过程，总结经验教训；</li>
+<li>【安全管理】对造成系统中断和造成信息泄漏的重大安全事件应采用不同的处理程序和报告程序；</li>
+</ol>
+<h2 id="10-13-应急预案管理"><a href="#10-13-应急预案管理" class="headerlink" title="10.13 应急预案管理"></a>10.13 应急预案管理</h2><ol>
+<li>【安全管理】应规定统一的应急预案框架，包括启动预案的条件、应急组织构成、应急资源保障、事后教育和培训等内容；</li>
+<li>【安全管理】应制定重要事件的应急预案，包括应急处理流程、系统恢复流程等内容；(高风险项)</li>
+<li>【安全管理】应定期对系统相关的人员进行应急预案培训，并进行应急预案的演练；(高风险项)</li>
+<li>【安全管理】应定期对原有的应急预案重新评估，修订完善；</li>
+</ol>
+<h2 id="10-14-外包运维管理"><a href="#10-14-外包运维管理" class="headerlink" title="10.14 外包运维管理"></a>10.14 外包运维管理</h2><ol>
+<li>【安全管理】外包运维服务商的选择应符合国家主管部门的相关要求；</li>
+<li>【安全管理】应与选定的外包运维服务商签订相关的协议，明确约定外包运维的范围、工作内容；</li>
+<li>【安全管理】外包运维服务商在技术和管理方面均应具有按照等级保护要求开展安全运维工作的能力，并将 能力要求在签订的协议中明确；</li>
+<li>【安全管理】应在与外包运维服务商签订的协议中明确所有相关的安全要求，如可能涉及对敏感信息的访问、处理、存储要求，对 IT 基础设施中断服务的应急保障要求等；</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%AD%89%E4%BF%9D/" rel="tag"># 等保</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/24/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E8%AE%A1%E7%AE%97%E7%8E%AF%E5%A2%83%E5%AE%89%E5%85%A8/" rel="prev" title="等保三级之计算环境安全">
+                  <i class="fa fa-chevron-left"></i> 等保三级之计算环境安全
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/06/27/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/%E4%BD%BF%E7%94%A8paho-mqttv3%E5%8F%91%E5%B8%83%E6%B6%88%E6%81%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/" rel="next" title="使用paho mqttv3发布消息性能优化实践">
+                  使用paho mqttv3发布消息性能优化实践 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="emqtt_bench 是基于 Erlang 编写的，一个简洁强大的 MQTT 协议性能测试工具。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQTT 性能测试之 emqtt-bench">
+<meta property="og:url" content="http://example.com/2023/06/20/%E6%B5%8B%E8%AF%95/MQTT-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B-emqtt-bench/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="emqtt_bench 是基于 Erlang 编写的，一个简洁强大的 MQTT 协议性能测试工具。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-20T13:19:44.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.851Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="MQTT">
+<meta property="article:tag" content="emqtt-bench">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/06/20/%E6%B5%8B%E8%AF%95/MQTT-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B-emqtt-bench/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/06/20/%E6%B5%8B%E8%AF%95/MQTT-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B-emqtt-bench/","path":"2023/06/20/测试/MQTT-性能测试之-emqtt-bench/","title":"MQTT 性能测试之 emqtt-bench"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MQTT 性能测试之 emqtt-bench | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">编译安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">命令使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.1.</span> <span class="nav-text">连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E5%B8%83"><span class="nav-number">2.2.</span> <span class="nav-text">发布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A2%E9%98%85"><span class="nav-number">2.3.</span> <span class="nav-text">订阅</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E4%BC%98"><span class="nav-number">3.</span> <span class="nav-text">系统调优</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/20/%E6%B5%8B%E8%AF%95/MQTT-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B-emqtt-bench/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MQTT 性能测试之 emqtt-bench | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MQTT 性能测试之 emqtt-bench
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-20 21:19:44" itemprop="dateCreated datePublished" datetime="2023-06-20T21:19:44+08:00">2023-06-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">测试</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">物联网</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/" itemprop="url" rel="index"><span itemprop="name">MQTT</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>emqtt_bench 是基于 Erlang 编写的，一个简洁强大的 MQTT 协议性能测试工具。</p>
+<span id="more"></span>
+
+<h1 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h1><p><a target="_blank" rel="noopener" href="https://github.com/emqx/emqtt-bench">官方文档</a>采用的源码编译方式，我参照文档进行编译时一步一坑不停的踩坑，也没能编译成功。最终还是下载预编译的<a target="_blank" rel="noopener" href="https://github.com/emqx/emqtt-bench/releases">二进制文件包</a>，解压直接运行，省时省力。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 解压</span><br><span class="line">tar -zxvf xxx.tar.gz</span><br><span class="line"></span><br><span class="line"># 进入到bin目录</span><br><span class="line">cd xxx/bin</span><br><span class="line"></span><br><span class="line"># 执行命令查看帮助</span><br><span class="line">./emqtt_bench --help</span><br></pre></td></tr></table></figure>
+
+<h1 id="命令使用"><a href="#命令使用" class="headerlink" title="命令使用"></a>命令使用</h1><p><strong>emqtt_bench</strong> 共三个子命令：</p>
+<ol>
+<li><strong>conn</strong>：用于创建大量的连接。</li>
+<li><strong>pub</strong>：用于创建大量客户端执行发布消息的操作。</li>
+<li><strong>sub</strong>：用于创建大量客户端执行订阅主题，并接受消息的操作。</li>
+</ol>
+<p>常用参数如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>简写</th>
+<th>可选值</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–host</td>
+<td>-h</td>
+<td>-</td>
+<td>localhost</td>
+<td>要连接的 MQTT 服务器地址</td>
+</tr>
+<tr>
+<td>–port</td>
+<td>-p</td>
+<td>-</td>
+<td>1883</td>
+<td>要连接的 MQTT 服务器端口</td>
+</tr>
+<tr>
+<td>–version</td>
+<td>-V</td>
+<td>3、4、5</td>
+<td>5</td>
+<td>MQTT 协议版本</td>
+</tr>
+<tr>
+<td>–count</td>
+<td>-c</td>
+<td>-</td>
+<td>200</td>
+<td>客户端数量</td>
+</tr>
+<tr>
+<td>–startnumber</td>
+<td>-n</td>
+<td>-</td>
+<td>0</td>
+<td>客户端编号起始值</td>
+</tr>
+<tr>
+<td>–interval</td>
+<td>-i</td>
+<td>-</td>
+<td>10</td>
+<td>每间隔多少时间创建一个客户端；单位：毫秒</td>
+</tr>
+<tr>
+<td>–interval_of_msg</td>
+<td>-I</td>
+<td>-</td>
+<td>1000</td>
+<td>每间隔多少时间发送一条消息；单位：毫秒</td>
+</tr>
+<tr>
+<td>–username</td>
+<td>-u</td>
+<td>-</td>
+<td>‘’</td>
+<td>客户端用户名</td>
+</tr>
+<tr>
+<td>–password</td>
+<td>-P</td>
+<td>-</td>
+<td>‘’</td>
+<td>客户端密码，注意 “-P” 为大写，我在这里踩了坑</td>
+</tr>
+<tr>
+<td>–topic</td>
+<td>-t</td>
+<td>-</td>
+<td>‘’</td>
+<td>发布消息的主题，支持站位符。%c 表示 ClientId，%u 表示 Username，%i 表示客户端的序列数。</td>
+</tr>
+<tr>
+<td>–size</td>
+<td>-s</td>
+<td>-</td>
+<td>256</td>
+<td>消息 Payload 的大小；单位：字节</td>
+</tr>
+<tr>
+<td>–qos</td>
+<td>-q</td>
+<td>-</td>
+<td>0</td>
+<td>消息的 QoS 等级</td>
+</tr>
+<tr>
+<td>–retain</td>
+<td>-r</td>
+<td>true、false</td>
+<td>false</td>
+<td>是否保留消息</td>
+</tr>
+<tr>
+<td>–keepalive</td>
+<td>-k</td>
+<td>-</td>
+<td>300</td>
+<td>客户端心跳时间；单位：秒</td>
+</tr>
+<tr>
+<td>–clean</td>
+<td>-C</td>
+<td>true、false</td>
+<td>true</td>
+<td>是否以清除会话的方式建立连接</td>
+</tr>
+<tr>
+<td>–ssl</td>
+<td>-S</td>
+<td>true、false</td>
+<td>false</td>
+<td>是否使用 SSL 连接</td>
+</tr>
+<tr>
+<td>–certfile</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>客户端证书文件</td>
+</tr>
+<tr>
+<td>–keyfile</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>客户端私钥文件</td>
+</tr>
+<tr>
+<td>–ws</td>
+<td>-</td>
+<td>true、false</td>
+<td>false</td>
+<td>是否以 Websocket 的方式建立连接</td>
+</tr>
+<tr>
+<td>–ifaddr</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>指定客户端连接使用的本地网卡</td>
+</tr>
+<tr>
+<td>–prefix</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>客户端 ID 的前缀</td>
+</tr>
+<tr>
+<td>–shortids</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>客户端 ID 是否使用短 ID</td>
+</tr>
+</tbody></table>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><p>执行 <code>./emqtt_bench conn --help</code> 可得到该子命令所有可用的参数。它们的解释已包含在上表中，此处略过。<br>例如，我们启动 500 个连接，每 1 毫秒创建一个连接，连接时使用用户名密码认证，用户名为 <code>username</code>，密码为 <code>password</code>，客户端 ID 以 <code>FG19CC1</code> 为前缀，客户端 ID 使用短 ID，客户端编号起始值为<code>10000</code>，连接的服务器地址为 <code>host</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./emqtt_bench conn -h $&#123;host&#125; -u $&#123;username&#125; -P $&#123;password&#125; -c 500 -i 1 -k 60 --prefix FG19CC1 -s -n 10000</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们模拟出了一批有规则的客户端连接。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FG19CC110000</span><br><span class="line">FG19CC110001</span><br><span class="line">...</span><br><span class="line">FG19CC110499</span><br></pre></td></tr></table></figure>
+
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>执行 <code>./emqtt_bench pub --help</code> 会得到可用的参数输出。它们的解释已包含在上表中，此处略过。<br>例如，我们启动 10 个连接，分别每秒向主题 t 发送 100 条 Qos0 消息，其中每个消息体的大小为 16 字节大小：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./emqtt_bench pub -t t -h emqx-server -s 16 -q 0 -c 10 -I 10</span><br></pre></td></tr></table></figure>
+
+<h2 id="订阅"><a href="#订阅" class="headerlink" title="订阅"></a>订阅</h2><p>执行 <code>./emqtt_bench sub --help</code> 可得到该子命令的所有的可用参数。它们的解释已包含在上表中，此处略过。<br>例如，我们启动 500 个连接，每个都以 Qos0 订阅 t 主题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./emqtt_bench sub -t t -h emqx-server -c 500</span><br></pre></td></tr></table></figure>
+
+<h1 id="系统调优"><a href="#系统调优" class="headerlink" title="系统调优"></a>系统调优</h1><p>客户端的压力机和服务端的机器都需要执行系统参数的调优，否则会影响测试结果。这里仅介绍压力机的调优。</p>
+<ol>
+<li>系统全局允许分配的最大文件句柄数:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 2 millions system-wide</span><br><span class="line">sysctl -w fs.file-max=2097152</span><br><span class="line">sysctl -w fs.nr_open=2097152</span><br><span class="line">echo 2097152 &gt; /proc/sys/fs/nr_open</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>允许当前会话 &#x2F; 进程打开文件句柄数:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -n 1048576</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>&#x2F;etc&#x2F;sysctl.conf</li>
+</ol>
+<p>持久化 ‘fs.file-max’ 设置到 &#x2F;etc&#x2F;sysctl.conf 文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fs.file-max = 1048576</span><br></pre></td></tr></table></figure>
+
+<p>&#x2F;etc&#x2F;systemd&#x2F;system.conf 设置服务最大文件句柄数:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DefaultLimitNOFILE=1048576</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>&#x2F;etc&#x2F;security&#x2F;limits.conf</li>
+</ol>
+<p>&#x2F;etc&#x2F;security&#x2F;limits.conf 持久化设置允许用户 &#x2F; 进程打开文件句柄数:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*      soft   nofile      1048576</span><br><span class="line">*      hard   nofile      1048576</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://www.emqx.io/docs/zh/v4/tutorial/benchmark.html">性能测试 | EMQX4.4 文档 emqtt-bench</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.emqx.io/docs/zh/v4/tutorial/tune.html">系统调优 | EMQX4.4 文档 emqtt-bench</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/emqx/emqtt-bench">github | emqtt-bench</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/MQTT/" rel="tag"># MQTT</a>
+              <a href="/tags/emqtt-bench/" rel="tag"># emqtt-bench</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/17/%E6%B5%8B%E8%AF%95/MQTT-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B-XMeter/" rel="prev" title="MQTT 性能测试之 XMeter">
+                  <i class="fa fa-chevron-left"></i> MQTT 性能测试之 XMeter
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/06/21/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E7%89%A9%E8%81%94%E7%BD%91%E7%BB%88%E7%AB%AF%E5%AE%89%E5%85%A8/" rel="next" title="等保三级之物联网终端安全">
+                  等保三级之物联网终端安全 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

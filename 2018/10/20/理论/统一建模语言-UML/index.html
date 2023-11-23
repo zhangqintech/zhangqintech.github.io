@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。UML 从目标系统的不同角度出发，定义了用例图、类图、对象图、状态图、活动图、时序图、协作图、构件图、部署图等 9 种图。 类图概述类图(Class diagram)是显示了模型的静态结构，特别是模型中存在的类、类的内部结构以及它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="统一建模语言 UML">
+<meta property="og:url" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。UML 从目标系统的不同角度出发，定义了用例图、类图、对象图、状态图、活动图、时序图、协作图、构件图、部署图等 9 种图。 类图概述类图(Class diagram)是显示了模型的静态结构，特别是模型中存在的类、类的内部结构以及它">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E7%B1%BB%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F.jpg">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E5%8D%95%E5%90%91%E5%85%B3%E8%81%94.jpg">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E5%8F%8C%E5%90%91%E5%85%B3%E8%81%94.jpg">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E8%87%AA%E5%85%B3%E8%81%94.jpg">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E8%81%9A%E5%90%88%E5%85%B3%E7%B3%BB.jpg">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB.jpg">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB.jpg">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB.jpg">
+<meta property="og:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB.jpg">
+<meta property="article:published_time" content="2018-10-20T12:39:54.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.902Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="UML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E7%B1%BB%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F.jpg">
+
+
+<link rel="canonical" href="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/","path":"2018/10/20/理论/统一建模语言-UML/","title":"统一建模语言 UML"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>统一建模语言 UML | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9B%BE%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">类图概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9B%BE%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">类图的作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9B%BE%E8%A1%A8%E7%A4%BA%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">类图表示法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">类的表示方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E4%B8%8E%E7%B1%BB%E5%85%B3%E7%B3%BB%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F"><span class="nav-number">3.2.</span> <span class="nav-text">类与类关系的表示方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB"><span class="nav-number">3.2.1.</span> <span class="nav-text">关联关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%9A%E5%90%88%E5%85%B3%E7%B3%BB"><span class="nav-number">3.2.2.</span> <span class="nav-text">聚合关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB"><span class="nav-number">3.2.3.</span> <span class="nav-text">组合关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="nav-number">3.2.4.</span> <span class="nav-text">依赖关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB"><span class="nav-number">3.2.5.</span> <span class="nav-text">继承关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB"><span class="nav-number">3.2.6.</span> <span class="nav-text">实现关系</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="统一建模语言 UML | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          统一建模语言 UML
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-10-20 20:39:54" itemprop="dateCreated datePublished" datetime="2018-10-20T20:39:54+08:00">2018-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%90%86%E8%AE%BA/" itemprop="url" rel="index"><span itemprop="name">理论</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。UML 从目标系统的不同角度出发，定义了用例图、类图、对象图、状态图、活动图、时序图、协作图、构件图、部署图等 9 种图。</p>
+<h1 id="类图概述"><a href="#类图概述" class="headerlink" title="类图概述"></a>类图概述</h1><p>类图(Class diagram)是显示了模型的静态结构，特别是模型中存在的类、类的内部结构以及它们与其他类的关系等。类图不显示暂时性的信息。类图是面向对象建模的主要组成部分。</p>
+<span id="more"></span>
+
+<h1 id="类图的作用"><a href="#类图的作用" class="headerlink" title="类图的作用"></a>类图的作用</h1><ul>
+<li>在软件工程中，类图是一种静态的结构图，描述了系统的类的集合，类的属性和类之间的关系，可以简化了人们对系统的理解；</li>
+<li>类图是系统分析和设计阶段的重要产物，是系统编码和测试的重要模型。</li>
+</ul>
+<h1 id="类图表示法"><a href="#类图表示法" class="headerlink" title="类图表示法"></a>类图表示法</h1><h2 id="类的表示方式"><a href="#类的表示方式" class="headerlink" title="类的表示方式"></a>类的表示方式</h2><p>在 UML 类图中，类使用包含类名、属性(field) 和方法(method) 且带有分割线的矩形来表示，比如下图表示一个<code>Class A</code>类，它包含<code>Attribute A</code>、<code>Attribute B</code>和<code>Attribute A</code>这 3 个属性，以及<code>Operation A</code>、<code>Operation B</code>和<code>Operation C</code>这 3 个方法。</p>
+<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E7%B1%BB%E7%9A%84%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F.jpg" class="" title="[]">
+
+<p>属性&#x2F;方法名称前加的加号和减号表示了这个属性&#x2F;方法的可见性，UML 类图中表示可见性的符号有三种：</p>
+<ul>
+<li>+：表示 public</li>
+<li>-：表示 private</li>
+<li>：表示 protected</li>
+</ul>
+<p>属性的完整表示方式是： 可见性 名称 ：类型 [ &#x3D; 缺省值]</p>
+<p>方法的完整表示方式是： 可见性 名称(参数列表) [ ： 返回类型]</p>
+<blockquote>
+<p>注意：<br>1，中括号中的内容表示是可选的<br>​&gt; 2，也有将类型放在变量名前面，返回值类型放在方法名前面</p>
+</blockquote>
+<h2 id="类与类关系的表示方式"><a href="#类与类关系的表示方式" class="headerlink" title="类与类关系的表示方式"></a>类与类关系的表示方式</h2><h3 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h3><p>关联关系是对象之间的一种引用关系，用于表示一类对象与另一类对象之间的联系，如老师和学生、师傅和徒弟、丈夫和妻子等。关联关系是类与类之间最常用的一种关系，分为一般关联关系、聚合关系和组合关系。我们先介绍一般关联。</p>
+<p>关联又可以分为<code>单向关联</code>、<code>双向关联</code>、<code>自关联</code>。</p>
+<ul>
+<li>单向关联<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E5%8D%95%E5%90%91%E5%85%B3%E8%81%94.jpg" class="" title="[]"></li>
+</ul>
+<p>在 UML 类图中单向关联用一个带箭头的实线表示。上图表示每个顾客都有一个地址，这通过让 Customer 类持有一个类型为 Address 的成员变量类实现。</p>
+<ul>
+<li>双向关联<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E5%8F%8C%E5%90%91%E5%85%B3%E8%81%94.jpg" class="" title="[]"></li>
+</ul>
+<p>从上图中我们很容易看出，所谓的双向关联就是双方各自持有对方类型的成员变量。</p>
+<p>在 UML 类图中，双向关联用一个不带箭头的直线表示。上图中在 Customer 类中维护一个 List<Product>，表示一个顾客可以购买多个商品；在 Product 类中维护一个 Customer 类型的成员变量表示这个产品被哪个顾客所购买。</p>
+<ul>
+<li>自关联<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E8%87%AA%E5%85%B3%E8%81%94.jpg" class="" title="[]"></li>
+</ul>
+<p>自关联在 UML 类图中用一个带有箭头且指向自身的线表示。上图的意思就是 Node 类包含类型为 Node 的成员变量，也就是“自己包含自己”。</p>
+<h3 id="聚合关系"><a href="#聚合关系" class="headerlink" title="聚合关系"></a>聚合关系</h3><p>聚合关系是关联关系的一种，是强关联关系，是整体和部分之间的关系。</p>
+<p>聚合关系也是通过成员对象来实现的，其中成员对象是整体对象的一部分，但是成员对象可以脱离整体对象而独立存在。例如，学校与老师的关系，学校包含老师，但如果学校停办了，老师依然存在。</p>
+<p>在 UML 类图中，聚合关系可以用带空心菱形的实线来表示，菱形指向整体。下图所示是大学和教师的关系图：</p>
+<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E8%81%9A%E5%90%88%E5%85%B3%E7%B3%BB.jpg" class="" title="[]">
+
+<h3 id="组合关系"><a href="#组合关系" class="headerlink" title="组合关系"></a>组合关系</h3><p>组合表示类之间的整体与部分的关系，但它是一种更强烈的聚合关系。</p>
+<p>在组合关系中，整体对象可以控制部分对象的生命周期，一旦整体对象不存在，部分对象也将不存在，部分对象不能脱离整体对象而存在。例如，头和嘴的关系，没有了头，嘴也就不存在了。</p>
+<p>在 UML 类图中，组合关系用带实心菱形的实线来表示，菱形指向整体。下图所示是头和嘴的关系图：</p>
+<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E7%BB%84%E5%90%88%E5%85%B3%E7%B3%BB.jpg" class="" title="[]">
+
+<h3 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a>依赖关系</h3><p>依赖关系是一种使用关系，它是对象之间耦合度最弱的一种关联方式，是临时性的关联。在代码中，某个类的方法通过局部变量、方法的参数或者对静态方法的调用来访问另一个类（被依赖类）中的某些方法来完成一些职责。</p>
+<p>在 UML 类图中，依赖关系使用带箭头的虚线来表示，箭头从使用类指向被依赖的类。下图所示是司机和汽车的关系图，司机驾驶汽车：</p>
+<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB.jpg" class="" title="[]">
+
+<h3 id="继承关系"><a href="#继承关系" class="headerlink" title="继承关系"></a>继承关系</h3><p>继承关系是对象之间耦合度最大的一种关系，表示一般与特殊的关系，是父类与子类之间的关系，是一种继承关系。</p>
+<p>在 UML 类图中，泛化关系用带空心三角箭头的实线来表示，箭头从子类指向父类。在代码实现时，使用面向对象的继承机制来实现泛化关系。例如，Student 类和 Teacher 类都是 Person 类的子类，其类图如下图所示：</p>
+<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB.jpg" class="" title="[]">
+
+<h3 id="实现关系"><a href="#实现关系" class="headerlink" title="实现关系"></a>实现关系</h3><p>实现关系是接口与实现类之间的关系。在这种关系中，类实现了接口，类中的操作实现了接口中所声明的所有的抽象操作。</p>
+<p>在 UML 类图中，实现关系使用带空心三角箭头的虚线来表示，箭头从实现类指向接口。例如，汽车和船实现了交通工具，其类图如下图所示：</p>
+<img src="/2018/10/20/%E7%90%86%E8%AE%BA/%E7%BB%9F%E4%B8%80%E5%BB%BA%E6%A8%A1%E8%AF%AD%E8%A8%80-UML/%E5%AE%9E%E7%8E%B0%E5%85%B3%E7%B3%BB.jpg" class="" title="[]">
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/UML/" rel="tag"># UML</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/09/20/%E5%90%8E%E7%AB%AF/JAVA/JDK8-ParallelStreams-%E7%9A%84%E9%99%B7%E9%98%B1/" rel="prev" title="JDK8 ParallelStreams 的陷阱">
+                  <i class="fa fa-chevron-left"></i> JDK8 ParallelStreams 的陷阱
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/11/14/%E5%90%8E%E7%AB%AF/JAVA/%E5%8D%95%E7%BA%AF%E4%BD%BF%E7%94%A8setNX%E5%91%BD%E4%BB%A4%E5%B0%81%E8%A3%85%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E7%BC%BA%E9%99%B7/" rel="next" title="单纯使用setNX命令封装分布式锁的缺陷">
+                  单纯使用setNX命令封装分布式锁的缺陷 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

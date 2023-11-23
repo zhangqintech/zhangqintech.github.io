@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Service Mesh 作为下一代微服务技术的代名词，初出茅庐却深得人心一鸣惊人，在国内外大厂中广泛实践。这里聊一聊微服务和 Service Mesh 的关联与区别，有了微服务为什么还需要服务网格。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="下一代微服务ServiceMesh">
+<meta property="og:url" content="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="Service Mesh 作为下一代微服务技术的代名词，初出茅庐却深得人心一鸣惊人，在国内外大厂中广泛实践。这里聊一聊微服务和 Service Mesh 的关联与区别，有了微服务为什么还需要服务网格。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E5%9B%BE.jpg">
+<meta property="og:image" content="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/ServiceMesh%E9%83%A8%E7%BD%B2%E8%A7%86%E5%9B%BE-1.jpg">
+<meta property="og:image" content="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/ServiceMesh%E9%83%A8%E7%BD%B2%E8%A7%86%E5%9B%BE-2.jpg">
+<meta property="og:image" content="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/ServiceMesh%E9%83%A8%E7%BD%B2%E8%A7%86%E5%9B%BE-1.jpg">
+<meta property="og:image" content="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/ServiceMesh%E9%83%A8%E7%BD%B2%E8%A7%86%E5%9B%BE-3.jpg">
+<meta property="article:published_time" content="2022-10-29T07:45:56.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.847Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="ServiceMesh">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E5%9B%BE.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/","path":"2022/10/29/架构/微服务/下一代微服务ServiceMesh/","title":"下一代微服务ServiceMesh"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>下一代微服务ServiceMesh | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E5%8F%98"><span class="nav-number">1.</span> <span class="nav-text">应用架构的演变</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E4%BB%A3%EF%BC%9A%E5%8D%95%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">第一代：单体架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E4%BB%A3%EF%BC%9ASOA-%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">第二代：SOA 架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E4%BB%A3%EF%BC%9A%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.3.</span> <span class="nav-text">第三代：微服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E4%BB%A3%EF%BC%9AServiceMesh"><span class="nav-number">1.4.</span> <span class="nav-text">第四代：ServiceMesh</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1-VS-ServiceMesh"><span class="nav-number">2.</span> <span class="nav-text">微服务 VS ServiceMesh</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.1.</span> <span class="nav-text">微服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service-Mesh-1-0"><span class="nav-number">2.2.</span> <span class="nav-text">Service Mesh 1.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service-Mesh-2-0"><span class="nav-number">2.3.</span> <span class="nav-text">Service Mesh 2.0</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Service-Mesh-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">Service Mesh 的优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">3.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="下一代微服务ServiceMesh | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          下一代微服务ServiceMesh
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-10-29 15:45:56" itemprop="dateCreated datePublished" datetime="2022-10-29T15:45:56+08:00">2022-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">架构</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Service Mesh 作为下一代微服务技术的代名词，初出茅庐却深得人心一鸣惊人，在国内外大厂中广泛实践。这里聊一聊微服务和 Service Mesh 的关联与区别，有了微服务为什么还需要服务网格。</p>
+<span id="more"></span>
+
+<h1 id="应用架构的演变"><a href="#应用架构的演变" class="headerlink" title="应用架构的演变"></a>应用架构的演变</h1><p><strong>单体架构</strong> -&gt; <strong>SOA 架构</strong> -&gt; <strong>微服务架构</strong> -&gt; <strong>Service Mesh</strong>。</p>
+<h2 id="第一代：单体架构"><a href="#第一代：单体架构" class="headerlink" title="第一代：单体架构"></a>第一代：单体架构</h2><p>典型的单体架构就将所有的业务场景的表现层，业务逻辑层，数据访问层放在一个工程中最终经过编译，打包，部署在一台服务器上。</p>
+<h2 id="第二代：SOA-架构"><a href="#第二代：SOA-架构" class="headerlink" title="第二代：SOA 架构"></a>第二代：SOA 架构</h2><p>将各个系统的不同功能单元抽象为服务，服务间彼此通过标准的接口协议连接起来，并以此完成特定功能的实现。当出现新的业务需求时，不需要从零开始实现，只需将已有的服务进行编排装配来实现新业务。</p>
+<h2 id="第三代：微服务"><a href="#第三代：微服务" class="headerlink" title="第三代：微服务"></a>第三代：微服务</h2><p>微服务是 SOA 思想的一种提炼，它强调业务系统彻底的组件化和服务化，通过有效的拆分系统，实现敏捷开发和部署。原有的单个业务系统被拆分为多个可以独立开发，设计，运行和运维的小应用，这些小应用之间通过服务完成交互和集成。</p>
+<p>常见的技术栈基于 SpringCloud 或者 dubbo 框架进行开发，仅使用服务注册与发现与服务网关等策略。使用熔断、限流、降级等服务治理策略，并配备完整服务工具和平台。</p>
+<h2 id="第四代：ServiceMesh"><a href="#第四代：ServiceMesh" class="headerlink" title="第四代：ServiceMesh"></a>第四代：ServiceMesh</h2><p><strong>ServiceMesh</strong> 将服务治理作为通用组件并下沉到平台层实现，使得应用层仅仅关注业务逻辑。将业务所有的流量都转发到 ServiceMesh 的代理服务中，由服务网格帮助应用程序在海量服务、复杂的架构和网络中建立稳定的通信机制。<br>此外，ServiceMesh 还承担了微服务框架所有的功能，包括服务注册发现、负载均衡、熔断限流、认证鉴权、缓存加速等，不同的是，Service Mesh 强调的是通过独立的进程代理的方式。</p>
+<h1 id="微服务-VS-ServiceMesh"><a href="#微服务-VS-ServiceMesh" class="headerlink" title="微服务 VS ServiceMesh"></a>微服务 VS ServiceMesh</h1><p>微服务更像是一个服务之间的生态，专注于服务治理等方面，而 Service Mesh 更专注于服务之间的通信。Service Mesh 作为服务间通信的基础设施层，可以将它比作是应用程序或者说微服务间的 TCP&#x2F;IP，负责服务之间的网络调用、限流、熔断和监控。对于编写应用程序来说一般无须关心 TCP&#x2F;IP 这一层（比如通过 HTTP 协议的 RESTful 应用），同样使用 Service Mesh 也就无须关系服务之间的那些原来是通过应用程序或者其他框架实现的事情，比如 Spring Cloud、OSS，现在只要交给 Service Mesh 就可以了。</p>
+<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>为了避免每个服务都需要自己实现一套分布式系统通信的语义功能，随着技术的发展，一些面向微服务架构的开发框架出现了，如 Twitter 的 Finagle、Facebook 的 Proxygen 以及<strong>Spring Cloud</strong>等等，这些框架实现了分布式系统通信需要的各种通用语义功能：如负载均衡和服务发现等，因此一定程度上屏蔽了这些通信细节，使得开发人员使用较少的框架代码就能开发出健壮的分布式系统。</p>
+<img src="/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2%E5%9B%BE.jpg" class="" title="[]">
+
+<h2 id="Service-Mesh-1-0"><a href="#Service-Mesh-1-0" class="headerlink" title="Service Mesh 1.0"></a>Service Mesh 1.0</h2><p>微服务模式看似完美，但开发人员很快又发现，它也存在一些本质问题：</p>
+<ul>
+<li><p>其一，虽然框架本身屏蔽了分布式系统通信的一些通用功能实现细节，但开发者却要花更多精力去掌握和管理复杂的框架本身，在实际应用中，去追踪和解决框架出现的问题也绝非易事；</p>
+</li>
+<li><p>其二，开发框架通常只支持一种或几种特定的语言，回过头来看文章最开始对微服务的定义，一个重要的特性就是语言无关，但那些没有框架支持的语言编写的服务，很难融入面向微服务的架构体系，想因地制宜的用多种语言实现架构体系中的不同模块也很难做到；</p>
+</li>
+<li><p>其三，框架以 lib 库的形式和服务联编，复杂项目依赖时的库版本兼容问题非常棘手，同时，框架库的升级也无法对服务透明，服务会因为和业务无关的 lib 库升级而被迫升级；<br>因此以 Linkerd，Envoy，NginxMesh 为代表的代理模式（边车模式）应运而生，这就是第一代 Service Mesh，它将分布式服务的通信抽象为单独一层，在这一层中实现负载均衡、服务发现、认证授权、监控追踪、流量控制等分布式系统所需要的功能，作为一个和服务对等的代理服务，和服务部署在一起，接管服务的流量，通过代理之间的通信间接完成服务之间的通信请求，这样上边所说的三个问题也迎刃而解。</p>
+<img src="/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/ServiceMesh%E9%83%A8%E7%BD%B2%E8%A7%86%E5%9B%BE-1.jpg" class="" title="[]"></li>
+</ul>
+<p>如果我们从一个全局视角来看，就会得到如下部署图：</p>
+<img src="/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/ServiceMesh%E9%83%A8%E7%BD%B2%E8%A7%86%E5%9B%BE-2.jpg" class="" title="[]">
+
+<h2 id="Service-Mesh-2-0"><a href="#Service-Mesh-2-0" class="headerlink" title="Service Mesh 2.0"></a>Service Mesh 2.0</h2><p>第一代 Service Mesh 由一系列独立运行的单机代理服务构成，为了提供统一的上层运维入口，演化出了集中式的控制面板，所有的单机代理组件通过和控制面板交互进行网络拓扑策略的更新和单机数据的汇报。这就是以 Istio 为代表的 Service Mesh。</p>
+<img src="/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/ServiceMesh%E9%83%A8%E7%BD%B2%E8%A7%86%E5%9B%BE-1.jpg" class="" title="[]">
+
+<p>只看单机代理组件(数据面板)和控制面板的 Service Mesh 全局部署视图如下：</p>
+<img src="/2022/10/29/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E4%B8%8B%E4%B8%80%E4%BB%A3%E5%BE%AE%E6%9C%8D%E5%8A%A1ServiceMesh/ServiceMesh%E9%83%A8%E7%BD%B2%E8%A7%86%E5%9B%BE-3.jpg" class="" title="[]">
+
+<h1 id="Service-Mesh-的优缺点"><a href="#Service-Mesh-的优缺点" class="headerlink" title="Service Mesh 的优缺点"></a>Service Mesh 的优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li><p>屏蔽分布式系统通信的复杂性（负载均衡、服务发现、认证授权、监控追踪、流量控制等等），服务只用关注业务逻辑；</p>
+</li>
+<li><p>真正的语言无关，服务可以用任何语言编写，只需和 Service Mesh 通信即可；</p>
+</li>
+<li><p>对应用透明，Service Mesh 组件可以单独升级。</p>
+</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li><p>Service Mesh 组件以代理模式计算并转发请求，一定程度上会降低通信系统性能，并增加系统资源开销；</p>
+</li>
+<li><p>Service Mesh 组件接管了网络流量，因此服务的整体稳定性依赖于 Service Mesh，同时额外引入的大量 Service Mesh 服务实例的运维和管理也是一个挑战；</p>
+</li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61901608">什么是 Service Mesh</a><br><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1709305043387971301&wfr=spider&for=pc">有了微服务为什么还需要服务网格</a><br><a target="_blank" rel="noopener" href="http://www.360doc.com/content/20/0806/07/46368139_928775644.shtml">一文读懂微服务和 ServiceMesh 的区别</a><br><a target="_blank" rel="noopener" href="https://www.toutiao.com/article/7128291279552741925/?log_from=f7b2fb0f6e91_1667034002903">顺丰科技 Service Mesh 落地半年：最初目标已经实现，将继续探索</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag"># 微服务</a>
+              <a href="/tags/ServiceMesh/" rel="tag"># ServiceMesh</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/18/%E6%9E%B6%E6%9E%84/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Nacos-%E9%85%8D%E7%BD%AE%E5%AE%89%E5%85%A8%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" rel="prev" title="Nacos 配置安全最佳实践">
+                  <i class="fa fa-chevron-left"></i> Nacos 配置安全最佳实践
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/04/%E6%B5%8B%E8%AF%95/Web%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%92%8C%E9%AA%8C%E8%AF%81%E5%B7%A5%E5%85%B7-Vulmap/" rel="next" title="Web漏洞扫描和验证工具 Vulmap">
+                  Web漏洞扫描和验证工具 Vulmap <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

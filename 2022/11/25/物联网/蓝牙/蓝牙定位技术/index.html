@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="蓝牙技术是一种短距离的无线通信技术，由于蓝牙技术发展迅速，蓝牙模块产业链成熟，发展出不少利用蓝牙技术的定位方案。 低功耗蓝牙技术 BLE 4.0 的出现解决了无线连接设备功耗高的难题，低功耗技术使得蓝牙市场迎来规模性发展，各蓝牙芯片厂商相继推出了各自的低功耗蓝牙芯片，可支持基于 RSSI 的室内定位，定位精度可达 2 ～ 3 米。蓝牙 5.1 标准引入了 AoA 和 AOD 的角度定位算法，通过蓝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="蓝牙定位技术">
+<meta property="og:url" content="http://example.com/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="蓝牙技术是一种短距离的无线通信技术，由于蓝牙技术发展迅速，蓝牙模块产业链成熟，发展出不少利用蓝牙技术的定位方案。 低功耗蓝牙技术 BLE 4.0 的出现解决了无线连接设备功耗高的难题，低功耗技术使得蓝牙市场迎来规模性发展，各蓝牙芯片厂商相继推出了各自的低功耗蓝牙芯片，可支持基于 RSSI 的室内定位，定位精度可达 2 ～ 3 米。蓝牙 5.1 标准引入了 AoA 和 AOD 的角度定位算法，通过蓝">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/%E8%93%9D%E7%89%99iBeacon%E5%AE%9A%E4%BD%8D%E7%BB%84%E7%BD%91.jpg">
+<meta property="og:image" content="http://example.com/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/%E8%93%9D%E7%89%99%E7%BD%91%E5%85%B3%E5%AE%9A%E4%BD%8D%E6%9C%8D%E5%8A%A1.jpg">
+<meta property="og:image" content="http://example.com/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/%E8%93%9D%E7%89%99AoA%E5%AE%9A%E4%BD%8D%E7%AE%97%E6%B3%95.jpg">
+<meta property="article:published_time" content="2022-11-25T10:15:48.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.891Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="蓝牙">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/%E8%93%9D%E7%89%99iBeacon%E5%AE%9A%E4%BD%8D%E7%BB%84%E7%BD%91.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/","path":"2022/11/25/物联网/蓝牙/蓝牙定位技术/","title":"蓝牙定位技术"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>蓝牙定位技术 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E8%93%9D%E7%89%99-iBeacon-%E5%AE%9A%E4%BD%8D"><span class="nav-number">1.</span> <span class="nav-text">传统蓝牙 iBeacon 定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%93%9D%E7%89%99%E7%BD%91%E5%85%B3%E5%AE%9A%E4%BD%8D"><span class="nav-number">2.</span> <span class="nav-text">蓝牙网关定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%93%9D%E7%89%99-AoA-%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.</span> <span class="nav-text">蓝牙 AoA 定位</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="蓝牙定位技术 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          蓝牙定位技术
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-25 18:15:48" itemprop="dateCreated datePublished" datetime="2022-11-25T18:15:48+08:00">2022-11-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">物联网</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/" itemprop="url" rel="index"><span itemprop="name">蓝牙</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>蓝牙技术是一种短距离的无线通信技术，由于蓝牙技术发展迅速，蓝牙模块产业链成熟，发展出不少利用蓝牙技术的定位方案。</p>
+<p>低功耗蓝牙技术 BLE 4.0 的出现解决了无线连接设备功耗高的难题，低功耗技术使得蓝牙市场迎来规模性发展，各蓝牙芯片厂商相继推出了各自的低功耗蓝牙芯片，可支持基于 RSSI 的室内定位，定位精度可达 2 ～ 3 米。蓝牙 5.1 标准引入了 AoA 和 AOD 的角度定位算法，通过蓝牙设备感知发射节点信号的到达&#x2F;发送方向，计算接收节点和发射节点之间的相对方位或角度，可将位置精度提升至厘米级。目前国内外主流蓝牙芯片厂商已相继发布了可支持蓝 牙 5.1 标准的芯片产品，部分厂家甚至已推出蓝牙 5.2 标准的芯片。</p>
+<span id="more"></span>
+
+<h1 id="传统蓝牙-iBeacon-定位"><a href="#传统蓝牙-iBeacon-定位" class="headerlink" title="传统蓝牙 iBeacon 定位"></a>传统蓝牙 iBeacon 定位</h1><p>iBeacon 蓝牙信标周期广播包含 iBeacon 的 UUID 等信息数据包，当开启蓝牙终端进入蓝牙信标覆盖的区域，蓝牙终端接收到广播包，根据 RSSI 算法计算出蓝牙终端到 iBeacon 的粗略距离。</p>
+<blockquote>
+<p>RSSI<br>接收的信号强度指示（Received Signal Strength Indication）。通过接收到的信号强弱测定信号点与接收点的距离，进而根据相应数据进行定位计算的一种定位技术。</p>
+</blockquote>
+<img src="/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/%E8%93%9D%E7%89%99iBeacon%E5%AE%9A%E4%BD%8D%E7%BB%84%E7%BD%91.jpg" class="" title="[]">
+
+<h1 id="蓝牙网关定位"><a href="#蓝牙网关定位" class="headerlink" title="蓝牙网关定位"></a>蓝牙网关定位</h1><p>蓝牙定位终端周期广播包含蓝牙终端的 UUID 等信息数据包，蓝牙定位网关接收广播包，并将数据回传到定位服务器，定位服务器根据 RSSI 算法计算出蓝牙终端到蓝牙定位网关的粗略距离。</p>
+<img src="/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/%E8%93%9D%E7%89%99%E7%BD%91%E5%85%B3%E5%AE%9A%E4%BD%8D%E6%9C%8D%E5%8A%A1.jpg" class="" title="[]">
+
+<h1 id="蓝牙-AoA-定位"><a href="#蓝牙-AoA-定位" class="headerlink" title="蓝牙 AoA 定位"></a>蓝牙 AoA 定位</h1><p>蓝牙定位基站使用天线阵列接收蓝牙信号，计算出蓝牙信号到达角（AoA）。蓝牙定位基站将数据回传到服务器， 服务器可以利用已知的蓝牙定位基站高度 h、到达角 AoA 计算出蓝牙终端的位置。一个蓝牙定位基站可定位蓝牙终端，多个蓝牙定位基站联合定位可以获取更好的定位效果，定位精度可以到 20~30 厘米。</p>
+<img src="/2022/11/25/%E7%89%A9%E8%81%94%E7%BD%91/%E8%93%9D%E7%89%99/%E8%93%9D%E7%89%99%E5%AE%9A%E4%BD%8D%E6%8A%80%E6%9C%AF/%E8%93%9D%E7%89%99AoA%E5%AE%9A%E4%BD%8D%E7%AE%97%E6%B3%95.jpg" class="" title="[]">
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E8%93%9D%E7%89%99/" rel="tag"># 蓝牙</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/" rel="prev" title="时序数据库 TSDB">
+                  <i class="fa fa-chevron-left"></i> 时序数据库 TSDB
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/27/%E5%90%8E%E7%AB%AF/JAVA/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4Java%E4%B8%AD%E5%8F%AA%E6%9C%89%E5%80%BC%E4%BC%A0%E9%80%92/" rel="next" title="为什么说Java中只有值传递">
+                  为什么说Java中只有值传递 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

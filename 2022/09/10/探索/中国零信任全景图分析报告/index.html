@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="零信任思想的起源可以追溯到 1994 年由 JerichoForum 提出的“去边界化”网络安全概念。而“零信任”这个词汇则是由 Forrester 原首席分析师 John Kindervag 于 2010 年首次提出的。零信任思想摒弃了“信任但验证”的传统方法，将“从不信任、始终验证（Never trust, always verify）”作为其指导方针。 目前国内零信任的目标客户主要集中在政府">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中国零信任全景图分析报告">
+<meta property="og:url" content="http://example.com/2022/09/10/%E6%8E%A2%E7%B4%A2/%E4%B8%AD%E5%9B%BD%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%85%A8%E6%99%AF%E5%9B%BE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="零信任思想的起源可以追溯到 1994 年由 JerichoForum 提出的“去边界化”网络安全概念。而“零信任”这个词汇则是由 Forrester 原首席分析师 John Kindervag 于 2010 年首次提出的。零信任思想摒弃了“信任但验证”的传统方法，将“从不信任、始终验证（Never trust, always verify）”作为其指导方针。 目前国内零信任的目标客户主要集中在政府">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-10T08:24:32.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.824Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/09/10/%E6%8E%A2%E7%B4%A2/%E4%B8%AD%E5%9B%BD%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%85%A8%E6%99%AF%E5%9B%BE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/10/%E6%8E%A2%E7%B4%A2/%E4%B8%AD%E5%9B%BD%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%85%A8%E6%99%AF%E5%9B%BE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/","path":"2022/09/10/探索/中国零信任全景图分析报告/","title":"中国零信任全景图分析报告"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>中国零信任全景图分析报告 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%85%A8%E6%99%AF%E5%9B%BE%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">零信任全景图分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%8F%B8%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">公司类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A2%AB%E4%BF%9D%E6%8A%A4%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">被保护对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E5%9C%BA%E6%99%AF"><span class="nav-number">1.3.</span> <span class="nav-text">业务场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%9A%E5%8A%A1%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">业务类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.5.</span> <span class="nav-text">技术类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.6.</span> <span class="nav-text">服务模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%9E%B6%E6%9E%84"><span class="nav-number">1.7.</span> <span class="nav-text">部署架构</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/10/%E6%8E%A2%E7%B4%A2/%E4%B8%AD%E5%9B%BD%E9%9B%B6%E4%BF%A1%E4%BB%BB%E5%85%A8%E6%99%AF%E5%9B%BE%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="中国零信任全景图分析报告 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          中国零信任全景图分析报告
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-09-10 16:24:32" itemprop="dateCreated datePublished" datetime="2022-09-10T16:24:32+08:00">2022-09-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8E%A2%E7%B4%A2/" itemprop="url" rel="index"><span itemprop="name">探索</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>零信任</strong>思想的起源可以追溯到 1994 年由 JerichoForum 提出的“<code>去边界化</code>”网络安全概念。而“<strong>零信任</strong>”这个词汇则是由 <code>Forrester</code> 原首席分析师 John Kindervag 于 2010 年首次提出的。零信任思想摒弃了“<code>信任但验证</code>”的传统方法，将“<strong>从不信任、始终验证</strong>（Never trust, always verify）”作为其指导方针。</p>
+<p>目前国内零信任的目标客户主要集中在<code>政府及事业单位</code>、<code>金融</code>、<code>制造业</code>、<code>运营商</code>、<code>互联网</code>、<code>能源</code>、<code>电力</code>和<code>医疗</code>行业。</p>
+<span id="more"></span>
+
+<h1 id="零信任全景图分析"><a href="#零信任全景图分析" class="headerlink" title="零信任全景图分析"></a>零信任全景图分析</h1><h2 id="公司类型"><a href="#公司类型" class="headerlink" title="公司类型"></a>公司类型</h2><p>对所有被调研的厂商进行了如下分类：<code>甲方零信任实践者</code>、<code>原有安全厂商增加零信任业务</code>以及<code>零信任领域的新兴创业公司</code>。</p>
+<ul>
+<li><p>由于零信任方案的落地需要与业务场景高度结合，作为自身<strong>拥有强大研发和安全能力的甲方企业</strong>，在这方面具有得天独厚的优势。自 Google 发表 Beyond Corp 系列论文至今，已经有不少甲方公开了他们的零信任实践经验，为业内提供了良好的参考。也有一部分企业在自身成功实践的基础上，将零信任方案或者产品商业化，从甲方优秀实践者转变为零信任厂商。</p>
+</li>
+<li><p><strong>增加零信任业务的原有安全厂商</strong>基于之前已有的通用技术积累和丰富的产品化经验、项目实施经验，通过对已有产品的适当改造和一定程度的技术创新，快速切入零信任市场。对于国内大多数既有通用安全合规需求，又希望通过零信任提升现有安全能力（而不是彻底重建）的甲方来说，更倾向选择已经有过良好合作基础的此类厂商。</p>
+</li>
+<li><p>另一类就是<strong>零信任领域的新兴创业公司</strong>，这类厂商更倾向把产品做精做专，也相对更愿意迎合客户需求进行功能创新，因此也获得不少甲方的青睐。</p>
+</li>
+</ul>
+<!--![公司类型](../images/前沿探索/零信任/零信任全景图-公司类型.jpg)-->
+
+<h2 id="被保护对象"><a href="#被保护对象" class="headerlink" title="被保护对象"></a>被保护对象</h2><p><strong>零信任聚焦于保护“资源”，即本文所述“被保护对象”</strong>，包括组织拥有的全部<strong>数据</strong>、<strong>应用</strong>、 IT 资产（<strong>设备、设施、工作负载</strong>等）、<strong>API</strong>。</p>
+<ul>
+<li><p>保护数据主要是指防止数据泄露和非授权访问；</p>
+</li>
+<li><p>保护应用主要是应用程序的隐身、应用的细粒度动态权限管控、以及业务安全等；</p>
+</li>
+<li><p>保护设备&#x2F;设施&#x2F;工作负载主要是指终端设备、基础设施或工作负载的隔离与保护，比如云主机、容器等工作负载之间的隔离与安全保护。</p>
+</li>
+<li><p>API（应用程序接口）在数字化进程中所起的作用越来越大，而 API 安全问题导致的数据泄露事件也在不断增加，因此在被保护对象中增加了 API 这一分类。保护 API 主要包括 API 安全代理与业务隐藏、访问者身份鉴别和权限控制等。</p>
+</li>
+</ul>
+<!--![被保护对象](../images/前沿探索/零信任/零信任全景图-被保护对象.jpg)-->
+
+<h2 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h2><p>安全产品往往具有很强的场景化特征，在不同场景下选择合适的厂家是安全实施的第一步。</p>
+<!--![业务场景](../images/前沿探索/零信任/零信任全景图-业务场景.jpg)-->
+
+<h2 id="业务类型"><a href="#业务类型" class="headerlink" title="业务类型"></a>业务类型</h2><p>零信任是一个安全新概念，不同的厂商在零信任市场上提供的业务类型也有所不同，主要包括产品、服务和方案，业务类型体现了厂商的业务侧重点。</p>
+<!--![业务类型](../images/前沿探索/零信任/零信任全景图-业务类型.jpg)-->
+
+<h2 id="技术类型"><a href="#技术类型" class="headerlink" title="技术类型"></a>技术类型</h2><p>虽然技术不断发展，但零信任领域使用的主要技术还是 <strong>SDP</strong>, <strong>IAM</strong> 和<strong>微隔离</strong>。</p>
+<ul>
+<li><p><strong>IAM</strong> 作为身份治理的核心技术;</p>
+</li>
+<li><p><strong>SDP</strong> 解决南北向安全问题;</p>
+</li>
+<li><p><strong>微隔离</strong> 解决东西向安全问题。</p>
+</li>
+</ul>
+<!--![技术类型](../images/前沿探索/零信任/零信任全景图-技术类型.jpg)-->
+
+<h2 id="服务模式"><a href="#服务模式" class="headerlink" title="服务模式"></a>服务模式</h2><p>零信任服务的部署模式取决于安全要求，主要包括<strong>私有化</strong>、<strong>云化</strong>以及<strong>混合模式</strong>。不同的组织因为业务形态、数据的敏感程度、风险承受能力或监管的要求不同，而选择不同的服务模式。很多高监管行业的客户可能更倾向于选择私有化服务模式，将产品部署在自己的私有环境。公有云模式因为可以以云服务的形式服务于多个客户，可以节省相关的 IT 基础设施成本支出，具有较高的性价比。但从调查来看，目前绝大多数的零信任部署优先采用私有模式，说明大量的客户还是希望对平台有较强的管控力。</p>
+<ul>
+<li><p><strong>私有化</strong>的部署模式下相关的产品或服务以私有化的形式提供，相关的资源或服务由一个用户独占使用；</p>
+</li>
+<li><p><strong>云化</strong>通过公有云的形式为众多用户提供零信任服务，所有的用户共享公共的云资源；</p>
+</li>
+<li><p>还有一种模式是同时支持私有化和云化服务的<strong>混合模式</strong>。</p>
+</li>
+</ul>
+<!--![服务模式](../images/前沿探索/零信任/零信任全景图-服务模式.jpg)-->
+
+<h2 id="部署架构"><a href="#部署架构" class="headerlink" title="部署架构"></a>部署架构</h2><p>零信任的经典部署架构主要包括：<strong>设备代理&#x2F;网关部署</strong>、<strong>飞地部署</strong>、<strong>资源门户</strong>、<strong>沙箱</strong>、<strong>终端</strong>和<strong>探针</strong>等。部署架构的选择很大程度上由业务场景决定，企业选择的部署模式需要结合实际的业务场景。<code>从目前的落地情况看，设备代理和终端这两种架构的部署模式占据了主流</code>。</p>
+<ul>
+<li><p><strong>设备代理&#x2F;网关部署</strong>架构 PEP 位于资源上或资源前，网关作为资源的代理，与资源通信。</p>
+</li>
+<li><p><strong>飞地部署</strong>架构下网关位于某一资源飞地边界(如数据中心的边界)。</p>
+</li>
+<li><p><strong>资源门户</strong>部署架构 PEP 充当用户请求网关(如公有云的资源管理门户、企业的办公门户站点等)。</p>
+</li>
+<li><p><strong>沙箱部署</strong>则是通过沙箱让程序隔离运行。</p>
+</li>
+<li><p>除此以外还有部署与终端、核心交换机旁路部署、微隔离等形式。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/03/%E6%8E%A2%E7%B4%A2/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E4%BD%93%E7%B3%BB%E5%8F%91%E5%B1%95%E5%88%9B%E6%96%B0%E5%8F%98%E9%9D%A9/" rel="prev" title="大数据技术体系发展创新变革">
+                  <i class="fa fa-chevron-left"></i> 大数据技术体系发展创新变革
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/15/%E5%90%8E%E7%AB%AF/JAVA/PageHelper%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%E2%80%94Count%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96/" rel="next" title="PageHelper源码解读—Count语句优化">
+                  PageHelper源码解读—Count语句优化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

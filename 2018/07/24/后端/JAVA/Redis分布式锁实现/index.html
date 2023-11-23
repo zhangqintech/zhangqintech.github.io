@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="分布式锁一般有三种实现方式：1. 数据库乐观锁；2. 基于 Redis 的分布式锁；3. 基于 ZooKeeper 的分布式锁。 我们最先做电商+零售的库存业务时，选用的是数据库乐观锁，但是在并发较大时性能不太乐观。后来重构考虑使用 Redis 来实现分布式锁，采用了 Spring 的 RedisLockRegistry。在压测时发现单一销售业务下性能比较稳定，但是在采购、批发等业务里，动则一个单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis分布式锁实现">
+<meta property="og:url" content="http://example.com/2018/07/24/%E5%90%8E%E7%AB%AF/JAVA/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="分布式锁一般有三种实现方式：1. 数据库乐观锁；2. 基于 Redis 的分布式锁；3. 基于 ZooKeeper 的分布式锁。 我们最先做电商+零售的库存业务时，选用的是数据库乐观锁，但是在并发较大时性能不太乐观。后来重构考虑使用 Redis 来实现分布式锁，采用了 Spring 的 RedisLockRegistry。在压测时发现单一销售业务下性能比较稳定，但是在采购、批发等业务里，动则一个单">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-24T05:11:42.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.793Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2018/07/24/%E5%90%8E%E7%AB%AF/JAVA/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2018/07/24/%E5%90%8E%E7%AB%AF/JAVA/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0/","path":"2018/07/24/后端/JAVA/Redis分布式锁实现/","title":"Redis分布式锁实现"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis分布式锁实现 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/24/%E5%90%8E%E7%AB%AF/JAVA/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis分布式锁实现 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis分布式锁实现
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-07-24 13:11:42" itemprop="dateCreated datePublished" datetime="2018-07-24T13:11:42+08:00">2018-07-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>分布式锁一般有三种实现方式：1. 数据库乐观锁；2. 基于 Redis 的分布式锁；3. 基于 ZooKeeper 的分布式锁。</p>
+<p>我们最先做电商+零售的库存业务时，选用的是数据库乐观锁，但是在并发较大时性能不太乐观。后来重构考虑使用 Redis 来实现分布式锁，采用了 Spring 的 RedisLockRegistry。在压测时发现单一销售业务下性能比较稳定，但是在采购、批发等业务里，动则一个单据就要给 2000-3000 款商品加锁，高并发下（重点指混合场景下的并发）RedisLockRegistry 在此场景的的缺点就暴露出来了：不可批量获取和释放锁，我们订单下的所有商品加锁，会消耗大量的网络资源且获取整单商品锁的时间和不可控制。</p>
+<p>于是我们在参照 RedisLockRegistry 的技术上，写了 RedisBatchLockRegistry。再压测时，我们原先场景并发提高 10 倍的基础上，性能依然满足要求。</p>
+<span id="more"></span>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Collection;</span><br><span class="line">import java.util.HashSet;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Set;</span><br><span class="line">import java.util.concurrent.CopyOnWriteArrayList;</span><br><span class="line">import java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.collections.CollectionUtils;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.dao.DataAccessException;</span><br><span class="line">import org.springframework.data.redis.connection.RedisConnection;</span><br><span class="line">import org.springframework.data.redis.connection.RedisConnectionFactory;</span><br><span class="line">import org.springframework.data.redis.core.*;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * ClassName: RedisBatchLockRegistry</span><br><span class="line"> * @Description: Redis分布式锁，支持批量获取和释放锁</span><br><span class="line"> *</span><br><span class="line"> * org.springframework.integration.redis.util.RedisLockRegistry 存在两个问题：</span><br><span class="line"> * 1.不支持锁的批量获取和释放</span><br><span class="line"> * 2.锁的重试时间只能为100毫秒</span><br><span class="line"> *</span><br><span class="line"> * 该类参考自RedisLockRegistry，与之对比不同点为：</span><br><span class="line"> * 1.增加了锁的批量获取和释放</span><br><span class="line"> * 2.去除了本地锁实现（RedisLockRegistry的方式实现实际上为Redis锁＋本地锁双重锁）</span><br><span class="line"> *</span><br><span class="line"> * @author zhangq</span><br><span class="line"> * @date 2017年5月24日</span><br><span class="line"> *</span><br><span class="line"> * =================================================================================================</span><br><span class="line"> *     Task ID			  Date			     Author		      Description</span><br><span class="line"> * ----------------+----------------+-------------------+-------------------------------------------</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Component</span><br><span class="line">public class RedisBatchLockRegistry &#123;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Logger</span><br><span class="line">	 */</span><br><span class="line">	private static final Logger LOG = LoggerFactory.getLogger(RedisBatchLockRegistry.class);</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Redis模版</span><br><span class="line">	 */</span><br><span class="line">	@Autowired</span><br><span class="line">	private RedisTemplate&lt;String, String&gt; redisTemplate;</span><br><span class="line"></span><br><span class="line">	public RedisBatchLockRegistry()&#123;&#125;</span><br><span class="line">	/**</span><br><span class="line">	 *</span><br><span class="line">	 * &lt;p&gt;Title: 初始化&lt;/p&gt;</span><br><span class="line">	 * &lt;p&gt;Description: &lt;/p&gt;</span><br><span class="line">	 * @param connectionFactory</span><br><span class="line">	 */</span><br><span class="line">	public RedisBatchLockRegistry(RedisConnectionFactory connectionFactory) &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 *</span><br><span class="line">	 * @Description: 尝试批量获取锁</span><br><span class="line">	 * @param list</span><br><span class="line">	 * @param maxWait</span><br><span class="line">	 * @return boolean</span><br><span class="line">	 * @author zhangq</span><br><span class="line">	 * @throws InterruptedException</span><br><span class="line">	 * @date 2017年5月27日</span><br><span class="line">	 */</span><br><span class="line">	@SuppressWarnings(&quot;rawtypes&quot;)</span><br><span class="line">	public boolean tryLock(final Set&lt;String&gt; keys, long maxWait, long timeout) &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			LOG.info(&quot;尝试获取锁：&#123;&#125;&quot;, keys);</span><br><span class="line"></span><br><span class="line">			// 需要获取的锁</span><br><span class="line">			final List&lt;String&gt; needLocking = new CopyOnWriteArrayList&lt;String&gt;();</span><br><span class="line">			needLocking.addAll(keys);</span><br><span class="line"></span><br><span class="line">			// 已经获取的锁</span><br><span class="line">			List&lt;String&gt; locked = new CopyOnWriteArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">			// 获取等待时间的最后时间段</span><br><span class="line">			long expireAt = System.currentTimeMillis() + maxWait;</span><br><span class="line"></span><br><span class="line">			// 循环判断锁是否一直存在</span><br><span class="line">			while (System.currentTimeMillis() &lt; expireAt) &#123;</span><br><span class="line"></span><br><span class="line">				// 通过管道批量获取锁</span><br><span class="line">				LOG.info(&quot;进入tryLock while，needLocking：&#123;&#125;&quot;, needLocking);</span><br><span class="line">				List&lt;Object&gt; results = redisTemplate.executePipelined(new RedisCallback() &#123;</span><br><span class="line"></span><br><span class="line">					@Override</span><br><span class="line">					public Object doInRedis(RedisConnection connection) throws DataAccessException &#123;</span><br><span class="line">						LOG.info(&quot;connection:&#123;&#125;, needLocking:&#123;&#125;&quot;, connection, needLocking);</span><br><span class="line">						String value = System.currentTimeMillis() + &quot;&quot;;</span><br><span class="line">						for (String key : needLocking) &#123;</span><br><span class="line">							LOG.info(&quot;key :&#123;&#125;&quot;, key);</span><br><span class="line">							// 如果不存在则 SET。SET if Not eXists。</span><br><span class="line">							connection.setNX(key.getBytes(), value.getBytes());</span><br><span class="line">							// LOG.info(&quot;pipelined setNX result:&#123;&#125;, key:&#123;&#125;,</span><br><span class="line">							// value:&#123;&#125;&quot;, flag, key, key);</span><br><span class="line">						&#125;</span><br><span class="line">						return null;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;);</span><br><span class="line"></span><br><span class="line">				// 提交redis执行计数</span><br><span class="line">				LOG.info(&quot;needLocking:&#123;&#125;,results:&#123;&#125;&quot;, needLocking, results);</span><br><span class="line">				for (int i = 0; i &lt; results.size(); i++) &#123;</span><br><span class="line">					// 是否执行成功</span><br><span class="line">					Boolean success = (Boolean) results.get(i);</span><br><span class="line">					// 锁的KEY</span><br><span class="line">					String key = needLocking.get(i);</span><br><span class="line"></span><br><span class="line">					// setnx成功，获得锁</span><br><span class="line">					if (success) &#123;</span><br><span class="line">						// 设置锁的过期时间</span><br><span class="line">						redisTemplate.expire(key, timeout, TimeUnit.MILLISECONDS);</span><br><span class="line">						locked.add(key);</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				// 移除已锁定资源</span><br><span class="line">				needLocking.removeAll(locked);</span><br><span class="line"></span><br><span class="line">				// 是否锁住全部资源</span><br><span class="line">				if (CollectionUtils.isEmpty(needLocking)) &#123;</span><br><span class="line">					// 全部资源均已锁住，返回成功true</span><br><span class="line">					return true;</span><br><span class="line">				&#125; else &#123;</span><br><span class="line">					// 补偿处理，防止异常情况下（宕机/重启/连接超时等）导致的锁永不过期</span><br><span class="line">					List&lt;String&gt; exceptionLock = new CopyOnWriteArrayList&lt;String&gt;();</span><br><span class="line">					for (String key : needLocking) &#123;</span><br><span class="line">						String value = redisTemplate.opsForValue().get(key);</span><br><span class="line">						// 当前时间 &gt; 上锁时间 + 超时时间 + 2秒（经验时间），表示为该过期却未过期的数据，即异常数据</span><br><span class="line">						if (null != value &amp;&amp; System.currentTimeMillis() &gt; Long.parseLong(value) + timeout + 2000) &#123;</span><br><span class="line">							exceptionLock.add(key);</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					// 删除所有异常的 KEY</span><br><span class="line">					if (CollectionUtils.isNotEmpty(exceptionLock)) &#123;</span><br><span class="line">						unLock(exceptionLock);</span><br><span class="line">					&#125;</span><br><span class="line"></span><br><span class="line">					// 部分资源未能锁住，间隔N毫秒后重试</span><br><span class="line">					Thread.sleep(10);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			// 仍有资源未被锁住（needLocking不为空），释放已锁定的资源，并返回失败false</span><br><span class="line">			if (!CollectionUtils.isEmpty(needLocking)) &#123;</span><br><span class="line">				LOG.info(&quot;can not get the lock, keys:&#123;&#125;&quot;, needLocking);</span><br><span class="line">				unLock(locked);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			LOG.info(&quot;尝试获取锁失败：&#123;&#125;&quot;, e);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 *</span><br><span class="line">	 * @Description: 批量释放锁</span><br><span class="line">	 * @param list</span><br><span class="line">	 * @return void</span><br><span class="line">	 * @author zhangq</span><br><span class="line">	 * @date 2017年5月27日</span><br><span class="line">	 */</span><br><span class="line">	public void unLock(Collection&lt;String&gt; keys) &#123;</span><br><span class="line">		try&#123;</span><br><span class="line">			// 防止多个服务器处理同一个key需要watch操作(相当于是禁止了其他client处理这个key)</span><br><span class="line">			//redisTemplate.watch(keys);</span><br><span class="line"></span><br><span class="line">			// 批量释放锁</span><br><span class="line">			redisTemplate.delete(keys);</span><br><span class="line"></span><br><span class="line">			// 锁已经过期了，释放watch操作</span><br><span class="line">			//redisTemplate.unwatch();</span><br><span class="line">		&#125;catch (Exception e)&#123;</span><br><span class="line">			LOG.error(&quot;批量释放锁失败!&quot;,e);</span><br><span class="line">		&#125;finally &#123;</span><br><span class="line">			RedisConnectionUtils.unbindConnection(redisTemplate.getConnectionFactory());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/29/%E5%90%8E%E7%AB%AF/JAVA/Swagger2%E5%A4%9A%E5%8C%85%E8%B7%AF%E5%BE%84%E6%89%AB%E6%8F%8F%E5%8C%B9%E9%85%8D%E6%94%AF%E6%8C%81/" rel="next" title="Swagger2多包路径扫描匹配支持">
+                  Swagger2多包路径扫描匹配支持 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

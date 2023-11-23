@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="MQTT X 是 EMQ 开源的一款优雅的跨平台 MQTT 5.0 桌面客户端，它支持 macOS, Linux, Windows。MQTT X 的 UI 采用了聊天界面形式，简化了页面操作逻辑，用户可以快速创建连接，允许保存多个客户端，方便用户快速测试 MQTT&#x2F;MQTTS 连接，及 MQTT 消息的订阅和发布。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQTT 使用MQTTX实现消息的发布与订阅">
+<meta property="og:url" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="MQTT X 是 EMQ 开源的一款优雅的跨平台 MQTT 5.0 桌面客户端，它支持 macOS, Linux, Windows。MQTT X 的 UI 采用了聊天界面形式，简化了页面操作逻辑，用户可以快速创建连接，允许保存多个客户端，方便用户快速测试 MQTT&#x2F;MQTTS 连接，及 MQTT 消息的订阅和发布。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E4%B8%BB%E9%A1%B5.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E6%96%B0%E5%BB%BA%E8%BF%9E%E6%8E%A5.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-Broker-%E8%BF%9E%E6%8E%A5%E4%BF%A1%E6%81%AF.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E4%BF%A1%E6%81%AF.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-SSL-TLS.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-MQTT-5.0.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E9%81%97%E5%98%B1%E6%B6%88%E6%81%AF.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-Broker-%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E6%B7%BB%E5%8A%A0%E8%AE%A2%E9%98%85.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E8%AE%BE%E7%BD%AE%E5%88%AB%E5%90%8D.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E8%AE%A2%E9%98%85%E5%A4%9A%E4%B8%AATOPIC.png">
+<meta property="og:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E5%92%8C%E6%8E%A5%E6%94%B6.png">
+<meta property="article:published_time" content="2022-08-05T11:09:49.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.865Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="MQTT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E4%B8%BB%E9%A1%B5.png">
+
+
+<link rel="canonical" href="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/","path":"2022/08/05/物联网/MQTT/MQTT-使用MQTTX实现消息的发布与订阅/","title":"MQTT 使用MQTTX实现消息的发布与订阅"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MQTT 使用MQTTX实现消息的发布与订阅 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">下载安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MQTT-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">MQTT 服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.</span> <span class="nav-text">建立连接</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Broker-%E4%BF%A1%E6%81%AF"><span class="nav-number">3.1.</span> <span class="nav-text">Broker 信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E4%BF%A1%E6%81%AF"><span class="nav-number">3.2.</span> <span class="nav-text">用户认证信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSL-x2F-TLS"><span class="nav-number">3.3.</span> <span class="nav-text">SSL&#x2F;TLS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE"><span class="nav-number">3.4.</span> <span class="nav-text">高级配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MQTT-5-0"><span class="nav-number">3.5.</span> <span class="nav-text">MQTT 5.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%97%E5%98%B1%E6%B6%88%E6%81%AF"><span class="nav-number">3.6.</span> <span class="nav-text">遗嘱消息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85"><span class="nav-number">4.</span> <span class="nav-text">消息的发布订阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text">常用配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%AE%A2%E9%98%85"><span class="nav-number">4.2.</span> <span class="nav-text">添加订阅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E5%92%8C%E6%8E%A5%E6%94%B6"><span class="nav-number">4.3.</span> <span class="nav-text">消息发送和接收</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MQTT 使用MQTTX实现消息的发布与订阅 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MQTT 使用MQTTX实现消息的发布与订阅
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-05 19:09:49" itemprop="dateCreated datePublished" datetime="2022-08-05T19:09:49+08:00">2022-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">物联网</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/" itemprop="url" rel="index"><span itemprop="name">MQTT</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><a target="_blank" rel="noopener" href="https://mqttx.app/zh">MQTT X</a> 是 <a target="_blank" rel="noopener" href="https://www.emqx.com/zh">EMQ</a> 开源的一款优雅的跨平台 MQTT 5.0 桌面客户端，它支持 macOS, Linux, Windows。<br><code>MQTT X</code> 的 UI 采用了聊天界面形式，简化了页面操作逻辑，用户可以快速创建连接，允许保存多个客户端，方便用户快速测试 <code>MQTT/MQTTS</code> 连接，及 MQTT 消息的订阅和发布。</p>
+<span id="more"></span>
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>跨平台，支持 Windows，macOS，Linux</li>
+<li>支持 MQTT v3.1.1 以及 MQTT v5.0</li>
+<li>支持 CA、自签名证书，以及单、双向 SSL 认证</li>
+<li>多主题 Light、Dark、Night（Purple）三种主题模式切换</li>
+<li>支持简体中文以及英文</li>
+<li>支持 WebSocket 连接至 MQTT 服务器</li>
+<li>订阅 Topic 时可自定义颜色标记</li>
+<li>支持 $SYS 主题自动订阅，并可按层级展开</li>
+<li>支持多种 Payload 格式 Hex, Base64, JSON, Plaintext</li>
+</ul>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><ul>
+<li>可在 <a target="_blank" rel="noopener" href="https://mqttx.app/zh#download">MQTTX 官网</a> 首页内进行下载和安装</li>
+<li>可在 <a target="_blank" rel="noopener" href="https://www.emqx.com/zh/try?product=MQTTX">EMQ 官方网站的下载页面</a>内进行下载和安装</li>
+<li>可在 <a target="_blank" rel="noopener" href="https://github.com/emqx/MQTTX/releases">GitHub Releases</a> 中进行下载和安装</li>
+</ul>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E4%B8%BB%E9%A1%B5.png" class="" title="[]">
+
+<h1 id="MQTT-服务器"><a href="#MQTT-服务器" class="headerlink" title="MQTT 服务器"></a>MQTT 服务器</h1><p>搭建自己的 MQTT 服务器，详见 <a href="/2022/08/04/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1%E5%99%A8EMQX/" title="MQTT 消息服务器EMQX">MQTT 消息服务器EMQX</a></p>
+<p>如果您不需要本地部署的 MQTT Broker，那么可以使用 EMQX 的线上公开版进行快速测试；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Broker 地址: broker.emqx.io</span><br><span class="line">Broker TCP 端口: 1883</span><br><span class="line">Broker SSL 端口: 8883</span><br></pre></td></tr></table></figure>
+
+<h1 id="建立连接"><a href="#建立连接" class="headerlink" title="建立连接"></a>建立连接</h1><p>在准备好 <code>MQTT Broker</code> 后，进入到主程序页面，可点击左侧菜单栏中的 <code>+</code> 号，如果页面没有数据，还可以直接点击右侧的 <code>新建连接</code> 按钮，快速配置一个新的客户端连接。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E6%96%B0%E5%BB%BA%E8%BF%9E%E6%8E%A5.png" class="" title="[]">
+
+<p>进入到创建页面后，需配置或填写连接客户端的相关信息。</p>
+<h2 id="Broker-信息"><a href="#Broker-信息" class="headerlink" title="Broker 信息"></a>Broker 信息</h2><p>配置 <code>Broker</code> 信息时，<code>Client ID</code>、<code>Host</code> 和 <code>Port</code> 已经默认填写，您也可根据实际的 <code>Broker</code> 信息自行修改。点击 <code>Client ID</code> 右侧的刷新按钮，可快速生成新的 <code>Client ID</code>。</p>
+<p><code>Host</code> 前的选择框，用来选择该连接的协议，支持 <code>mqtt://</code>，<code>ws://</code>，如果是 <code>SSL/TLS</code> 认证连接的话，需要修改为 <code>mqtts://</code>，<code>wss://</code>。</p>
+<p><strong>注意：</strong>当协议修改时，需要修改连接的端口。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-Broker-%E8%BF%9E%E6%8E%A5%E4%BF%A1%E6%81%AF.png" class="" title="[]">
+
+<h2 id="用户认证信息"><a href="#用户认证信息" class="headerlink" title="用户认证信息"></a>用户认证信息</h2><p>如果您的 <code>Broker</code> 开启了用户认证，配置项中可填写 <code>Username</code> 和 <code>Password</code> 信息。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E4%BF%A1%E6%81%AF.png" class="" title="[]">
+
+<h2 id="SSL-x2F-TLS"><a href="#SSL-x2F-TLS" class="headerlink" title="SSL&#x2F;TLS"></a>SSL&#x2F;TLS</h2><p>当需要开启 <code>SSL/TLS</code> 认证时，只需要将配置中的 <code>SSL/TLS</code> 配置项设置为 <code>true</code>，并提供了 <code>CA signed self</code> 和 <code>Self signed</code> 两种方式。</p>
+<p>如果选择了 <code>Self signed</code>，可进行证书配置，点击最右侧的文件夹按钮，选择您已经生成好的各项证书，如果是单向连接，只需要选择您的 <code>CA File</code> 即可，如果是双向认证，还需要选择配置 <code>Client Certificate File</code> 和 <code>Client key file</code>。当开启 <code>Strict validate Certificate</code> 的选项后，会启用更完整的证书验证连接，一般推荐在需要测试正式环境时启用。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-SSL-TLS.png" class="" title="[]">
+
+<h2 id="高级配置"><a href="#高级配置" class="headerlink" title="高级配置"></a>高级配置</h2><p>高级配置中，可以配置<code>Connect Timeout</code>、<code>KeepAlive</code>、<code>Clean Session</code>、<code>Auto Reconnect</code>、<code>MQTT Version</code> 等。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E9%AB%98%E7%BA%A7%E9%85%8D%E7%BD%AE.png" class="" title="[]">
+
+<h2 id="MQTT-5-0"><a href="#MQTT-5-0" class="headerlink" title="MQTT 5.0"></a>MQTT 5.0</h2><p>在高级配置中，可以选择 MQTT 的协议版本，支持 MQTT v3.1.1 和 MQTT v5.0 版本, 如果选择了 v5.0 版本后，还可配置 <code>Session Expiry Interval</code>、<code>Receive Maximum</code> 和 <code>Topic Alias Maximu</code>等（可选）。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-MQTT-5.0.png" class="" title="[]">
+
+<h2 id="遗嘱消息"><a href="#遗嘱消息" class="headerlink" title="遗嘱消息"></a>遗嘱消息</h2><p>在高级配置下方的配置卡片中，可以配置遗嘱消息，<code>Last-Will-QoS</code> 和 <code>Last-Will-Retain</code> 的值默认填充为 <code>0</code> 和 <code>False</code>，当您输入 <code>Last-Will-Topic</code> 和 <code>Last-Will-Payload</code> 的值后，就可以完成对遗嘱消息的配置。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E9%81%97%E5%98%B1%E6%B6%88%E6%81%AF.png" class="" title="[]">
+
+<h1 id="消息的发布订阅"><a href="#消息的发布订阅" class="headerlink" title="消息的发布订阅"></a>消息的发布订阅</h1><h2 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h2><p>连接成功后，即可进入到连接的主界面，点击顶部连接名称旁的折叠按钮，可以展开并显示该配置的几个基础信息，方便快速修改该连接的几个常用配置，修改时需断开连接，重新点击连接后即可生效，每次连接成功后，面板都会自动往上折叠。在断开连接的状态下，也可点击右边配置按钮，进行更多的连接配置修改。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-Broker-%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE.png" class="" title="[]">
+
+<h2 id="添加订阅"><a href="#添加订阅" class="headerlink" title="添加订阅"></a>添加订阅</h2><p>点击左下角的 <code>New Subscription</code> 按钮，可以快速添加一个 <code>Topic</code>，每个 <code>Topic</code> 都可以用一种颜色标记，可以随机生成或打开颜色选择器选择。订阅列表顶部的最右侧的按钮，可以隐藏订阅列表，来显示页面更多的空间。添加完成后，点击订阅列表中已经订阅的 Topic 项，可以实现消息过滤，消息视图内将只显示订阅了当前主题的消息内容，再次点击即可取消过滤；也可直接点击其它已订阅的 <code>Topic</code> 项，查看其对应的消息内容。而点击 <code>Topic</code> 名称，即可快速复制当前的 <code>Topic</code> 信息。当需要向该 <code>Topic</code> 发送消息时，只需快速粘贴到消息栏的 <code>Topic</code> 输入框内进行修改，便可快速完成该操作。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E6%B7%BB%E5%8A%A0%E8%AE%A2%E9%98%85.png" class="" title="[]">
+
+<blockquote>
+<p>设置别名<br>在添加 Topic 时，可以给每个 Topic 设置一个别名，该选项为一个可选项，当设置并添加完成订阅后，订阅列表中的 Topic 数据将以别名展示，鼠标悬浮到 Topic 项时，提示框也会同时展示出该 Topic 的原值。这对于需要监控查看的多个 Topic 过长，无法分辩 Topic 的具体含义时，具有较强的帮助性。</p>
+</blockquote>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E8%AE%BE%E7%BD%AE%E5%88%AB%E5%90%8D.png" class="" title="[]">
+
+<blockquote>
+<p>订阅多个 Topic<br>我们打开订阅主题的弹出框后，在 Topic 输入框内，输入多个 Topic 并使用逗号（,）进行分割，点击确认订阅成功后，我们可以看到订阅列表中包含了多个 Topic。对于使用客户端层的别名功能也可以支持同时对多个 Topic 进行设置，同理使用逗号分隔（,）。</p>
+</blockquote>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E8%AE%A2%E9%98%85%E5%A4%9A%E4%B8%AATOPIC.png" class="" title="[]">
+
+<h2 id="消息发送和接收"><a href="#消息发送和接收" class="headerlink" title="消息发送和接收"></a>消息发送和接收</h2><p><code>Topic</code> 订阅成功后，就可以来测试消息的收发了。在页面右下角填入刚才所订阅的 <code>Topic</code> 信息（<strong>注意：输入框不显眼，容易遗漏</strong>），可选择 <code>QoS</code>、<code>Retain</code> 的值，输入 <code>payload</code> 后，点击最右侧的发送按钮，就向刚才订阅的 <code>Topic</code> 发送了一条消息。发送成功后，也可以即时接收到刚才所发送的消息。注意，在消息框内，右边栏为发送的消息。左边栏为接收到的消息。macOS 用户可以使用 <code>command + enter</code> 快捷键，其它用户可以使用 <code>control + enter</code> 快捷键来快速发送消息。</p>
+<p>消息栏的 <code>payload</code> 选项，可以快速将消息转化为多种格式，支持 <code>Base64</code>，<code>Hex</code>，<code>JSON</code> 和 <code>Plaintext</code>。</p>
+<img src="/2022/08/05/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BD%BF%E7%94%A8MQTTX%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/MQTTX-%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E5%92%8C%E6%8E%A5%E6%94%B6.png" class="" title="[]">
+
+<p>至此就完成了一条 <code>MQTT</code> 消息的测试。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/MQTT/" rel="tag"># MQTT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/04/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1%E5%99%A8EMQX/" rel="prev" title="MQTT 消息服务器EMQX">
+                  <i class="fa fa-chevron-left"></i> MQTT 消息服务器EMQX
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/08/09/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%B8%BB%E9%A2%98%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" rel="next" title="MQTT 主题的高级特性">
+                  MQTT 主题的高级特性 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="随着 2021 年 11 月《个人信息保护法》的正式实施及我们系统用户体量达到 2000 万，公司业务的特殊性今年我被各地 GA 约谈的次数又有增多，除了常规的第三方测评，我们在数据安全的探索也没有止步。在技术层面上我们上线了边缘特征值提取系统解决人脸照片的传输与存储问题，利用证书锁定解决 APP 抓包问题，利用数据库审计对数据库操作进行细粒度审计的合规性管理，也在探索 Appshark 做自动的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全球个人信息可携带权的实践初探">
+<meta property="og:url" content="http://example.com/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="随着 2021 年 11 月《个人信息保护法》的正式实施及我们系统用户体量达到 2000 万，公司业务的特殊性今年我被各地 GA 约谈的次数又有增多，除了常规的第三方测评，我们在数据安全的探索也没有止步。在技术层面上我们上线了边缘特征值提取系统解决人脸照片的传输与存储问题，利用证书锁定解决 APP 抓包问题，利用数据库审计对数据库操作进行细粒度审计的合规性管理，也在探索 Appshark 做自动的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/DTP%E6%A8%A1%E5%BC%8F%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
+<meta property="og:image" content="http://example.com/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/MyData%E6%A8%A1%E5%BC%8F%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
+<meta property="og:image" content="http://example.com/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/DDTP%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
+<meta property="article:published_time" content="2022-09-23T02:05:06.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.816Z">
+<meta property="article:author" content="张亲">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/DTP%E6%A8%A1%E5%BC%8F%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/","path":"2022/09/23/合规/个信/全球个人信息可携带权的实践初探/","title":"全球个人信息可携带权的实践初探"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>全球个人信息可携带权的实践初探 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B3%E5%8F%B0%E4%B8%BB%E5%AF%BC%E7%9A%84%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E6%90%BA%E5%B8%A6%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">平台主导的个人信息携带模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DTP-%E6%A8%A1%E5%BC%8F%E6%A0%B8%E5%BF%83%E6%9E%84%E6%88%90"><span class="nav-number">1.1.</span> <span class="nav-text">DTP 模式核心构成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DTP-%E6%A8%A1%E5%BC%8F%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="nav-number">1.2.</span> <span class="nav-text">DTP 模式示意图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DTP-%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E6%AF%94%E8%BE%83"><span class="nav-number">1.3.</span> <span class="nav-text">DTP 模式的优缺点比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%BF%E5%BA%9C%E4%B8%BB%E5%AF%BC%E7%9A%84%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E6%90%BA%E5%B8%A6%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">政府主导的个人信息携带模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyData-%E6%A8%A1%E5%BC%8F%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="nav-number">2.1.</span> <span class="nav-text">MyData 模式示意图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyData-%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%E6%AF%94%E8%BE%83"><span class="nav-number">2.2.</span> <span class="nav-text">MyData 模式的优缺点比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E4%B8%BB%E5%AF%BC%E7%9A%84%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E6%90%BA%E5%B8%A6%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">个人主导的个人信息携带模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DDTP-%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%E7%A4%BA%E6%84%8F%E5%9B%BE"><span class="nav-number">3.1.</span> <span class="nav-text">DDTP 分布式数据传输协议示意图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%8C%E4%BD%BF%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E6%AD%A5%E9%AA%A4%E8%A7%A3%E6%9E%90"><span class="nav-number">3.2.</span> <span class="nav-text">行使个人信息可携带权步骤解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDTP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">3.3.</span> <span class="nav-text">DDTP 协议的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDTP-%E6%A1%88%E4%BE%8B%EF%BC%9A%E7%B2%A4%E6%BE%B3%E5%81%A5%E5%BA%B7%E7%A0%81%E4%BA%92%E8%AE%A4%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.4.</span> <span class="nav-text">DDTP 案例：粤澳健康码互认项目</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="全球个人信息可携带权的实践初探 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          全球个人信息可携带权的实践初探
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-09-23 10:05:06" itemprop="dateCreated datePublished" datetime="2022-09-23T10:05:06+08:00">2022-09-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%88%E8%A7%84/" itemprop="url" rel="index"><span itemprop="name">合规</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/" itemprop="url" rel="index"><span itemprop="name">个信</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>随着 2021 年 11 月《个人信息保护法》的正式实施及我们系统用户体量达到 2000 万，公司业务的特殊性今年我被各地 GA 约谈的次数又有增多，除了常规的第三方测评，我们在数据安全的探索也没有止步。在技术层面上我们上线了边缘特征值提取系统解决人脸照片的传输与存储问题，利用证书锁定解决 APP 抓包问题，利用数据库审计对数据库操作进行细粒度审计的合规性管理，也在探索 Appshark 做自动的安全漏洞和合规检测。</p>
+<p>前几天了解到<code>粤澳健康码互认项目</code>实践个人数据可携带权的方案，收到了不少的启发。调研了全球个人信息可携带权的实践方案，分别就国外的平台主导、政府主导和深圳市金融区块链发展促进会（简称：金链盟）联提出个人主导方案做一个对比，为探索公司业务如何在合规的方式下数据流通变现做准备。</p>
+<span id="more"></span>
+
+<p>在 2021 年通过的《个人信息保护法》中明确了<strong>数据可携带权</strong>，清晰的界定了个人用户与诸多数据持有者的权利边界与范围，为未来个人数据的自由、有序流动提供了法律层面的支撑。而从全球实践来看，这项权利得到了较为初步的应用。其在境外具体可归纳成由平台主导和政府主导的两类实践模式。</p>
+<h1 id="平台主导的个人信息携带模式"><a href="#平台主导的个人信息携带模式" class="headerlink" title="平台主导的个人信息携带模式"></a>平台主导的个人信息携带模式</h1><p>这类模式的典型应用代表是 Google 等美国企业发起的 <strong>DTP</strong>（Data Transfer Project）项目。在 CCPA 立法后不到一个月，总部位处加州的 Google、Facebook、Microsoft、Twitter 四大互联网企业联合发起了该项目，目的是为用户创造一个在不同服务商之间传输数据的平台。</p>
+<p>DTP 的参与公司通过 API 技术共同建立一类数据传输标准，当用户需要执行可携带权时，只需要进行授权操作，信息提供者就可以直接通过 API 接口把个人信息传输给接收者，这就解决了个人执行可携带权时授权复杂、操作不便等问题。</p>
+<h2 id="DTP-模式核心构成"><a href="#DTP-模式核心构成" class="headerlink" title="DTP 模式核心构成"></a>DTP 模式核心构成</h2><p>在技术上，DTP 的参与者需要部署 DTP 系统，该系统由三个组件构成：<strong>数据模型</strong>（Data Model）、<strong>适配器</strong>（Adapter）和 <strong>任务管理库</strong>（Task Management Library）。</p>
+<ul>
+<li><p>数据模型构建了传输文件类型和元数据的标准，适用于少量类型已经被充分定义的且被广泛采用的标准数据，如图片、音乐、邮件、联系人数据。所有参与 DTP 的公司都必须采用 DTP 系统的数据模型，以方便个人信息传输。</p>
+</li>
+<li><p>适配器分为数据适配器和身份认证适配器，前者用于 API 和数据模型之间的格式转换，后者则用于用户身份认证。</p>
+</li>
+<li><p>任务管理库用于处理后台任务，包括数据存储、任务调用、故障处理等。任务管理库通过一个通用的云接口进行部署，因而可以部署在本地、云端或生产环境中。DTP 系统所传输的数据也是先通过任务管理库加密后再进行传输，即 DTP 系统使用了加密 API 传输技术。</p>
+</li>
+</ul>
+<h2 id="DTP-模式示意图"><a href="#DTP-模式示意图" class="headerlink" title="DTP 模式示意图"></a>DTP 模式示意图</h2><img src="/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/DTP%E6%A8%A1%E5%BC%8F%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" class="">
+
+<h2 id="DTP-模式的优缺点比较"><a href="#DTP-模式的优缺点比较" class="headerlink" title="DTP 模式的优缺点比较"></a>DTP 模式的优缺点比较</h2><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>优点</th>
+<th>局限性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>安全存储</td>
+<td>在企业服务器存储，技术安全性高</td>
+<td>用户不可自行选择存储位置和方式</td>
+</tr>
+<tr>
+<td>可信传输</td>
+<td>传输操作简便</td>
+<td>信任机制完全依赖企业信用，透明度低、用户权利保障责任不明确</td>
+</tr>
+<tr>
+<td>协同生产</td>
+<td>使用统一 API 标准、便于协作</td>
+<td>仅支持联盟内有限机构及场景，难以实现跨行业应用</td>
+</tr>
+</tbody></table>
+<h1 id="政府主导的个人信息携带模式"><a href="#政府主导的个人信息携带模式" class="headerlink" title="政府主导的个人信息携带模式"></a>政府主导的个人信息携带模式</h1><p>与 DTP 模式不同，以韩国为典型代表的 <strong>MyData</strong> 模式由政府主导，思路是政府通过牌照准入的方式，审核、批准 MyData 运营商建立服务平台。当用户请求访问个人信息数据时，信息提供者需要将个人信息传输给 MyData 平台，再统一由 MyData 平台传输给个人，相当于 MyData 平台整合了各公司的个人信息数据，方便个人访问和携带个人信息。而当个人需要执行可携带权时，只要授权信息接收者从 MyData 平台处获取即可。</p>
+<h2 id="MyData-模式示意图"><a href="#MyData-模式示意图" class="headerlink" title="MyData 模式示意图"></a>MyData 模式示意图</h2><img src="/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/MyData%E6%A8%A1%E5%BC%8F%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" class="">
+
+<h2 id="MyData-模式的优缺点比较"><a href="#MyData-模式的优缺点比较" class="headerlink" title="MyData 模式的优缺点比较"></a>MyData 模式的优缺点比较</h2><table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>优点</th>
+<th>局限性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>安全存储</td>
+<td>牌照准入、技术安全性高</td>
+<td>多方存储增加了风险；用户不可选择存储位置。</td>
+</tr>
+<tr>
+<td>可信传输</td>
+<td>基于统一 API 可查看行业内结构化数据；机构持牌参与，可信性强。</td>
+<td>-</td>
+</tr>
+<tr>
+<td>协同生产</td>
+<td>可覆盖本行业内主要机构</td>
+<td>按场景切分，难以形成跨行业协作；数据运营商不中立，潜在利益冲突，容易形成新的垄断。</td>
+</tr>
+</tbody></table>
+<h1 id="个人主导的个人信息携带模式"><a href="#个人主导的个人信息携带模式" class="headerlink" title="个人主导的个人信息携带模式"></a>个人主导的个人信息携带模式</h1><p>受粤澳健康码互认项目的启迪，深圳市金融区块链发展促进会（简称：金链盟）联提出一种新型的分布式数据传输协议（Distributed Data Transfer Protocol，DDTP）。该协议旨在让用户成为关键参与者，由用户主动发起个人信息数据传输并自行上传，从而实践个人数据可携带权。协议方案基于区块链技术，通过区块链的全流程追溯、防篡改、传递信任等特性，<br>叠加引进权威机构的参与，助力更安全、可信、易协作的个人信息携带应用。与其他模式不同的是，该协议强调以用户个人为主导，遵循分布式理念，不依赖于数据提供者和接收者双方合作，也不依赖中心化机构推动，可支持跨机构、跨行业、跨场景协同。</p>
+<h2 id="DDTP-分布式数据传输协议示意图"><a href="#DDTP-分布式数据传输协议示意图" class="headerlink" title="DDTP 分布式数据传输协议示意图"></a>DDTP 分布式数据传输协议示意图</h2><img src="/2022/09/23/%E5%90%88%E8%A7%84/%E4%B8%AA%E4%BF%A1/%E5%85%A8%E7%90%83%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8F%AF%E6%90%BA%E5%B8%A6%E6%9D%83%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%88%9D%E6%8E%A2/DDTP%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%E7%A4%BA%E6%84%8F%E5%9B%BE.jpg" class="">
+
+<h2 id="行使个人信息可携带权步骤解析"><a href="#行使个人信息可携带权步骤解析" class="headerlink" title="行使个人信息可携带权步骤解析"></a>行使个人信息可携带权步骤解析</h2><p>如上图所示，主要分两个主要步骤行使个人信息可携带权。</p>
+<ul>
+<li><p>第一步是用户从数据提供者处下载个人信息数据，并存储在个人指定的位置。存储位置可以是本地，也可以是云或其它位置。为了确保个人真实意愿、防止真实数据被篡改、保持传输给接收者的个人信息与提供者提供的个人信息一致，经用户授权后，可进一步引入权威中立的第三方机构参与见证该个人数据文件的存储过程，并获取相关文件的哈希值（而非源文件）作为“数据指纹”存储于区块链上。</p>
+</li>
+<li><p>第二步是用户将已下载的个人信息数据传输给数据接收者，并对使用范围和使用目的等进行授权。数据接收者在收到个人信息数据文件之后，可以通过区块链进行基于哈希值的可验证数字凭证⸺ “数据指纹”的核验，从而完成验真的过程。与此同时，个人的所有授权记录、数据接收者的具体使用情况也皆可在链上进行记录，便于个人未来追溯相关文件的流转。</p>
+</li>
+</ul>
+<h2 id="DDTP-协议的优点"><a href="#DDTP-协议的优点" class="headerlink" title="DDTP 协议的优点"></a>DDTP 协议的优点</h2><p>该协议可以满足相关各方关于个人信息可携带权的基本需求。在安全存储、可信传输、协同生产三方面，具有明显的优点：</p>
+<ul>
+<li><p>从应用效果来看，通过引入用户作为核心参与者，DDTP 建立了用户主动行使个人信息可携带权的模式，由于是用户直接向接收者传输数据，按照《个人信息保护法》相关条款，接收者不能索取不必要的数据，因此也不会出现过度授权和信息滥用，成功保障了用户行使个人信息可携带权；</p>
+</li>
+<li><p>通过使用区块链技术，DDTP 将个人信息存储、传输和验证分离，成功解决了验真、溯源、审计、信任机制传递等方面的<br>问题；</p>
+</li>
+<li><p>而用户自主发起并结合基于哈希值的可验证数字凭证⸺ “数据指纹”上链验证的方式，既符合政策的合规要求，又能解决跨机构、<br>跨行业、跨场景数据协同生产的问题，可以用于个人信息可携带权的中国实践。</p>
+</li>
+</ul>
+<h2 id="DDTP-案例：粤澳健康码互认项目"><a href="#DDTP-案例：粤澳健康码互认项目" class="headerlink" title="DDTP 案例：粤澳健康码互认项目"></a>DDTP 案例：粤澳健康码互认项目</h2><p>2020 年 5 月，广东和澳门两地政府部门运用基于区块链技术，推出的粤澳健康码跨境互认项目，为构建个人信息可携带权模式提供了参考。众所周知，新冠疫情造成了人员流动不便问题，如何实现健康码跨地互认互转存在较多的困难。尤其是，在跨境场景下居民的个人隐私信息限于当前法律难以实现跨境传输，如何进行用户健康信息的真实互认就变得十分困难。在 FISCO BCOS 区块链开源底层平台的技术支持下，广东和澳门两地政府部门运用基于区块链的实体身份标识及可验证数字凭证技该项目的思路是让用户成为个人信息传输的核心角色，自主携带申报个人健康信息，通过数据指纹上链，实现数据验证及健康码互认互换。在经过用户同意授权之后，所在地区的政府部门开始启动健康数据转码；在后端，个人健康数据文件的哈希值和用户的数字签名将记录在区块链上，数据原文信息则仍保存在健康码发行机构的本地数据库中；在前端，用户无需在多个平台重复填写复杂信息，只需简单授权后，产品将自动为用户转为前往地区的健康码，从而实现了合规前提下的个人健康信息的跨境携带。截至 2021 年 6 月，项目已服务超 9500 万人次在粤澳两地跨境通行。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/18/%E5%AE%89%E5%85%A8/%E8%AF%81%E4%B9%A6%E9%94%81%E5%AE%9A%E5%9C%A8App%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" rel="prev" title="证书锁定在App接口安全中的应用">
+                  <i class="fa fa-chevron-left"></i> 证书锁定在App接口安全中的应用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/10/14/%E6%95%B0%E6%8D%AE%E5%BA%93/%E4%BF%A1%E5%88%9B%E6%95%B0%E6%8D%AE%E5%BA%93%E8%B0%83%E7%A0%94/" rel="next" title="信创数据库调研">
+                  信创数据库调研 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

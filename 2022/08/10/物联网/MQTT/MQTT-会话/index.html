@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="什么是会话？我们将从客户端向服务端发起 MQTT 连接请求开始，到连接中断直到会话过期为止的消息收发序列称之为会话。因此，会话可能仅持续一个网络连接，也可能跨越多个网络连接存在，如果客户端能在会话过期之前重新建立了连接的话。  在 MQTT v5 中会话过期时间由 Session Expiry Interval 字段决定，早前版本的协议没有限制会话过期时间，但通常由 MQTT 服务端决定。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQTT 会话">
+<meta property="og:url" content="http://example.com/2022/08/10/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BC%9A%E8%AF%9D/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="什么是会话？我们将从客户端向服务端发起 MQTT 连接请求开始，到连接中断直到会话过期为止的消息收发序列称之为会话。因此，会话可能仅持续一个网络连接，也可能跨越多个网络连接存在，如果客户端能在会话过期之前重新建立了连接的话。  在 MQTT v5 中会话过期时间由 Session Expiry Interval 字段决定，早前版本的协议没有限制会话过期时间，但通常由 MQTT 服务端决定。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-10T03:47:27.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.865Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="MQTT">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/08/10/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BC%9A%E8%AF%9D/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/08/10/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BC%9A%E8%AF%9D/","path":"2022/08/10/物联网/MQTT/MQTT-会话/","title":"MQTT 会话"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MQTT 会话 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BC%9A%E8%AF%9D%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是会话？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BC%9A%E8%AF%9D%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">什么是会话状态？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%9C%80%E8%A6%81%E5%AD%98%E5%82%A8%E4%BB%A5%E4%B8%8B%E4%BC%9A%E8%AF%9D%E7%8A%B6%E6%80%81%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">服务端需要存储以下会话状态：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E7%8A%B6%E6%80%81%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">会话状态的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E7%9A%84%E5%BC%80%E5%A7%8B%E4%B8%8E%E7%BB%93%E6%9D%9F"><span class="nav-number">5.</span> <span class="nav-text">会话的开始与结束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%A6%82%E4%BD%95%E7%9F%A5%E9%81%93%E8%BF%99%E6%98%AF%E8%A2%AB%E6%81%A2%E5%A4%8D%E7%9A%84%E4%BC%9A%E8%AF%9D%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">客户端如何知道这是被恢复的会话？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE"><span class="nav-number">7.</span> <span class="nav-text">使用建议</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/10/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%BC%9A%E8%AF%9D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MQTT 会话 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MQTT 会话
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-08-10 11:47:27" itemprop="dateCreated datePublished" datetime="2022-08-10T11:47:27+08:00">2022-08-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">物联网</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/" itemprop="url" rel="index"><span itemprop="name">MQTT</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="什么是会话？"><a href="#什么是会话？" class="headerlink" title="什么是会话？"></a>什么是会话？</h1><p>我们将从客户端向服务端发起 MQTT 连接请求开始，到连接中断直到会话过期为止的消息收发序列称之为会话。因此，会话可能仅持续一个网络连接，也可能跨越多个网络连接存在，如果客户端能在会话过期之前重新建立了连接的话。</p>
+<blockquote>
+<p>在 MQTT v5 中会话过期时间由 Session Expiry Interval 字段决定，早前版本的协议没有限制会话过期时间，但通常由 MQTT 服务端决定。</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="什么是会话状态？"><a href="#什么是会话状态？" class="headerlink" title="什么是会话状态？"></a>什么是会话状态？</h1><p><code>MQTT</code> 要求客户端与服务端在会话有效期内存储一系列与客户端标识相关联的状态，称之为会话状态。</p>
+<p>客户端需要存储以下会话状态：</p>
+<ul>
+<li>已发送给服务端，但是还没有完成确认的 <code>QoS 1</code> 与 <code>QoS 2</code> 消息。</li>
+<li>从服务端收到的，但是还没有完成确认的 <code>QoS 2</code> 消息。</li>
+</ul>
+<h1 id="服务端需要存储以下会话状态："><a href="#服务端需要存储以下会话状态：" class="headerlink" title="服务端需要存储以下会话状态："></a>服务端需要存储以下会话状态：</h1><ul>
+<li>会话是否存在，即使会话状态其余部分为空。</li>
+<li>客户端订阅信息，包括任何<code>订阅标识符</code>。</li>
+<li>已发送给客户端，但是还没有完成确认的 <code>QoS 1</code> 与 <code>QoS 2</code> 消息。</li>
+<li>等待传输给客户端的 <code>QoS 0</code> 消息（可选），<code>QoS 1</code> 与 <code>QoS 2</code> 消息。</li>
+<li>从客户端收到的，但是还没有完成确认的 <code>QoS 2</code> 消息，<code>遗嘱消息</code>和<code>遗嘱延时间隔</code>。</li>
+<li>会话过期时间。</li>
+</ul>
+<h1 id="会话状态的使用"><a href="#会话状态的使用" class="headerlink" title="会话状态的使用"></a>会话状态的使用</h1><p>如果客户端因为网络波动等原因导致连接短暂中断，但在会话过期前重新与服务端建立了连接，那么就可以沿用上次连接建立的订阅关系，不需要重新订阅一遍。在低带宽、不稳定的网络场景下，网络中断可能会发生得很频繁，保存会话状态的方式避免了每次连接都需要重新订阅，降低了重连时客户端和服务端的资源消耗。服务端在客户端脱机期间为其保留未完成确认的以及后续到达的消息，客户端重新连接时再一并转发，既可以避免消息丢失，也能够降低某些场景下用户对网络变化的感知度。</p>
+<h1 id="会话的开始与结束"><a href="#会话的开始与结束" class="headerlink" title="会话的开始与结束"></a>会话的开始与结束</h1><p>MQTT v5.0 与 v3.1.1 在会话上有着较为显著的变化。MQTT v3.1.1 只有一个 Clean Session 字段，由客户端在连接时指定，为 1 表示客户端和服务器必须丢弃任何先前的会话并创建一个新的会话，且这个会话的生命周期与网络连接保持一致；为 0 则表示服务端必须使用与 Client ID 关联的会话来恢复与客户端的通信（除非会话不存在），客户端和服务器在断开连接后必须存储会话的状态。</p>
+<h1 id="客户端如何知道这是被恢复的会话？"><a href="#客户端如何知道这是被恢复的会话？" class="headerlink" title="客户端如何知道这是被恢复的会话？"></a>客户端如何知道这是被恢复的会话？</h1><p>显而易见的是，当客户端以期望从先前建立的会话恢复状态的方式发起连接，它需要知道服务端是否存在相应的会话，才能决定在连接建立后是否需要重复一遍订阅操作。关于这一点，MQTT 协议从 v3.1.1 开始，就为 CONNACK 报文设计了 Session Present 字段，用于表示当前连接使用的是否是一个全新会话，客户端可以根据这个字段的值进行判断。</p>
+<h1 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h1><p>开发者需要特别注意 ClientID 与会话之间的联系，如果某些场景下同一个 ClientID 会被不同的应用或者用户多次使用，即每次连接都会有完全不同的行为，那么就需要确保每次连接时都请求了全新的会话。合理地评估是否需要持久会话，如非必要可以在正常离线时将会话设置为立即过期减少服务端资源占用。设置合适的会话过期时间，设置过短，可能会失去存储会话状态的意义，设置过长，可能会过多地占用服务端资源。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/MQTT/" rel="tag"># MQTT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/09/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-%E4%B8%BB%E9%A2%98%E7%9A%84%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" rel="prev" title="MQTT 主题的高级特性">
+                  <i class="fa fa-chevron-left"></i> MQTT 主题的高级特性
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/08/10/%E7%89%A9%E8%81%94%E7%BD%91/MQTT/MQTT-QoS%EF%BC%88%E6%9C%8D%E5%8A%A1%E8%B4%A8%E9%87%8F%EF%BC%89/" rel="next" title="MQTT QoS（服务质量）">
+                  MQTT QoS（服务质量） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

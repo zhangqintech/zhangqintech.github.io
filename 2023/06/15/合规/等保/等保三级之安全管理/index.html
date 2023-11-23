@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="安全管理中心、安全管理制度、安全管理机构、安全管理人员、安全建设管理、安全运维管理 都属于安全管理范畴，重点关注各项安全制度的制定和执行，这里的安全制度不仅仅是在宏观方面，比如也包含：需求变更流程、人员的录用&#x2F;离岗、存储介质的管理等。关注群体主要为公司领导、产研负责人、行政负责人等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="等保三级之安全管理">
+<meta property="og:url" content="http://example.com/2023/06/15/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="安全管理中心、安全管理制度、安全管理机构、安全管理人员、安全建设管理、安全运维管理 都属于安全管理范畴，重点关注各项安全制度的制定和执行，这里的安全制度不仅仅是在宏观方面，比如也包含：需求变更流程、人员的录用&#x2F;离岗、存储介质的管理等。关注群体主要为公司领导、产研负责人、行政负责人等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-15T11:58:48.000Z">
+<meta property="article:modified_time" content="2023-11-23T02:02:49.818Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="等保">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2023/06/15/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2023/06/15/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/","path":"2023/06/15/合规/等保/等保三级之安全管理/","title":"等保三级之安全管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>等保三级之安全管理 | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83"><span class="nav-number">1.</span> <span class="nav-text">一、安全管理中心</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 系统管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%AE%A1%E8%AE%A1%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 审计管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 安全管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E9%9B%86%E4%B8%AD%E7%AE%A1%E6%8E%A7"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 集中管控</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E5%88%B6%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">二、安全管理制度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 安全策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E7%AE%A1%E7%90%86%E5%88%B6%E5%BA%A6"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 管理制度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E5%88%B6%E5%AE%9A%E5%92%8C%E5%8F%91%E5%B8%83"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 制定和发布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E8%AF%84%E5%AE%A1%E5%92%8C%E4%BF%AE%E8%AE%A2"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 评审和修订</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E6%9C%BA%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">三、安全管理机构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%B2%97%E4%BD%8D%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 岗位设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E4%BA%BA%E5%91%98%E9%85%8D%E5%A4%87"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 人员配备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E6%8E%88%E6%9D%83%E5%92%8C%E5%AE%A1%E6%89%B9"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 授权和审批</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-%E6%B2%9F%E9%80%9A%E5%92%8C%E5%90%88%E4%BD%9C"><span class="nav-number">3.4.</span> <span class="nav-text">4.4 沟通和合作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E5%AE%A1%E6%A0%B8%E5%92%8C%E6%A3%80%E6%9F%A5"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 审核和检查</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%BA%BA%E5%91%98"><span class="nav-number">4.</span> <span class="nav-text">四、安全管理人员</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E4%BA%BA%E5%91%98%E5%BD%95%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 人员录用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E4%BA%BA%E5%91%98%E7%A6%BB%E5%B2%97"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 人员离岗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E5%AE%89%E5%85%A8%E6%84%8F%E8%AF%86%E6%95%99%E8%82%B2%E5%92%8C%E5%9F%B9%E8%AE%AD"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 安全意识教育和培训</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-%E5%A4%96%E9%83%A8%E4%BA%BA%E5%91%98%E8%AE%BF%E9%97%AE%E7%AE%A1%E7%90%86"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 外部人员访问管理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%A0%E3%80%81%E5%AE%89%E5%85%A8%E5%BB%BA%E8%AE%BE%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">无、安全建设管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-%E5%AE%9A%E7%BA%A7%E5%92%8C%E5%A4%87%E6%A1%88"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 定级和备案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 安全方案设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-%E4%BA%A7%E5%93%81%E9%87%87%E8%B4%AD%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 产品采购和使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-%E8%87%AA%E8%A1%8C%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 自行软件开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-%E5%A4%96%E5%8C%85%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 外包软件开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-6-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E6%96%BD"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 工程实施</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-7-%E6%B5%8B%E8%AF%95%E9%AA%8C%E6%94%B6"><span class="nav-number">5.7.</span> <span class="nav-text">5.7 测试验收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-8-%E7%B3%BB%E7%BB%9F%E4%BA%A4%E4%BB%98"><span class="nav-number">5.8.</span> <span class="nav-text">5.8 系统交付</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-9-%E7%AD%89%E7%BA%A7%E6%B5%8B%E8%AF%84"><span class="nav-number">5.9.</span> <span class="nav-text">5.9 等级测评</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-10-%E6%9C%8D%E5%8A%A1%E4%BE%9B%E5%BA%94%E5%95%86%E9%80%89%E6%8B%A9"><span class="nav-number">5.10.</span> <span class="nav-text">5.10 服务供应商选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%AE%89%E5%85%A8%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">六、安全运维管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 环境管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 资产管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-%E4%BB%8B%E8%B4%A8%E7%AE%A1%E7%90%86"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 介质管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-%E8%AE%BE%E5%A4%87%E7%BB%B4%E6%8A%A4%E7%AE%A1%E7%90%86"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 设备维护管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-5-%E6%BC%8F%E6%B4%9E%E5%92%8C%E9%A3%8E%E9%99%A9%E7%AE%A1%E7%90%86"><span class="nav-number">6.5.</span> <span class="nav-text">6.5 漏洞和风险管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-6-%E7%BD%91%E7%BB%9C%E5%92%8C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86"><span class="nav-number">6.6.</span> <span class="nav-text">6.6 网络和系统安全管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-7-%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83%E7%AE%A1%E7%90%86"><span class="nav-number">6.7.</span> <span class="nav-text">6.7 恶意代码防范管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-8-%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="nav-number">6.8.</span> <span class="nav-text">6.8 配置管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-9-%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86"><span class="nav-number">6.9.</span> <span class="nav-text">6.9 密码管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-10-%E5%8F%98%E6%9B%B4%E7%AE%A1%E7%90%86"><span class="nav-number">6.10.</span> <span class="nav-text">6.10 变更管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-11-%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%E7%AE%A1%E7%90%86"><span class="nav-number">6.11.</span> <span class="nav-text">6.11 备份与恢复管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-12-%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%BD%AE"><span class="nav-number">6.12.</span> <span class="nav-text">6.12 安全事件处置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-13-%E5%BA%94%E6%80%A5%E9%A2%84%E6%A1%88%E7%AE%A1%E7%90%86"><span class="nav-number">6.13.</span> <span class="nav-text">6.13 应急预案管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-14-%E5%A4%96%E5%8C%85%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86"><span class="nav-number">6.14.</span> <span class="nav-text">6.14 外包运维管理</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/15/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="等保三级之安全管理 | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          等保三级之安全管理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-15 19:58:48" itemprop="dateCreated datePublished" datetime="2023-06-15T19:58:48+08:00">2023-06-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%88%E8%A7%84/" itemprop="url" rel="index"><span itemprop="name">合规</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/" itemprop="url" rel="index"><span itemprop="name">等保</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>安全管理中心</strong>、<strong>安全管理制度</strong>、<strong>安全管理机构</strong>、<strong>安全管理人员</strong>、<strong>安全建设管理</strong>、<strong>安全运维管理</strong> 都属于<strong>安全管理</strong>范畴，重点关注各项安全制度的制定和执行，这里的安全制度不仅仅是在宏观方面，比如也包含：需求变更流程、人员的录用&#x2F;离岗、存储介质的管理等。关注群体主要为公司领导、产研负责人、行政负责人等。</p>
+<span id="more"></span>
+
+<h1 id="一、安全管理中心"><a href="#一、安全管理中心" class="headerlink" title="一、安全管理中心"></a>一、安全管理中心</h1><h2 id="1-1-系统管理"><a href="#1-1-系统管理" class="headerlink" title="1.1 系统管理"></a>1.1 系统管理</h2><ol>
+<li>【安全管理】应对系统管理员进行身份鉴别，只允许其通过特定的命令或操作界面进行系统管理操作，并对这些操作进行审计；</li>
+<li>【安全管理】应通过系统管理员对系统的资源和运行进行配置、控制和管理，包括用户身份、系统资源配置、 系统加载和启动、系统运行的异常处理、数据和设备的备份与恢复等。</li>
+</ol>
+<h2 id="1-2-审计管理"><a href="#1-2-审计管理" class="headerlink" title="1.2 审计管理"></a>1.2 审计管理</h2><ol>
+<li>【安全管理】应对审计管理员进行身份鉴别，只允许其通过特定的命令或操作界面进行安全审计操作，并对这些操作进行审计；</li>
+<li>【安全管理】应通过审计管理员对审计记录应进行分析，并根据分析结果进行处理，包括根据安全审计策略 对审计记录进行存储、管理和查询等。</li>
+</ol>
+<h2 id="1-3-安全管理"><a href="#1-3-安全管理" class="headerlink" title="1.3 安全管理"></a>1.3 安全管理</h2><ol>
+<li>【安全管理】应对安全管理员进行身份鉴别，只允许其通过特定的命令或操作界面进行安全管理操作，并对这些操作进行审计；</li>
+<li>【安全管理】应通过安全管理员对系统中的安全策略进行配置，包括安全参数的设置，主体、客体进行统 一安全标记，对主体进行授权，配置可信验证策略等。</li>
+</ol>
+<h2 id="1-4-集中管控"><a href="#1-4-集中管控" class="headerlink" title="1.4 集中管控"></a>1.4 集中管控</h2><ol>
+<li>【安全管理】应划分出特定的管理区域，对分布在网络中的安全设备或安全组件进行管控；</li>
+<li>【安全管理】应能够建立一条安全的信息传输路径，对网络中的安全设备或安全组件进行管理；</li>
+<li>【安全管理】应对网络链路、安全设备、网络设备和服务器等的运行状况进行集中监测；(高风险项)</li>
+<li>【安全管理】应对分散在各个设备上的审计数据进行收集汇总和集中分析，审计记录的留存时间应符合法律法规要求：(高风险项)</li>
+<li>【安全管理】应对安全策略、恶意代码、补丁升级等安全相关事项进行集中管理；</li>
+<li>【安全管理】应能对网络中发生的各类安全事件进行识别、报警和分析；(高风险项)</li>
+</ol>
+<h1 id="二、安全管理制度"><a href="#二、安全管理制度" class="headerlink" title="二、安全管理制度"></a>二、安全管理制度</h1><h2 id="2-1-安全策略"><a href="#2-1-安全策略" class="headerlink" title="2.1 安全策略"></a>2.1 安全策略</h2><ol>
+<li>【安全管理】应制定网络安全工作的总体方针和安全策略，阐明机构安全工作的总体目标、范围、原则和安全框架等。</li>
+</ol>
+<h2 id="2-2-管理制度"><a href="#2-2-管理制度" class="headerlink" title="2.2 管理制度"></a>2.2 管理制度</h2><ol>
+<li>【安全管理】应对安全管理活动中的各类管理内容建立安全管理制度；(高风险项)</li>
+<li>【安全管理】应对管理人员或操作人员执行的日常管理操作建立操作规程；</li>
+<li>【安全管理】应形成由安全策略、管理制度、操作规程、记录表单等构成的全面的安全管理制度体系。</li>
+</ol>
+<h2 id="2-3-制定和发布"><a href="#2-3-制定和发布" class="headerlink" title="2.3 制定和发布"></a>2.3 制定和发布</h2><ol>
+<li>【安全管理】应指定或授权专门的部门或人员负责安全管理制度的制定；</li>
+<li>【安全管理】安全管理制度应通过正式、有效的方式发布，并进行版本控制。</li>
+</ol>
+<h2 id="2-4-评审和修订"><a href="#2-4-评审和修订" class="headerlink" title="2.4 评审和修订"></a>2.4 评审和修订</h2><ol>
+<li>【安全管理】应定期对安全管理制度的合理性和适用性进行论证和审定，对存在不足或需要改进的安全管理制度进行修订。</li>
+</ol>
+<h1 id="三、安全管理机构"><a href="#三、安全管理机构" class="headerlink" title="三、安全管理机构"></a>三、安全管理机构</h1><h2 id="3-1-岗位设置"><a href="#3-1-岗位设置" class="headerlink" title="3.1 岗位设置"></a>3.1 岗位设置</h2><ol>
+<li>【安全管理】应成立指导和管理网络安全工作的委员会或领导小组，其最高领导由单位主管领导担任或授权；(高风险项)</li>
+<li>【安全管理】应设立网络安全管理工作的职能部门，设立安全主管、安全管理各个方面的负责人岗位，并定义各负责人的职责；</li>
+<li>【安全管理】应设立系统管理员、审计管理员和安全管理员等岗位，并定义部门及各个工作岗位的职责。</li>
+</ol>
+<h2 id="3-2-人员配备"><a href="#3-2-人员配备" class="headerlink" title="3.2 人员配备"></a>3.2 人员配备</h2><ol>
+<li>【安全管理】应配备一定数量的系统管理员、审计管理员和安全管理员等；</li>
+<li>【安全管理】应配备专职安全管理员，不可兼任。</li>
+</ol>
+<h2 id="3-3-授权和审批"><a href="#3-3-授权和审批" class="headerlink" title="3.3 授权和审批"></a>3.3 授权和审批</h2><ol>
+<li>【安全管理】应根据各个部门和岗位的职责明确授权审批事项、审批部门和批准人等；</li>
+<li>【安全管理】应针对系统变更、重要操作、物理访问和系统接入等事项建立审批程序，按照审批程序执行审批过程，对重要活动建立逐级审批制度；</li>
+<li>【安全管理】应定期审查审批事项，及时更新需授权和审批的项目、审批部门和审批人等信息。</li>
+</ol>
+<h2 id="4-4-沟通和合作"><a href="#4-4-沟通和合作" class="headerlink" title="4.4 沟通和合作"></a>4.4 沟通和合作</h2><ol>
+<li>【安全管理】应加强各类管理人员、组织内部机构和网络安全管理部门之间的合作与沟通，定期召开协调会议，共同协作处理网络安全问题；</li>
+<li>【安全管理】应加强与网络安全职能部门、各类供应商、业界专家及安全组织的合作与沟通；</li>
+<li>【安全管理】应建立外联单位联系列表，包括外联单位名称、合作内容、联系人和联系方式等信息。</li>
+</ol>
+<h2 id="3-5-审核和检查"><a href="#3-5-审核和检查" class="headerlink" title="3.5 审核和检查"></a>3.5 审核和检查</h2><ol>
+<li>【安全管理】应定期进行常规安全检查，检查内容包括系统日常运行、系统漏洞和数据备份等情况；</li>
+<li>【安全管理】应定期进行全面安全检查，检查内容包括现有安全技术措施的有效性、安全配置与安全策略的一致性、安全管理制度的执行情况等；</li>
+<li>【安全管理】应制定安全检查表格实施安全检查，汇总安全检查数据，形成安全检查报告，并对安全检查结果进行通报。</li>
+</ol>
+<h1 id="四、安全管理人员"><a href="#四、安全管理人员" class="headerlink" title="四、安全管理人员"></a>四、安全管理人员</h1><h2 id="4-1-人员录用"><a href="#4-1-人员录用" class="headerlink" title="4.1 人员录用"></a>4.1 人员录用</h2><ol>
+<li>【安全管理】应指定或授权专门的部门或人员负责人员录用；</li>
+<li>【安全管理】应对被录用人员的身份、安全背景、专业资格或资质等进行审查，对其所具有的技术技能进行考核；</li>
+<li>【安全管理】应与被录用人员签署保密协议，与关键岗位人员签署岗位责任协议；</li>
+</ol>
+<h2 id="4-2-人员离岗"><a href="#4-2-人员离岗" class="headerlink" title="4.2 人员离岗"></a>4.2 人员离岗</h2><ol>
+<li>【安全管理】应及时终止离岗人员的所有访问权限，取回各种身份证件、钥匙、徽章等以及机构提供的软硬件设备；</li>
+<li>【安全管理】应办理严格的调离手续，并承诺调离后的保密义务后方可离开。</li>
+</ol>
+<h2 id="4-3-安全意识教育和培训"><a href="#4-3-安全意识教育和培训" class="headerlink" title="4.3 安全意识教育和培训"></a>4.3 安全意识教育和培训</h2><ol>
+<li>【安全管理】应对各类人员进行安全意识教育和岗位技能培训，并告知相关的安全责任和惩戒措施；(高风险项)</li>
+<li>【安全管理】应针对不同岗位制定不同的培训计划，对安全基础知识、岗位操作规程等进行培训；</li>
+<li>【安全管理】应定期对不同岗位的人员进行技能考核。</li>
+</ol>
+<h2 id="4-4-外部人员访问管理"><a href="#4-4-外部人员访问管理" class="headerlink" title="4.4 外部人员访问管理"></a>4.4 外部人员访问管理</h2><ol>
+<li>【安全管理】应在外部人员物理访问受控区域前先提出书面申请，批准后由专人全程陪同，并登记备案；</li>
+<li>【安全管理】应在外部人员接入受控网络访问系统前先提出书面申请，批准后由专人开设账户、分配权限，并登记备案；(高风险项)</li>
+<li>【安全管理】外部人员离场后应及时清除其所有的访问权限；</li>
+<li>【安全管理】获得系统访问授权的外部人员应签署保密协议，不应进行非授权操作，不应复制和泄露任何敏感信息。</li>
+</ol>
+<h1 id="无、安全建设管理"><a href="#无、安全建设管理" class="headerlink" title="无、安全建设管理"></a>无、安全建设管理</h1><h2 id="5-1-定级和备案"><a href="#5-1-定级和备案" class="headerlink" title="5.1 定级和备案"></a>5.1 定级和备案</h2><ol>
+<li>【安全管理】应以书面的形式说明保护对象的安全保护等级及确定等级的方法和理由；</li>
+<li>【安全管理】应组织相关部门和有关安全技术专家对定级结果的合理性和正确性进行论证和审定；</li>
+<li>【安全管理】定级结果应经过相关部门的批准；</li>
+<li>【安全管理】应将备案材料报主管部门和相应公安机关备案。</li>
+</ol>
+<h2 id="5-2-安全方案设计"><a href="#5-2-安全方案设计" class="headerlink" title="5.2 安全方案设计"></a>5.2 安全方案设计</h2><ol>
+<li>【安全管理】应根据安全保护等级选择基本安全措施，依据风险分析的结果补充和调整安全措施；</li>
+<li>【安全管理】应根据保护对象的安全保护等级及与其他级别保护对象的关系进行安全整体规划和安全方案设计，设计内容应包含密码技术相关内容，并形成配套文件；</li>
+<li>【安全管理】应组织相关部门和有关安全专家对安全整体规划及其配套文件的合理性和正确性进行论证和 审定，经过批准后才能正式实施。</li>
+</ol>
+<h2 id="5-3-产品采购和使用"><a href="#5-3-产品采购和使用" class="headerlink" title="5.3 产品采购和使用"></a>5.3 产品采购和使用</h2><ol>
+<li>【安全管理】网络安全产品采购和使用应符合国家主管部门的相关要求；(高风险项)</li>
+<li>【安全管理】密码产品与服务的采购和使用应符合国家密码管理主管部门的要求；</li>
+<li>【安全管理】应预先对产品进行选型测试，确定产品的候选范围，并定期审定和更新候选产品名单。</li>
+</ol>
+<h2 id="5-4-自行软件开发"><a href="#5-4-自行软件开发" class="headerlink" title="5.4 自行软件开发"></a>5.4 自行软件开发</h2><ol>
+<li>【安全管理】应将开发环境与实际运行环境物理分开，测试数据和测试结果受到控制；</li>
+<li>【安全管理】应制定软件开发管理制度，明确说明开发过程的控制方法和人员行为准则；</li>
+<li>【安全管理】应制定代码编写安全规范，要求开发人员参照规范编写代码；</li>
+<li>【安全管理】应具备软件设计的相关文档和使用指南，并对文档使用进行控制；</li>
+<li>【安全管理】在软件开发过程中应对安全性进行测试，在软件安装前对可能存在的恶意代码进行检测；</li>
+<li>【安全管理】应对程序资源库的修改、更新、发布进行授权和批准，并严格进行版本控制；</li>
+<li>【安全管理】开发人员应为专职人员，开发人员的开发活动应受到控制、监视和审查。</li>
+</ol>
+<h2 id="5-5-外包软件开发"><a href="#5-5-外包软件开发" class="headerlink" title="5.5 外包软件开发"></a>5.5 外包软件开发</h2><ol>
+<li>【安全管理】应在软件交付前检测其中可能存在的恶意代码；</li>
+<li>【安全管理】开发单位应提供软件设计文档和使用指南；</li>
+<li>【安全管理】开发单位应提供软件源代码，并审查软件中可能存在的后门和隐蔽信道。(高风险项)</li>
+</ol>
+<h2 id="5-6-工程实施"><a href="#5-6-工程实施" class="headerlink" title="5.6 工程实施"></a>5.6 工程实施</h2><ol>
+<li>【安全管理】应指定或授权专门的部门或人员负责工程实施过程的管理；</li>
+<li>【安全管理】应制定安全工程实施方案控制工程实施过程；</li>
+<li>【安全管理】应通过第三方工程监理控制项目的实施过程。</li>
+</ol>
+<h2 id="5-7-测试验收"><a href="#5-7-测试验收" class="headerlink" title="5.7 测试验收"></a>5.7 测试验收</h2><ol>
+<li>【安全管理】应制订测试验收方案，并依据测试验收方案实施测试验收，形成测试验收报告；</li>
+<li>【安全管理】应进行上线前的安全性测试，并出具安全测试报告，安全测试报告应包含密码应用安全性测试相关内容。(高风险项)</li>
+</ol>
+<h2 id="5-8-系统交付"><a href="#5-8-系统交付" class="headerlink" title="5.8 系统交付"></a>5.8 系统交付</h2><ol>
+<li>【安全管理】应制定交付清单，并根据交付清单对所交接的设备、软件和文档等进行清点；</li>
+<li>【安全管理】应对负责运行维护的技术人员进行相应的技能培训；</li>
+<li>【安全管理】应提供建设过程文档和运行维护文档。</li>
+</ol>
+<h2 id="5-9-等级测评"><a href="#5-9-等级测评" class="headerlink" title="5.9 等级测评"></a>5.9 等级测评</h2><ol>
+<li>【安全管理】应定期进行等级测评，发现不符合相应等级保护标准要求的及时整改；</li>
+<li>【安全管理】应在发生重大变更或级别发生变化时进行等级测评；</li>
+<li>【安全管理】测评机构的选择应符合 国家主管部门的相关要求。</li>
+</ol>
+<h2 id="5-10-服务供应商选择"><a href="#5-10-服务供应商选择" class="headerlink" title="5.10 服务供应商选择"></a>5.10 服务供应商选择</h2><ol>
+<li>【安全管理】服务供应商的选择应符合国家主管部门的相关要求；</li>
+<li>【安全管理】应与选定的服务供应商签订相关协议，明确整个服务供应链各方需履行的网络安全相关义务；</li>
+<li>【安全管理】应定期监督、评审和审核服务供应商提供的服务，并对其变更服务内容加以控制。</li>
+</ol>
+<h1 id="六、安全运维管理"><a href="#六、安全运维管理" class="headerlink" title="六、安全运维管理"></a>六、安全运维管理</h1><h2 id="6-1-环境管理"><a href="#6-1-环境管理" class="headerlink" title="6.1 环境管理"></a>6.1 环境管理</h2><ol>
+<li>【安全管理】应指定专门的部门或人员负责机房安全，对机房出入进行管理，定期对机房供配电、空调、温湿度控制、消防等设施进行维护管理；</li>
+<li>【安全管理】应建立机房安全管理制度，对有关物理访问、物品进出和环境安全等方面的管理作出规定；</li>
+<li>【安全管理】不应在重要区域接待来访人员，不随意放置含有敏感信息的纸档文件和移动介质等；</li>
+</ol>
+<h2 id="6-2-资产管理"><a href="#6-2-资产管理" class="headerlink" title="6.2 资产管理"></a>6.2 资产管理</h2><ol>
+<li>【安全管理】应编制并保存与保护对象相关的资产清单，包括资产责任部门、重要程度和所处位置等内容；</li>
+<li>【安全管理】应根据资产的重要程度对资产进行标识管理，根据资产的价值选择相应的管理措施；</li>
+<li>【安全管理】应对信息分类与标识方法作出规定，并对信息的使用、传输和存储等进行规范化管理；</li>
+</ol>
+<h2 id="6-3-介质管理"><a href="#6-3-介质管理" class="headerlink" title="6.3 介质管理"></a>6.3 介质管理</h2><ol>
+<li>【安全管理】应将介质存放在安全的环境中，对各类介质进行控制和保护，实行存储环境专人管理，并根据 存档介质的目录清单定期盘点；</li>
+<li>【安全管理】应对介质在物理传输过程中的人员选择、打包、交付等情况进行控制，并对介质的归档和查询等进行登记记录；</li>
+</ol>
+<h2 id="6-4-设备维护管理"><a href="#6-4-设备维护管理" class="headerlink" title="6.4 设备维护管理"></a>6.4 设备维护管理</h2><ol>
+<li>【安全管理】对各种设备（包括备份和冗余设备）、线路等指定专门的部门或人员定期进行维护管理；</li>
+<li>【安全管理】应建立配套设施、软硬件维护方面的管理制度，对其维护进行有效管理，包括明确维护人员的责任、维修和服务的审批、维修过程的监督控制等；</li>
+<li>【安全管理】信息处理设备必须经过审批才能带离机房或办公地点，含有存储介质的设备带出工作环境时其中重要数据必须加密；</li>
+<li>【安全管理】含有存储介质的设备在报废或重用前，应进行完全清除或被安全覆盖，保证该设备上的敏感数据和授权软件无法被恢复重用；</li>
+</ol>
+<h2 id="6-5-漏洞和风险管理"><a href="#6-5-漏洞和风险管理" class="headerlink" title="6.5 漏洞和风险管理"></a>6.5 漏洞和风险管理</h2><ol>
+<li>【安全管理】应采取必要的措施识别安全漏洞和隐患，对发现的安全漏洞和隐患及时进行修补或评估可能的 影响后进行修补；</li>
+<li>【安全管理】应定期开展安全测评，形成安全测评报告，采取措施应对发现的安全问题；</li>
+</ol>
+<h2 id="6-6-网络和系统安全管理"><a href="#6-6-网络和系统安全管理" class="headerlink" title="6.6 网络和系统安全管理"></a>6.6 网络和系统安全管理</h2><ol>
+<li>【安全管理】应划分不同的管理员角色进行网络和系统的运维管理，明确各个角色的责任和权限；</li>
+<li>【安全管理】应指定专门的部门或人员进行账户管理，对申请账户、建立账户、删除账户等进行控制；</li>
+<li>【安全管理】应建立网络和系统安全管理制度，对安全策略、账户管理、配置管理、日志管理、日常操作、升级与打补丁、口令更新周期等方面作出规定；</li>
+<li>【安全管理】应制定重要设备的配置和操作手册，依据手册对设备进行安全配置和优化配置等；</li>
+<li>【安全管理】应详细记录运维操作日志，包括日常巡检工作、运行维护记录、参数的设置和修改等内容；</li>
+<li>【安全管理】应指定专门的部门或人员对日志、监测和报警数据等进行分析、统计，及时发现可疑行为；</li>
+<li>【安全管理】应严格控制变更性运维，经过审批后才可改变连接、安装系统组件或调整配置参数，操作过程中应保留不可更改的审计日志，操作结束后应同步更新配置信息库；</li>
+<li>【安全管理】应严格控制运维工具的使用，经过审批后才可接入进行操作，操作过程中应保留不可更改的审计日志，操作结束后应删除工具中的敏感数据；(高风险项)</li>
+<li>【安全管理】应严格控制远程运维的开通，经过审批后才可开通远程运维接口或通道，操作过程中应保留不可更改的审计日志，操作结束后立即关闭接口或通道；</li>
+<li>【安全管理】所有与外部的连接均应得到授权和批准，应定期检查违反规定无线上网及其他违反网络安全策略的行为；应每月至少检查一次违反网络安全策略的行为。(高风险项)</li>
+</ol>
+<h2 id="6-7-恶意代码防范管理"><a href="#6-7-恶意代码防范管理" class="headerlink" title="6.7 恶意代码防范管理"></a>6.7 恶意代码防范管理</h2><ol>
+<li>【安全管理】应提高所有用户的防恶意代码意识，对外来计算机或存储设备接入系统前进行恶意代码检查等；(高风险项)</li>
+<li>【安全管理】应定期验证防范恶意代码攻击的技术措施的有效性；</li>
+</ol>
+<h2 id="6-8-配置管理"><a href="#6-8-配置管理" class="headerlink" title="6.8 配置管理"></a>6.8 配置管理</h2><ol>
+<li>【安全管理】应记录和保存基本配置信息，包括网络拓扑结构、各个设备安装的软件组件、软件组件的版本和补丁信息、各个设备或软件组件的配置参数等；</li>
+<li>【安全管理】应将基本配置信息改变纳入变更范畴，实施对配置信息改变的控制，并及时更新基本配置信息库；</li>
+</ol>
+<h2 id="6-9-密码管理"><a href="#6-9-密码管理" class="headerlink" title="6.9 密码管理"></a>6.9 密码管理</h2><ol>
+<li>【安全管理】应遵循密码相关的国家标准和行业标准；</li>
+<li>【安全管理】应使用国家密码管理主管部门认证核准的密码技术和产品；</li>
+</ol>
+<h2 id="6-10-变更管理"><a href="#6-10-变更管理" class="headerlink" title="6.10 变更管理"></a>6.10 变更管理</h2><ol>
+<li>【安全管理】应明确变更需求，变更前根据变更需求制定变更方案，变更方案经过评审、审批后方可实施；(高风险项)</li>
+<li>【安全管理】应建立变更的申报和审批控制程序，依据程序控制所有的变更，记录变更实施过程；</li>
+<li>【安全管理】应建立中止变更并从失败变更中恢复的程序，明确过程控制方法和人员职责，必要时对恢复过程进行演练；</li>
+</ol>
+<h2 id="6-11-备份与恢复管理"><a href="#6-11-备份与恢复管理" class="headerlink" title="6.11 备份与恢复管理"></a>6.11 备份与恢复管理</h2><ol>
+<li>【安全管理】应识别需要定期备份的重要业务信息、系统数据及软件系统等；</li>
+<li>【安全管理】应规定备份信息的备份方式、备份频度、存储介质、保存期等；</li>
+<li>【安全管理】应根据数据的重要性和数据对系统运行的影响，制定数据的备份策略和恢复策略、备份程序和恢复程序等；(高风险项)</li>
+</ol>
+<h2 id="6-12-安全事件处置"><a href="#6-12-安全事件处置" class="headerlink" title="6.12 安全事件处置"></a>6.12 安全事件处置</h2><ol>
+<li>【安全管理】应及时向安全管理部门报告所发现的安全弱点和可疑事件；</li>
+<li>【安全管理】应制定安全事件报告和处置管理制度，明确不同安全事件的报告、处置和响应流程，规定安全事件的现场处理、事件报告和后期恢复的管理职责等；</li>
+<li>【安全管理】应在安全事件报告和响应处理过程中，分析和鉴定事件产生的原因，收集证据，记录处理过程，总结经验教训；</li>
+<li>【安全管理】对造成系统中断和造成信息泄漏的重大安全事件应采用不同的处理程序和报告程序；</li>
+</ol>
+<h2 id="6-13-应急预案管理"><a href="#6-13-应急预案管理" class="headerlink" title="6.13 应急预案管理"></a>6.13 应急预案管理</h2><ol>
+<li>【安全管理】应规定统一的应急预案框架，包括启动预案的条件、应急组织构成、应急资源保障、事后教育和培训等内容；</li>
+<li>【安全管理】应制定重要事件的应急预案，包括应急处理流程、系统恢复流程等内容；(高风险项)</li>
+<li>【安全管理】应定期对系统相关的人员进行应急预案培训，并进行应急预案的演练；(高风险项)</li>
+<li>【安全管理】应定期对原有的应急预案重新评估，修订完善；</li>
+</ol>
+<h2 id="6-14-外包运维管理"><a href="#6-14-外包运维管理" class="headerlink" title="6.14 外包运维管理"></a>6.14 外包运维管理</h2><ol>
+<li>【安全管理】外包运维服务商的选择应符合国家主管部门的相关要求；</li>
+<li>【安全管理】应与选定的外包运维服务商签订相关的协议，明确约定外包运维的范围、工作内容；</li>
+<li>【安全管理】外包运维服务商在技术和管理方面均应具有按照等级保护要求开展安全运维工作的能力，并将 能力要求在签订的协议中明确；</li>
+<li>【安全管理】应在与外包运维服务商签订的协议中明确所有相关的安全要求，如可能涉及对敏感信息的访问、处理、存储要求，对 IT 基础设施中断服务的应急保障要求等；</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%AD%89%E4%BF%9D/" rel="tag"># 等保</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/14/%E5%90%88%E8%A7%84/%E7%AD%89%E4%BF%9D/%E7%AD%89%E4%BF%9D%E4%B8%89%E7%BA%A7%E4%B9%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8/" rel="prev" title="等保三级之数据库安全">
+                  <i class="fa fa-chevron-left"></i> 等保三级之数据库安全
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/06/17/%E6%B5%8B%E8%AF%95/MQTT-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B-mqtt-jmeter/" rel="next" title="MQTT 性能测试之 mqtt-jmeter">
+                  MQTT 性能测试之 mqtt-jmeter <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
