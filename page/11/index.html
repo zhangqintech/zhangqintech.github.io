@@ -126,18 +126,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">108</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -166,6 +166,95 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/14/%E5%90%8E%E7%AB%AF/JAVA/%E5%8D%95%E7%BA%AF%E4%BD%BF%E7%94%A8setNX%E5%91%BD%E4%BB%A4%E5%B0%81%E8%A3%85%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E7%BC%BA%E9%99%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/11/14/%E5%90%8E%E7%AB%AF/JAVA/%E5%8D%95%E7%BA%AF%E4%BD%BF%E7%94%A8setNX%E5%91%BD%E4%BB%A4%E5%B0%81%E8%A3%85%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E7%BC%BA%E9%99%B7/" class="post-title-link" itemprop="url">单纯使用setNX命令封装分布式锁的缺陷</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-11-14 20:06:02" itemprop="dateCreated datePublished" datetime="2018-11-14T20:06:02+08:00">2018-11-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>对于 Redis 分布式锁的实现方式，网上讨论相关文章都基本都“烂大街”了。然而几乎所有相关介绍都是在单纯使用 setNX 命令的基础上进行一个简单封装。笔者之前也写了一篇《<a href="/2018/07/24/%E5%90%8E%E7%AB%AF/JAVA/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%AE%9E%E7%8E%B0/" title="Redis分布式锁实现">Redis分布式锁实现</a>》,原理同样是基于 setNX 命令上的封装。<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/603575?utm_content=m_1000003526">阿里云专访 Redisson 作者 Rui Gu：构建开源企业级 Redis 客户端之路</a>上 Redisson 的作者提出了这种方式的不足。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/11/14/%E5%90%8E%E7%AB%AF/JAVA/%E5%8D%95%E7%BA%AF%E4%BD%BF%E7%94%A8setNX%E5%91%BD%E4%BB%A4%E5%B0%81%E8%A3%85%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E7%BC%BA%E9%99%B7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -292,6 +381,19 @@
 
       <time title="创建时间：2018-09-20 16:22:33" itemprop="dateCreated datePublished" datetime="2018-09-20T16:22:33+08:00">2018-09-20</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
 
   
 </div>
@@ -303,7 +405,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>Stream是JDK8中新增加的一个特性，被Java猿统称为流。ParallelStream其实就是一个并行执行的流，它通过默认的ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用Stream这个新特性，这里搬录一个曾使用ParallelStreams导致同事排查了一整天的BUG。NPE如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。</p>
+          <p>Stream 是 JDK8 中新增加的一个特性，被 Java 猿统称为流。ParallelStream 其实就是一个并行执行的流，它通过默认的 ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用 Stream 这个新特性，这里搬录一个曾使用 ParallelStreams 导致同事排查了一整天的 BUG。NPE 如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/09/20/%E5%90%8E%E7%AB%AF/JAVA/JDK8-ParallelStreams-%E7%9A%84%E9%99%B7%E9%98%B1/#more" rel="contents">
@@ -552,7 +654,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
         </span>
     </span>
 
@@ -637,7 +743,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
         </span>
     </span>
 
@@ -687,7 +797,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/06/JAVA/%E6%B3%A8%E8%A7%A3/%E5%88%A9%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0List%E8%BD%AC%E6%A0%91%E7%BB%93%E6%9E%84/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/06/%E5%90%8E%E7%AB%AF/JAVA/%E5%88%A9%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0List%E8%BD%AC%E6%A0%91%E7%BB%93%E6%9E%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -705,7 +815,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/07/06/JAVA/%E6%B3%A8%E8%A7%A3/%E5%88%A9%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0List%E8%BD%AC%E6%A0%91%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">利用自定义注解实现List转树结构</a>
+          <a href="/2018/07/06/%E5%90%8E%E7%AB%AF/JAVA/%E5%88%A9%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0List%E8%BD%AC%E6%A0%91%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">利用自定义注解实现List转树结构</a>
         </h2>
 
         <div class="post-meta-container">
@@ -724,7 +834,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
         </span>
     </span>
 
@@ -747,7 +861,7 @@
 </ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/07/06/JAVA/%E6%B3%A8%E8%A7%A3/%E5%88%A9%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0List%E8%BD%AC%E6%A0%91%E7%BB%93%E6%9E%84/#more" rel="contents">
+              <a class="btn" href="/2018/07/06/%E5%90%8E%E7%AB%AF/JAVA/%E5%88%A9%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0List%E8%BD%AC%E6%A0%91%E7%BB%93%E6%9E%84/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -778,7 +892,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/05/JAVA/%E6%B3%A8%E8%A7%A3/JAVA-%E6%B3%A8%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/05/%E5%90%8E%E7%AB%AF/JAVA/JAVA-%E6%B3%A8%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -796,7 +910,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/07/05/JAVA/%E6%B3%A8%E8%A7%A3/JAVA-%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">JAVA 注解</a>
+          <a href="/2018/07/05/%E5%90%8E%E7%AB%AF/JAVA/JAVA-%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">JAVA 注解</a>
         </h2>
 
         <div class="post-meta-container">
@@ -815,7 +929,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
         </span>
     </span>
 

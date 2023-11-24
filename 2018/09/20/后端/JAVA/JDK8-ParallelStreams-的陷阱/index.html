@@ -20,16 +20,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Stream是JDK8中新增加的一个特性，被Java猿统称为流。ParallelStream其实就是一个并行执行的流，它通过默认的ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用Stream这个新特性，这里搬录一个曾使用ParallelStreams导致同事排查了一整天的BUG。NPE如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。">
+    <meta name="description" content="Stream 是 JDK8 中新增加的一个特性，被 Java 猿统称为流。ParallelStream 其实就是一个并行执行的流，它通过默认的 ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用 Stream 这个新特性，这里搬录一个曾使用 ParallelStreams 导致同事排查了一整天的 BUG。NPE 如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JDK8 ParallelStreams 的陷阱">
 <meta property="og:url" content="http://example.com/2018/09/20/%E5%90%8E%E7%AB%AF/JAVA/JDK8-ParallelStreams-%E7%9A%84%E9%99%B7%E9%98%B1/index.html">
 <meta property="og:site_name" content="张亲的个人博客">
-<meta property="og:description" content="Stream是JDK8中新增加的一个特性，被Java猿统称为流。ParallelStream其实就是一个并行执行的流，它通过默认的ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用Stream这个新特性，这里搬录一个曾使用ParallelStreams导致同事排查了一整天的BUG。NPE如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。">
+<meta property="og:description" content="Stream 是 JDK8 中新增加的一个特性，被 Java 猿统称为流。ParallelStream 其实就是一个并行执行的流，它通过默认的 ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用 Stream 这个新特性，这里搬录一个曾使用 ParallelStreams 导致同事排查了一整天的 BUG。NPE 如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-09-20T08:22:33.000Z">
-<meta property="article:modified_time" content="2023-11-23T02:02:49.792Z">
+<meta property="article:modified_time" content="2023-11-24T02:14:22.654Z">
 <meta property="article:author" content="张亲">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
 
 
@@ -129,18 +130,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">108</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -210,6 +211,19 @@
 
       <time title="创建时间：2018-09-20 16:22:33" itemprop="dateCreated datePublished" datetime="2018-09-20T16:22:33+08:00">2018-09-20</time>
     </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
 
   
 </div>
@@ -221,19 +235,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>Stream是JDK8中新增加的一个特性，被Java猿统称为流。ParallelStream其实就是一个并行执行的流，它通过默认的ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用Stream这个新特性，这里搬录一个曾使用ParallelStreams导致同事排查了一整天的BUG。NPE如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。</p>
+        <p>Stream 是 JDK8 中新增加的一个特性，被 Java 猿统称为流。ParallelStream 其实就是一个并行执行的流，它通过默认的 ForkJoinPool，可能提高你的多线程任务的速度。个人非常喜欢使用 Stream 这个新特性，这里搬录一个曾使用 ParallelStreams 导致同事排查了一整天的 BUG。NPE 如同薛定谔的猫，打了断点监测就不出现，不打断点就会大概率出现。</p>
 <span id="more"></span>
 
 <h1 id="直接上代码"><a href="#直接上代码" class="headerlink" title="直接上代码"></a>直接上代码</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class ParallelStreamTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        List&lt;ClassA&gt; listA = Lists.newArrayList();</span><br><span class="line">        for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">            ClassA a = new ClassA();</span><br><span class="line">            a.setProperty(&quot;ClassA Property &quot; + i);</span><br><span class="line">            listA.add(a);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        List&lt;ClassB&gt; listB = Lists.newArrayList();</span><br><span class="line">        listA.parallelStream().forEach(a -&gt; &#123;</span><br><span class="line">            ClassB b = new ClassB();</span><br><span class="line">            BeanUtil.copyProperties(a, b);</span><br><span class="line">            listB.add(b);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        listB.forEach(b -&gt; &#123;</span><br><span class="line">            System.out.println(b.getProperty());</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Data</span><br><span class="line">    static class ClassA &#123;</span><br><span class="line">        private String property;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Data</span><br><span class="line">    static class ClassB &#123;</span><br><span class="line">        private String property;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>对的，就这么几行代码！希望通过两层<code>ParallelStream</code>并行流，快速初始化<code>listB</code>数据。</p>
-<h1 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h1><p>结果1<br><code>正常</code></p>
-<p>结果2</p>
+<h1 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h1><p>结果 1<br><code>正常</code></p>
+<p>结果 2</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.NullPointerException</span><br><span class="line">	at com.demo.test.ParallelStreamTest.lambda$main$1(ParallelStreamTest.java:36)</span><br><span class="line">	at java.util.ArrayList.forEach(ArrayList.java:1249)</span><br><span class="line">	at com.demo.test.ParallelStreamTest.main(ParallelStreamTest.java:35)</span><br></pre></td></tr></table></figure>
 
-<p>结果3</p>
+<p>结果 3</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.ArrayIndexOutOfBoundsException</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</span><br><span class="line">	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)</span><br><span class="line">	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</span><br><span class="line">	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)</span><br><span class="line">	at java.util.concurrent.ForkJoinTask.getThrowableException(ForkJoinTask.java:598)</span><br><span class="line">	at java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:677)</span><br><span class="line">	at java.util.concurrent.ForkJoinTask.invoke(ForkJoinTask.java:735)</span><br><span class="line">	at java.util.stream.ForEachOps$ForEachOp.evaluateParallel(ForEachOps.java:160)</span><br><span class="line">	at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateParallel(ForEachOps.java:174)</span><br><span class="line">	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:233)</span><br><span class="line">	at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:418)</span><br><span class="line">	at java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:583)</span><br><span class="line">	at com.demo.test.ParallelStreamTest.main(ParallelStreamTest.java:19)</span><br><span class="line">Caused by: java.lang.ArrayIndexOutOfBoundsException: 10</span><br><span class="line">	at java.util.ArrayList.add(ArrayList.java:459)</span><br><span class="line">	at com.demo.test.ParallelStreamTest.lambda$main$0(ParallelStreamTest.java:22)</span><br><span class="line">	at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)</span><br><span class="line">	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1374)</span><br><span class="line">	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481)</span><br><span class="line">	at java.util.stream.ForEachOps$ForEachTask.compute(ForEachOps.java:291)</span><br><span class="line">	at java.util.concurrent.CountedCompleter.exec(CountedCompleter.java:731)</span><br><span class="line">	at java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)</span><br><span class="line">	at java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)</span><br><span class="line">	at java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)</span><br><span class="line">	at java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:157)</span><br></pre></td></tr></table></figure>
-
-
 
     </div>
 
@@ -260,6 +273,9 @@
   </div>
 </div>
 
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
 
         
 

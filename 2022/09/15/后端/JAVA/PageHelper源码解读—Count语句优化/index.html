@@ -28,7 +28,7 @@
 <meta property="og:description" content="我们在使用 PageHelper 进行大表关联查询分页列表时，经常出现查询分页数据并未执行很久，但自动 count 开销非常大。这是因为 PageHelper 的分页拦截器在计算总记录数时，是在原语句上嵌套一层，比如： 1SELECT count(1) FROM (主SQL)  这个主 SQL 是没有 limit 的，执行计划会扫描大量的数据行，容易导致 CPU 异常。 最先遇到这这种场景，我们一">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-15T14:57:02.000Z">
-<meta property="article:modified_time" content="2023-11-23T02:02:49.792Z">
+<meta property="article:modified_time" content="2023-11-24T02:14:28.767Z">
 <meta property="article:author" content="张亲">
 <meta property="article:tag" content="PageHelper">
 <meta name="twitter:card" content="summary">
@@ -130,18 +130,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">108</span>
+          <span class="site-state-item-count">109</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-count">58</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -217,7 +217,11 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%90%8E%E7%AB%AF/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
         </span>
     </span>
 

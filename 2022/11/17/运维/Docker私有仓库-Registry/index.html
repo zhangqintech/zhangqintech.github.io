@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Docker Registry 的作用就是存储我们的镜像。通常情况下我们可以使用Docker Hub来存储，不过如果是在公司内部使用，不想将镜像公开，可以手动搭建一个本地 Registry ，如Docker Registry或Harbor。 Harbor作为企业级 Registry 服务器，功能全面。学习用过于庞大，需要安装很多组件，如 redis、nginx，比较较耗资源。使用 Registry">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker私有仓库-Registry">
+<meta property="og:url" content="http://example.com/2022/11/17/%E8%BF%90%E7%BB%B4/Docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93-Registry/index.html">
+<meta property="og:site_name" content="张亲的个人博客">
+<meta property="og:description" content="Docker Registry 的作用就是存储我们的镜像。通常情况下我们可以使用Docker Hub来存储，不过如果是在公司内部使用，不想将镜像公开，可以手动搭建一个本地 Registry ，如Docker Registry或Harbor。 Harbor作为企业级 Registry 服务器，功能全面。学习用过于庞大，需要安装很多组件，如 redis、nginx，比较较耗资源。使用 Registry">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-17T13:47:53.000Z">
+<meta property="article:modified_time" content="2023-11-24T03:24:17.263Z">
+<meta property="article:author" content="张亲">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Registry">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/11/17/%E8%BF%90%E7%BB%B4/Docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93-Registry/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/17/%E8%BF%90%E7%BB%B4/Docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93-Registry/","path":"2022/11/17/运维/Docker私有仓库-Registry/","title":"Docker私有仓库-Registry"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker私有仓库-Registry | 张亲的个人博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">张亲的个人博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">重剑无锋，大巧不工</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Registry"><span class="nav-number">1.</span> <span class="nav-text">Registry</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E8%BF%90%E8%A1%8C"><span class="nav-number">1.1.</span> <span class="nav-text">Docker 运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Registry-Api"><span class="nav-number">1.2.</span> <span class="nav-text">Registry Api</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TLS-%E5%92%8C%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81"><span class="nav-number">1.3.</span> <span class="nav-text">TLS 和身份认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">1.4.</span> <span class="nav-text">参考资料</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Registry-UI"><span class="nav-number">2.</span> <span class="nav-text">Docker Registry UI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E8%BF%90%E8%A1%8C-1"><span class="nav-number">2.1.</span> <span class="nav-text">Docker 运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%A8%E5%9F%9F%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">跨域配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%95%9C%E5%83%8F"><span class="nav-number">2.3.</span> <span class="nav-text">删除镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99-1"><span class="nav-number">2.4.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张亲</p>
+  <div class="site-description" itemprop="description">科技以画饼为先，先造词、再造梦。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/17/%E8%BF%90%E7%BB%B4/Docker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93-Registry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张亲">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张亲的个人博客">
+      <meta itemprop="description" content="科技以画饼为先，先造词、再造梦。">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Docker私有仓库-Registry | 张亲的个人博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker私有仓库-Registry
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-17 21:47:53" itemprop="dateCreated datePublished" datetime="2022-11-17T21:47:53+08:00">2022-11-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Docker Registry 的作用就是存储我们的镜像。通常情况下我们可以使用<a target="_blank" rel="noopener" href="https://hub.docker.com/">Docker Hub</a>来存储，不过如果是在公司内部使用，不想将镜像公开，可以手动搭建一个本地 Registry ，如<code>Docker Registry</code>或<code>Harbor</code>。</p>
+<p><code>Harbor</code>作为企业级 Registry 服务器，功能全面。学习用过于庞大，需要安装很多组件，如 redis、nginx，比较较耗资源。使用 <strong>Registry</strong> 和 <strong>Docker Registry UI</strong> 可满足个人或小微企业的需求。</p>
+<span id="more"></span>
+
+<h1 id="Registry"><a href="#Registry" class="headerlink" title="Registry"></a>Registry</h1><p><a target="_blank" rel="noopener" href="https://docs.docker.com/registry/">Registry</a> 是 Docker 官方开源的私有仓库，简单易用。</p>
+<h2 id="Docker-运行"><a href="#Docker-运行" class="headerlink" title="Docker 运行"></a>Docker 运行</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v /data/registry:/var/lib/registry -p 5000:5000 registry:2</span><br></pre></td></tr></table></figure>
+
+<p><code>Registry</code>定义的对外服务端口为<code>5000</code>，我们也可以通过环境变量<code>REGISTRY_HTTP_ADDR</code>来修改服务端口。</p>
+<h2 id="Registry-Api"><a href="#Registry-Api" class="headerlink" title="Registry Api"></a>Registry Api</h2><p>Registry 支持通过 Api 对镜像进行操作。以下列几个 Api 意思一下，不太好用。建议搭配下面章节的<code>Docker Registry UI</code>可视化页面进行操作。</p>
+<ul>
+<li>查看 API 是否可用</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I -X GET localhost:5000/v2/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看所有镜像</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X GET localhost:5000/v2/_catalog</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>获取一个镜像的 manifest</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I -X GET localhost:5000/v2/&lt;name&gt;/manifests/&lt;reference&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;name&gt;</code>代表镜像名，<code>reference</code>可以使用 tag 或 digest。</p>
+<h2 id="TLS-和身份认证"><a href="#TLS-和身份认证" class="headerlink" title="TLS 和身份认证"></a>TLS 和身份认证</h2><p>Registry 支持 TLS 证书和身份认证扩展。详见：<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ddd4fdb15022">Docker Registry 使用指南</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1163d1ae8029">Https 证书制作&#x2F;申请</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://docs.docker.com/registry/">官网</a><br><a target="_blank" rel="noopener" href="https://docs.docker.com/registry/spec/api/#introduction">Registry Api</a></p>
+<h1 id="Docker-Registry-UI"><a href="#Docker-Registry-UI" class="headerlink" title="Docker Registry UI"></a>Docker Registry UI</h1><p><a target="_blank" rel="noopener" href="https://github.com/Joxit/docker-registry-ui">Docker Registry UI</a>旨在为私有<code>Docker Registry</code>提供一个简单而完整的用户界面。有两个版本：标准接口和静态接口。</p>
+<ul>
+<li><p>标准接口<br>在标准界面中，没有默认注册表，需要在 UI 中添加自己的注册表。可以管理多个注册表服务器。所有注册表将存储在浏览器的本地存储中。启动 UI 时不需要配置。</p>
+</li>
+<li><p>静态接口<br>在静态接口中，它将连接到单个注册表，并且不会更改。当您使用标签包含 static 关键字的 docker 映像时，配置在接口的开始处完成。</p>
+</li>
+</ul>
+<h2 id="Docker-运行-1"><a href="#Docker-运行-1" class="headerlink" title="Docker 运行"></a>Docker 运行</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 5001:80 joxit/docker-registry-ui:static</span><br></pre></td></tr></table></figure>
+
+<p>常用环境变量说明：</p>
+<ul>
+<li><p>REGISTRY_URL<br>Docker 仓库地址。</p>
+</li>
+<li><p>REGISTRY_TITLE<br>用户界面自定义标题。</p>
+</li>
+<li><p>DELETE_IMAGES<br>是否启用镜像删除功能，<code>true</code> 表示启用，默认为 <code>false</code>。</p>
+</li>
+</ul>
+<h2 id="跨域配置"><a href="#跨域配置" class="headerlink" title="跨域配置"></a>跨域配置</h2><ol>
+<li>如果<code>Registry</code>不需要跨域，可对 <code>Registry</code> 进行如下配置：<br><code>/etc/docker/registry/config.yml</code></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:</span><br><span class="line">  headers:</span><br><span class="line">    Access-Control-Allow-Origin: [&#x27;*&#x27;]</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>如果 <code>Registry</code> 需要跨域，可对 <code>Registry</code> 进行如下配置：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http:</span><br><span class="line">  headers:</span><br><span class="line">    Access-Control-Allow-Origin: [&#x27;http://host.docker.internal:5001&#x27;]</span><br><span class="line">    Access-Control-Allow-Credentials: [true]</span><br><span class="line">    Access-Control-Allow-Headers: [&#x27;Authorization&#x27;, &#x27;Accept&#x27;]</span><br><span class="line">    Access-Control-Allow-Methods: [&#x27;HEAD&#x27;, &#x27;GET&#x27;, &#x27;OPTIONS&#x27;, &#x27;DELETE&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>注意：<code>Access-Control-Allow-Methods</code> 的 <code>DELETE</code> 选项在删允许删除镜像时配置。</p>
+<h2 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h2><ol>
+<li>激活<code>Registry</code>中的删除功能<br><code>Registry</code>的配置文件<code>/etc/docker/registry/config.yml</code>中增加以下配置。重启<code>Registry</code>。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">storage:</span><br><span class="line">    delete:</span><br><span class="line">      enabled: true</span><br></pre></td></tr></table></figure>
+
+<p>如启用跨域验证，需对 <code>Access-Control-Allow-Methods</code> 增加 <code>DELETE</code> 选项。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http:</span><br><span class="line">  headers:</span><br><span class="line">    Access-Control-Allow-Methods: [&#x27;HEAD&#x27;, &#x27;GET&#x27;, &#x27;OPTIONS&#x27;, &#x27;DELETE&#x27;]</span><br><span class="line">    Access-Control-Expose-Headers: [&#x27;Docker-Content-Digest&#x27;]</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>激活<code>Docker Registry UI</code>中的删除功能<br><code>Docker Registry UI</code>的环境变量中增加 <code>DELETE_IMAGES</code>，值为 <code>true</code> 。重启<code>Docker Registry UI</code>。</li>
+</ol>
+<h2 id="参考资料-1"><a href="#参考资料-1" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://github.com/Joxit/docker-registry-ui">Github</a><br><a target="_blank" rel="noopener" href="https://www.5axxw.com/wiki/content/25ortg">Docker-Registry-Ui: 最简单和最完整的用户界面为您的私人注册</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="张亲 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="张亲 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Registry/" rel="tag"># Registry</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/09/%E6%B5%8B%E8%AF%95/%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F%E5%B7%A5%E5%85%B7-Dirsearch/" rel="prev" title="目录扫描工具 Dirsearch">
+                  <i class="fa fa-chevron-left"></i> 目录扫描工具 Dirsearch
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/18/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%97%B6%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%BA%93-TSDB/" rel="next" title="时序数据库 TSDB">
+                  时序数据库 TSDB <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张亲</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
